@@ -1,14 +1,18 @@
-package org.example;
+package org.example.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.DAOInterface.BlackListDAO;
+import org.example.connections.ConenctionPool;
+import org.example.connections.TransactionWrapper;
+import org.example.models.BlackListElement;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BlackListDAOImpl implements BlackListDAO{
+public class BlackListDAOImpl implements BlackListDAO {
     private static final Logger logger = LogManager.getLogger(BlackListDAOImpl.class);
 
     @Override

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controllers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,7 +6,12 @@ import java.sql.SQLException;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class GoodsDAOImpl implements GoodsDAO{
+import org.example.connections.ConenctionPool;
+import org.example.DAOInterface.GoodsDAO;
+import org.example.connections.TransactionWrapper;
+import org.example.models.Good;
+
+public class GoodsDAOImpl implements GoodsDAO {
     private static final Logger logger = LogManager.getLogger(GoodsDAOImpl.class);
     @Override
     public void addGood(Good good) {

@@ -1,21 +1,21 @@
-package org.example;
+package org.example.models;
 
 public class BlackListElement {
     private final int blacklistid;
     private final int clientid;
     private final String reason;
-    BlackListElement(int blacklistid, int clientid, String reason){
+    public BlackListElement(int blacklistid, int clientid, String reason){
         this.blacklistid = blacklistid;
         this.clientid = clientid;
         this.reason = reason;
     }
-    int getBlacklistid(){
+    public int getBlacklistid(){
         return blacklistid;
     }
-    int getClientid(){
+    public int getClientid(){
         return clientid;
     }
-    String getReason(){
+    public String getReason(){
         return reason;
     }
 

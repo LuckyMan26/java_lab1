@@ -1,4 +1,4 @@
-package org.example;
+package org.example.models;
 
 import java.util.Date;
 
@@ -15,19 +15,19 @@ public class Order {
         this.total_amount = total_amount;
         this.status = status;
     }
-    int getOrderId(){
+    public int getOrderId(){
         return orderId;
     }
-    int getClientId(){
+    public int getClientId(){
         return clientId;
     }
-    Date getOrder_date(){
+    public Date getOrder_date(){
         return order_date;
     }
-    int getTotal_amount(){
+    public int getTotal_amount(){
         return total_amount;
     }
-    String getStatus(){
+    public String getStatus(){
         return status;
     }
     @Override

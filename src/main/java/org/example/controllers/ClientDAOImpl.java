@@ -1,7 +1,11 @@
-package org.example;
+package org.example.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.DAOInterface.ClientDAO;
+import org.example.connections.ConenctionPool;
+import org.example.connections.TransactionWrapper;
+import org.example.models.Client;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

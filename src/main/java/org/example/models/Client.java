@@ -1,4 +1,4 @@
-package org.example;
+package org.example.models;
 
 public class Client {
     private final int cliendId;
@@ -11,16 +11,16 @@ public class Client {
         this.email = email;
         this.address = address;
     }
-    int getCliendId(){
+    public int getCliendId(){
         return cliendId;
     }
-    String getName(){
+    public String getName(){
         return name;
     }
-    String getEmail(){
+    public String getEmail(){
         return email;
     }
-    String getAddress(){
+    public String getAddress(){
         return address;
     }
 

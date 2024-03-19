@@ -1,13 +1,9 @@
-package org.example;
-import org.example.ConenctionPool;
+package org.example.connections;
 
 import java.io.Closeable;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TransactionWrapper implements Closeable {
     private final Connection connection;
@@ -15,7 +11,7 @@ public class TransactionWrapper implements Closeable {
     private final PreparedStatement commitTransactionStatement;
     private final PreparedStatement rollbackTransactionStatement;
     private final ConenctionPool pool;
-    TransactionWrapper(ConenctionPool pool) throws SQLException, InterruptedException {
+    public TransactionWrapper(ConenctionPool pool) throws SQLException, InterruptedException {
         this.pool = pool;
         this.connection = this.pool.getConnection();
         try {

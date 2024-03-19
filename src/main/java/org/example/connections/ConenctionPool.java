@@ -1,10 +1,9 @@
-package org.example;
+package org.example.connections;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ConenctionPool {
     private static ConenctionPool instance;

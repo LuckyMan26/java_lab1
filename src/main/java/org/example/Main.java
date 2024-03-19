@@ -1,8 +1,8 @@
 package org.example;
 import java.sql.*;
 
-import org.example.ConenctionPool;
-import org.example.TransactionWrapper;
+import org.example.connections.ConenctionPool;
+import org.example.connections.TransactionWrapper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,6 @@
-package org.example;
+package org.example.DAOInterface;
+
+import org.example.models.Good;
 
 import java.util.List;
 

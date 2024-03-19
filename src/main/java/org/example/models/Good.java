@@ -1,4 +1,4 @@
-package org.example;
+package org.example.models;
 
 public class Good {
     private final int good_id;
@@ -15,19 +15,19 @@ public class Good {
         this.quantity_available = quantity_available;
 
     }
-    int getGood_id(){
+    public int getGood_id(){
         return good_id;
     }
-    String getName(){
+    public String getName(){
         return name;
     }
-    String getDescription(){
+    public String getDescription(){
         return description;
     }
-    double getPrice(){
+    public double getPrice(){
         return price;
     }
-    int getQuantity_available(){
+    public int getQuantity_available(){
         return quantity_available;
     }
 
