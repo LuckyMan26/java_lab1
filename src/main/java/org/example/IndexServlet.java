@@ -1,5 +1,9 @@
 package org.example;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,12 +14,12 @@ import java.io.PrintWriter;
 
 @WebServlet("/")
 public class IndexServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(IndexServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.info("doget");
 //        getServletContext().getRequestDispatcher("/hello").forward(req, resp);
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.write("Hello!");
-        printWriter.close();
+            resp.sendRedirect(req.getContextPath() + "/good");
     }
 }
