@@ -15,6 +15,19 @@ import java.util.List;
 public class BlackListDAOImpl implements BlackListDAO {
     private static final Logger logger = LogManager.getLogger(BlackListDAOImpl.class);
 
+    private static BlackListDAOImpl instance;
+
+    // Private constructor to prevent instantiation from outside
+    private BlackListDAOImpl() {
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized BlackListDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new BlackListDAOImpl();
+        }
+        return instance;
+    }
     @Override
     public void addClientToBlackList(BlackListElement element) {
         try {

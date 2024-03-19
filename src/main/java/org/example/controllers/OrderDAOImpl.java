@@ -16,6 +16,20 @@ import java.util.List;
 public class OrderDAOImpl implements OrderDAO {
     private static final Logger logger = LogManager.getLogger(OrderDAOImpl.class);
 
+    private static OrderDAOImpl instance;
+
+    // Private constructor to prevent instantiation from outside
+    private OrderDAOImpl() {
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized OrderDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new OrderDAOImpl();
+        }
+        return instance;
+    }
+
     @Override
     public void addOrder(Order order) {
         try {

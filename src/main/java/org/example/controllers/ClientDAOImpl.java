@@ -15,6 +15,20 @@ import java.util.List;
 public class ClientDAOImpl implements ClientDAO {
     private static final Logger logger = LogManager.getLogger(GoodsDAOImpl.class);
 
+    private static ClientDAOImpl instance;
+
+    // Private constructor to prevent instantiation from outside
+    private ClientDAOImpl() {
+
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized ClientDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new ClientDAOImpl();
+        }
+        return instance;
+    }
     @Override
     public void addClient(Client client) {
         try {

@@ -15,6 +15,21 @@ import java.util.List;
 public class OrderItemsDAOImpl implements OrderItemsDAO {
     private static final Logger logger = LogManager.getLogger(OrderItemsDAOImpl.class);
 
+
+    private static OrderItemsDAOImpl instance;
+
+    // Private constructor to prevent instantiation from outside
+    private OrderItemsDAOImpl() {
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized OrderItemsDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new OrderItemsDAOImpl();
+        }
+        return instance;
+    }
+
     @Override
     public void addOrderItem(OrderItem orderItem) {
         try {

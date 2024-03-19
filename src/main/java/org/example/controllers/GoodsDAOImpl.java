@@ -13,6 +13,20 @@ import org.example.models.Good;
 
 public class GoodsDAOImpl implements GoodsDAO {
     private static final Logger logger = LogManager.getLogger(GoodsDAOImpl.class);
+    private static GoodsDAOImpl instance;
+
+    // Private constructor to prevent instantiation from outside
+    private GoodsDAOImpl() {
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized GoodsDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new GoodsDAOImpl();
+        }
+        return instance;
+    }
+
     @Override
     public void addGood(Good good) {
         try {
