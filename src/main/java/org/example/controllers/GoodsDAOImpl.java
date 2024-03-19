@@ -29,7 +29,9 @@ public class GoodsDAOImpl implements GoodsDAO {
 
     @Override
     public void addGood(Good good) {
+        logger.info("Adding good" + good.toString());
         try {
+            logger.info("Here");
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("INSERT INTO Goods (name, description, price, quantity_available) VALUES ( ?, ?, ?, ?)");
@@ -38,6 +40,7 @@ public class GoodsDAOImpl implements GoodsDAO {
                 statement.setDouble(3, good.getPrice());
                 statement.setInt(4, good.getQuantity_available());
                 statement.executeUpdate();
+
                 return null;
             });
         }
