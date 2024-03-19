@@ -8,5 +8,4 @@ public interface GoodsDAO {
     List<Good> getAllGoods();
     void deleteGood(int id);
 
-
 }
