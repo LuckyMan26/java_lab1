@@ -108,54 +108,21 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                var javaMessage = data.message;
-                console.log(javaMessage); // You can use the data in your JavaScript code
-            } else {
-                console.error('Failed to fetch data');
+
+    fetch('/goods')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }
-    };
-    xhr.open('GET', '/your-app/data', true);
-    xhr.send();
-
-    $(document).ready(function() {
-        // Counter for dynamically generating unique product IDs
-        var productIdCounter = 1;
-
-        // Function to create a new product card
-        function createProductCard() {
-            var productHtml = `
-                <div class="col-md-6 col-lg-4">
-                    <div class="product">
-                        <img src="product${productIdCounter}.jpg" alt="Product ${productIdCounter}">
-                        <h2>Product ${productIdCounter}</h2>
-                        <p>Description of Product ${productIdCounter}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p>$19.99</p>
-                        <button class="btn btn-sm">Add to Cart</button>
-                    </div>
-                </div>
-            `;
-            return productHtml;
-        }
-
-        // Event listener for the "Add Product" button
-        $('#addProductBtn').click(function() {
-            console.log()
-            // Create a new product card
-            var newProduct = createProductCard();
-
-            // Append the new product card to the container
-            $('#productRow').append(newProduct);
-
-            // Increment the product ID counter
-            productIdCounter++;
+            return response.json();
+        })
+        .then(data => {
+            // Process the JSON data here
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
         });
-    });
 </script>
 </body>
 </html>
