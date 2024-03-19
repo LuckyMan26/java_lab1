@@ -10,6 +10,7 @@ import java.util.List;
 
 public class BlackListDAOImpl implements BlackListDAO{
     private static final Logger logger = LogManager.getLogger(BlackListDAOImpl.class);
+
     @Override
     public void addClientToBlackList(BlackListElement element) {
         try {

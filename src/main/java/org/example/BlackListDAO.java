@@ -3,7 +3,7 @@ package org.example;
 import java.util.List;
 
 public interface BlackListDAO {
-    void addClientToBlackList(Good good);
+    void addClientToBlackList(BlackListElement good);
     BlackListElement getBlackListElementId(int id);
     List<BlackListElement> getAllBlackList();
     void deleteBlackListElement(int id);
