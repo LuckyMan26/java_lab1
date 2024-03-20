@@ -1,11 +1,16 @@
 package org.example.connections;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.controllers.GoodsDAOImpl;
+
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TransactionWrapper implements Closeable {
+    private static final Logger logger = LogManager.getLogger(TransactionWrapper.class);
     private final Connection connection;
     private final PreparedStatement beginTransactionStatement;
     private final PreparedStatement commitTransactionStatement;
@@ -39,7 +44,7 @@ public class TransactionWrapper implements Closeable {
             T result = transaction.execute(connection);
             commitTransactionStatement.execute();
             connection.setAutoCommit(true);
-
+            logger.info(result.toString());
             return result;
         } catch (Exception e) {
             try {

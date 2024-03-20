@@ -3,6 +3,7 @@ package org.example.controllers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -89,7 +90,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
                 ResultSet resultSet = statement.executeQuery();
                 Good good = null;
-                List<Good> list = null;
+                List<Good> list =  new ArrayList<Good>();
                 while (resultSet.next()) {
                     int good_id = resultSet.getInt("goods_id");
                     String name = resultSet.getString("name");
@@ -99,13 +100,17 @@ public class GoodsDAOImpl implements GoodsDAO {
                     good = new Good(good_id, name, description, price, quantity);
                     logger.info(good.toString());
                     list.add(good);
+                    logger.info("list size:" + String.valueOf(list.size()));
                 }
+                logger.info("list size:" + String.valueOf(list.size()));
                 return list;
             });
+            logger.info(listOfGoods.size());
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
         }
+
         return listOfGoods;
     }
 

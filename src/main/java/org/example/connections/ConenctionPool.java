@@ -11,10 +11,12 @@ public class ConenctionPool {
     private String username = "postgres";
     private String password = "q1w2e3r4t5";
 
+
     private static int MAX_NUMBER_OF_CONNECTIONS = 15;
     private  ArrayList<Connection> connectionPool= new ArrayList<>();
     private final ArrayList<Connection> usedConnections = new ArrayList<>();
-    private ConenctionPool(){
+    private ConenctionPool() throws ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
         connectionPool = new ArrayList<>(MAX_NUMBER_OF_CONNECTIONS);
         try {
             for (int i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
@@ -58,8 +60,13 @@ public class ConenctionPool {
             return result;
         }
         synchronized(ConenctionPool.class) {
-            if (instance == null) {
-                instance = new ConenctionPool();
+            try {
+                if (instance == null) {
+                    instance = new ConenctionPool();
+                }
+            }
+            catch (ClassNotFoundException e){
+                System.out.println(e.toString());
             }
             return instance;
         }
