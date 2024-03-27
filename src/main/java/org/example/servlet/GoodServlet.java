@@ -2,6 +2,9 @@ package org.example.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.controllers.BlackListDAOImpl;
 import org.example.controllers.GoodsDAOImpl;
 import org.example.models.Good;
 
@@ -18,11 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "GoodServlet", urlPatterns = {"/GoodServlet"})
 public class GoodServlet extends HttpServlet {
 
-
+    private static final Logger logger = LogManager.getLogger(GoodServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("do get");
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
@@ -35,6 +39,7 @@ public class GoodServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("do post");
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();

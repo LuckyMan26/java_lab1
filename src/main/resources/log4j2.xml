@@ -1,20 +1,21 @@
-<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
     <Appenders>
-        <Console name="console">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L [%M] - %m%n"/>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <RollingFile name="file"
-                     filePattern="${sys:catalina.base}/logs/application-%d{yyyy-MM-dd}.log"
-                     fileName="${sys:catalina.base}/logs/application.log">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L [%M] - %m%n"/>
-            <SizeBasedTriggeringPolicy size="10MB"/>
-            <DefaultRolloverStrategy max="10" fileIndex="min"/>
-        </RollingFile>
+
+
+        <File name="File" fileName="logs/application.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
     </Appenders>
     <Loggers>
-        <Root level="WARN">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="file"/>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Root>
     </Loggers>
 </Configuration>
