@@ -1,15 +1,18 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List of Goods</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            position: relative; /* Add position relative for positioning the basket */
         }
 
         .container {
@@ -70,6 +73,27 @@
         .add-to-cart-button:hover {
             background-color: #45a049;
         }
+
+        /* Basket styles */
+        .basket-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .basket-icon .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 12px;
+            min-width: 18px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +102,24 @@
     <h1>List of Goods</h1>
     <div class="goods-grid" id="goodsGrid"></div>
 </div>
+
+<!-- Basket icon -->
+<div class="basket-icon" id="basketIcon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
+    var cartItemCount = 0;
+
     function displayGoods(goods) {
         var goodsGridElement = document.getElementById('goodsGrid');
 
@@ -105,9 +146,13 @@
             .catch(error => console.error('Error:', error));
     }
     function addToCart(name, price) {
-        // Here you can implement adding the item to the cart
-        alert('Added ' + name + ' to cart. Price: $' + price);
+        cartItemCount++;
+
+        document.getElementById('cartItemCount').textContent = cartItemCount;
+        console.log('Added ' + name + ' to cart. Price: $' + price);
+
     }
+
 
     window.onload = fetchData;
 </script>
