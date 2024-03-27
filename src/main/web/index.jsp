@@ -39,6 +39,8 @@
             border-radius: 8px;
             background-color: #f9f9f9;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .good-name {
@@ -48,6 +50,25 @@
 
         .good-price {
             color: #555;
+        }
+
+        .add-to-cart-button {
+            margin-top: auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -69,7 +90,8 @@
             var div = document.createElement('div');
             div.classList.add('good');
             div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
-                '<div class="good-price">$' + good.price + '</div>';
+                '<div class="good-price">$' + good.price + '</div>' +
+            '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
             goodsGridElement.appendChild(div);
         });
     }
@@ -82,7 +104,10 @@
             })
             .catch(error => console.error('Error:', error));
     }
-
+    function addToCart(name, price) {
+        // Here you can implement adding the item to the cart
+        alert('Added ' + name + ' to cart. Price: $' + price);
+    }
 
     window.onload = fetchData;
 </script>

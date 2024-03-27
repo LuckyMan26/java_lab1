@@ -44,7 +44,7 @@ public class TransactionWrapper implements Closeable {
             T result = transaction.execute(connection);
             commitTransactionStatement.execute();
             connection.setAutoCommit(true);
-            logger.info(result.toString());
+
             return result;
         } catch (Exception e) {
             try {

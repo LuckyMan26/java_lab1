@@ -30,6 +30,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
     @Override
     public void addGood(Good good) {
+        System.out.println(good.toString());
         logger.info("Adding good" + good.toString());
         try {
             logger.info("Here");
