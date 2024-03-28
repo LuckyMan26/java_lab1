@@ -278,12 +278,14 @@
 
     function loadMoreGoods() {
         currentPage++;
+        setCurrentPageParam(currentPage);
         fetchData();
     }
 
     function previousPage() {
         if (currentPage > 1) {
             currentPage--;
+            setCurrentPageParam(currentPage);
             fetchData();
         }
     }
@@ -347,10 +349,33 @@
     }
 
     window.onload = function() {
+
+        currentPage = getParameterByName('page');
+        if (currentPage === null || isNaN(currentPage)) {
+            currentPage = 1;
+        } else {
+            currentPage = parseInt(currentPage);
+        }
         fetchData();
         document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
         document.getElementById('previousPageButton').addEventListener('click', previousPage);
     };
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Function to set the current page URL parameter
+    function setCurrentPageParam(pageNumber) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('page', pageNumber);
+        window.history.replaceState({}, '', url);
+    }
 </script>
 </body>
 </html>

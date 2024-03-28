@@ -39,13 +39,6 @@ public class GoodServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("do post");
-        response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter writer = response.getWriter()) {
-            Gson gson = new Gson();
-            ArrayList<Good> listOfGoods = (ArrayList<Good>) GoodsDAOImpl.getInstance().getAllGoods();
-            JsonElement element = gson.toJsonTree(listOfGoods);
-            writer.write(element.toString());
-        }
+
     }
 }

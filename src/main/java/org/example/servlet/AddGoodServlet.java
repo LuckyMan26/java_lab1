@@ -27,7 +27,7 @@ import java.io.IOException;
 @WebServlet(name = "AddGood", urlPatterns = {"/AddGood"})
 
 public class AddGoodServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger(GoodServlet.class);
+    private static final Logger logger = LogManager.getLogger(AddGoodServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
