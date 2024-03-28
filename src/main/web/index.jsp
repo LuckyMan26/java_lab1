@@ -74,14 +74,38 @@
             background-color: #45a049;
         }
 
-        /* Basket styles */
+
         .basket-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
+
+        }
+        .icon {
+            display: grid;
+            grid-template-columns: auto auto; /* This will create two columns of equal width */
+            justify-content: end; /* Aligns grid items to the end of the container (top right corner) */
+            gap: 10px; /* Gap between the columns */
+            position: relative; /* Needed for absolute positioning of child elements */
         }
 
+        .basket-icon,
+        .additem-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        .additem-icon {
+            justify-content: flex-end; /* Aligns the additem-icon to the right within its container */
+        }
+
+        .container .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .additem-icon {
+            display: flex;
+            align-items: center;
+        }
         .basket-icon .badge {
             position: absolute;
             top: -8px;
@@ -116,20 +140,25 @@
     <div class="goods-grid" id="goodsGrid"></div>
 </div>
 
-<!-- Basket icon -->
-<div class="basket-icon" id="basketIcon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
-    <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
-</div>
+<div class = "container icon">
 
-<!-- Add Item Button -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-    Add Item
-</button>
+    <div class="basket-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
+    </div>
+
+    <div class="additem-icon">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
+        </svg>
+    </button>
+    </div>
+</div>
 
 <!-- Add Item Modal -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
