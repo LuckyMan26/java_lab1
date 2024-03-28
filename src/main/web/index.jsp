@@ -94,6 +94,19 @@
             min-width: 18px;
             text-align: center;
         }
+
+        /* Modal dialog styles */
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
     </style>
 </head>
 <body>
@@ -112,6 +125,51 @@
     </svg>
     <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
 </div>
+
+<!-- Add Item Button -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
+    Add Item
+</button>
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding new item -->
+                <form id="addItemForm">
+                    <div class="form-group">
+                        <label for="itemName">Name</label>
+                        <input type="text" class="form-control" id="itemName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Price</label>
+                        <input type="number" class="form-control" id="itemPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemQuantity">Quantity Available</label>
+                        <input type="number" class="form-control" id="itemQuantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Description</label>
+                        <textarea class="form-control" id="itemDescription" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -152,7 +210,19 @@
         console.log('Added ' + name + ' to cart. Price: $' + price);
 
     }
+    function addItem() {
+        // Retrieve values from form
+        var itemName = document.getElementById('itemName').value;
+        var itemPrice = document.getElementById('itemPrice').value;
+        var itemQuantity = document.getElementById('itemQuantity').value;
+        var itemDescription = document.getElementById('itemDescription').value;
 
+        console.log(itemName, itemPrice,itemQuantity, itemDescription);
+        $('#addItemModal').modal('hide');
+
+
+        document.getElementById('addItemForm').reset();
+    }
 
     window.onload = fetchData;
 </script>
