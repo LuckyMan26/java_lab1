@@ -78,12 +78,15 @@
         .basket-icon {
 
         }
-        .icon {
+        .icon-container {
             display: grid;
             grid-template-columns: auto auto; /* This will create two columns of equal width */
-            justify-content: end; /* Aligns grid items to the end of the container (top right corner) */
-            gap: 10px; /* Gap between the columns */
-            position: relative; /* Needed for absolute positioning of child elements */
+            justify-content: end;
+            gap: 20px;
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: auto;
         }
 
         .basket-icon,
@@ -96,30 +99,25 @@
             justify-content: flex-end; /* Aligns the additem-icon to the right within its container */
         }
 
-        .container .badge {
-            position: absolute;
-            top: 0;
-            right: 0;
+
+        .basket-icon {
+            display: flex;
+            align-items: center;
+            position: relative;
         }
 
         .additem-icon {
             display: flex;
             align-items: center;
-        }
-        .basket-icon .badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 5px;
-            font-size: 12px;
-            min-width: 18px;
-            text-align: center;
+            justify-content: flex-end;
         }
 
-        /* Modal dialog styles */
+        .basket-icon .badge {
+            position: absolute;
+            top: 0;
+            right: -15px;
+            background-color: red;
+        }
         .modal-content {
             border-radius: 8px;
         }
@@ -140,7 +138,7 @@
     <div class="goods-grid" id="goodsGrid"></div>
 </div>
 
-<div class = "container icon">
+<div class = "icon-container">
 
     <div class="basket-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
