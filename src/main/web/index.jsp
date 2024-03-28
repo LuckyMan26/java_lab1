@@ -196,7 +196,7 @@
     }
 
     function fetchData() {
-        fetch('http://localhost:5454/GoodServlet')
+        fetch('/GoodServlet')
             .then(response =>  response.json())
             .then(data => {
                 displayGoods(data);
@@ -218,12 +218,31 @@
         var itemDescription = document.getElementById('itemDescription').value;
 
         console.log(itemName, itemPrice,itemQuantity, itemDescription);
+        var newItem = {
+            name: itemName,
+            price: parseFloat(itemPrice),
+            quantity: parseInt(itemQuantity),
+            description: itemDescription
+        };
+        fetch('http://localhost:5454/AddGood', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        })
+            .then(function(response) {
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            });
         $('#addItemModal').modal('hide');
 
 
         document.getElementById('addItemForm').reset();
-    }
 
+    }
     window.onload = fetchData;
 </script>
 </body>
