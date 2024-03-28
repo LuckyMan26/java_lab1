@@ -129,6 +129,21 @@
         .modal-footer {
             border-top: none;
         }
+        #successMessage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #successMessage.show {
+            display: block;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -150,11 +165,11 @@
     </div>
 
     <div class="additem-icon">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
-        </svg>
-    </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
+            </svg>
+        </button>
     </div>
 </div>
 
@@ -196,7 +211,9 @@
         </div>
     </div>
 </div>
-
+<div id="successMessage" class="alert alert-success fade" role="alert">
+    Item successfully added!
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -217,7 +234,7 @@
             div.classList.add('good');
             div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
                 '<div class="good-price">$' + good.price + '</div>' +
-            '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
+                '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
             goodsGridElement.appendChild(div);
         });
     }
@@ -264,6 +281,15 @@
                     throw new Error('Network response was not ok');
                 }
             });
+        $('#successMessage').addClass('show');
+        setTimeout(function() {
+            $('#successMessage').removeClass('show');
+        }, 3000); // Hide after 3 seconds
+
+        // Fade out the success message after a delay
+        setTimeout(function() {
+            $('#successMessage').css('opacity', 0);
+        }, 2000); // Fade out over 2 seconds, adjust as needed
         $('#addItemModal').modal('hide');
 
 
