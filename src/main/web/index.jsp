@@ -144,6 +144,14 @@
             display: block;
             opacity: 1;
         }
+        .pagination-container {
+            display: flex;
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        .pagination-container button {
+            margin-left: 5px; /* Add some spacing between buttons */
+        }
     </style>
 </head>
 <body>
@@ -151,7 +159,12 @@
 <div class="container">
     <h1>List of Goods</h1>
     <div class="goods-grid" id="goodsGrid"></div>
+    <div class="pagination-container mt-3">
+        <button id="previousPageButton" class="btn btn-secondary mr-2" disabled>Previous Page</button>
+        <button id="loadMoreButton" class="btn btn-primary">Load More</button>
+    </div>
 </div>
+
 
 <div class = "icon-container">
 
@@ -222,21 +235,57 @@
 <script>
     var cartItemCount = 0;
 
+    var currentPage = 1;
+    var itemsPerPage = 15;
+
     function displayGoods(goods) {
         var goodsGridElement = document.getElementById('goodsGrid');
 
         // Clear existing content
         goodsGridElement.innerHTML = '';
 
+        // Calculate start and end index for current page
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        var endIndex = currentPage * itemsPerPage;
+
         // Loop through the list of goods and create div containers
-        goods.forEach(function(good) {
+        for (var i = startIndex; i < Math.min(endIndex, goods.length); i++) {
+            var good = goods[i];
             var div = document.createElement('div');
             div.classList.add('good');
             div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
                 '<div class="good-price">$' + good.price + '</div>' +
                 '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
             goodsGridElement.appendChild(div);
-        });
+        }
+
+        // Show or hide the load more button based on pagination
+        var loadMoreButton = document.getElementById('loadMoreButton');
+        if (endIndex < goods.length) {
+            loadMoreButton.style.display = 'block';
+        } else {
+            loadMoreButton.style.display = 'none';
+        }
+
+        // Enable or disable the previous page button based on current page
+        var previousPageButton = document.getElementById('previousPageButton');
+        if (currentPage > 1) {
+            previousPageButton.disabled = false;
+        } else {
+            previousPageButton.disabled = true;
+        }
+    }
+
+    function loadMoreGoods() {
+        currentPage++;
+        fetchData();
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchData();
+        }
     }
 
     function fetchData() {
@@ -296,7 +345,12 @@
         document.getElementById('addItemForm').reset();
 
     }
-    window.onload = fetchData;
+
+    window.onload = function() {
+        fetchData();
+        document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
+        document.getElementById('previousPageButton').addEventListener('click', previousPage);
+    };
 </script>
 </body>
 </html>
