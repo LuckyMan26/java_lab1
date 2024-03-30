@@ -152,6 +152,33 @@
         .pagination-container button {
             margin-left: 5px; /* Add some spacing between buttons */
         }
+        .basket-items-container {
+            position: absolute;
+            top: 40px; /* Adjust as needed */
+            right: 0;
+            width: 200px; /* Adjust as needed */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none; /* Hide by default */
+        }
+
+        .basket-items-container.show {
+            display: block; /* Show when hovered over the basket icon */
+        }
+
+        .basket-items-container div {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .basket-items-container div:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
@@ -168,16 +195,18 @@
 
 <div class = "icon-container">
 
-    <div class="basket-icon" onmouseover="displayBasketItems()">
+    <div class="basket-icon" onmouseover="displayBasketItems()" onmouseleave="hideBasketItems()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
         <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
-        <div id="basketItemsContainer" class="basket-items-container">
-            <!-- Basket items will be displayed here -->
-        </div>
+    </div>
+
+    <!-- Basket Items List -->
+    <div id="basketItemsContainer" class="basket-items-container">
+        <!-- Basket items will be displayed here -->
     </div>
 
 
@@ -266,6 +295,13 @@
                 basketItemsContainer.appendChild(itemElement);
             });
         }
+
+        basketItemsContainer.classList.add('show'); // Show the container
+    }
+
+    function hideBasketItems() {
+        var basketItemsContainer = document.getElementById('basketItemsContainer');
+        basketItemsContainer.classList.remove('show'); // Hide the container
     }
     function displayGoods(goods) {
         var goodsGridElement = document.getElementById('goodsGrid');
