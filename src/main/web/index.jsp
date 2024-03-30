@@ -157,6 +157,8 @@
             top: 40px; /* Adjust as needed */
             right: 0;
             width: 200px; /* Adjust as needed */
+            max-height: 200px; /* Limit the height */
+            overflow-y: auto; /* Enable vertical scrolling */
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -166,7 +168,7 @@
         }
 
         .basket-items-container.show {
-            display: block; /* Show when hovered over the basket icon */
+            display: block; /* Show the container */
         }
 
         .basket-items-container div {
@@ -195,7 +197,7 @@
 
 <div class = "icon-container">
 
-    <div class="basket-icon" onmouseover="displayBasketItems()" onmouseleave="hideBasketItems()">
+    <div class="basket-icon" onmouseover="displayBasketItems()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
@@ -208,7 +210,6 @@
     <div id="basketItemsContainer" class="basket-items-container">
         <!-- Basket items will be displayed here -->
     </div>
-
 
         <div class="additem-icon">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
@@ -297,8 +298,12 @@
         }
 
         basketItemsContainer.classList.add('show'); // Show the container
+
+        // Add event listener to hide basket items list when mouse moves away from both basket icon and basket items list
+        basketItemsContainer.addEventListener('mouseleave', hideBasketItems);
     }
 
+    // Function to hide the basket items list
     function hideBasketItems() {
         var basketItemsContainer = document.getElementById('basketItemsContainer');
         basketItemsContainer.classList.remove('show'); // Hide the container
