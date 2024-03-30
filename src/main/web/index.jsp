@@ -168,16 +168,20 @@
 
 <div class = "icon-container">
 
-    <div class="basket-icon">
+    <div class="basket-icon" onmouseover="displayBasketItems()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
         <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
+        <div id="basketItemsContainer" class="basket-items-container">
+            <!-- Basket items will be displayed here -->
+        </div>
     </div>
 
-    <div class="additem-icon">
+
+        <div class="additem-icon">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
@@ -237,7 +241,32 @@
 
     var currentPage = 1;
     var itemsPerPage = 15;
+    var cartItemCount = 0;
+    var cartItems = []; // Array to store added goods
 
+    // Function to add item to the cart
+    function addToCart(name, price) {
+        cartItemCount++;
+        cartItems.push({ name: name, price: price }); // Store added goods
+        document.getElementById('cartItemCount').textContent = cartItemCount;
+        console.log('Added ' + name + ' to cart. Price: $' + price);
+    }
+
+    // Function to display added goods on hover
+    function displayBasketItems() {
+        var basketItemsContainer = document.getElementById('basketItemsContainer');
+        basketItemsContainer.innerHTML = ''; // Clear previous content
+
+        if (cartItems.length === 0) {
+            basketItemsContainer.textContent = 'No items added';
+        } else {
+            cartItems.forEach(function(item) {
+                var itemElement = document.createElement('div');
+                itemElement.textContent = item.name + ' - $' + item.price;
+                basketItemsContainer.appendChild(itemElement);
+            });
+        }
+    }
     function displayGoods(goods) {
         var goodsGridElement = document.getElementById('goodsGrid');
 
@@ -298,13 +327,7 @@
             })
             .catch(error => console.error('Error:', error));
     }
-    function addToCart(name, price) {
-        cartItemCount++;
 
-        document.getElementById('cartItemCount').textContent = cartItemCount;
-        console.log('Added ' + name + ' to cart. Price: $' + price);
-
-    }
     function addItem() {
         // Retrieve values from form
         var itemName = document.getElementById('itemName').value;
