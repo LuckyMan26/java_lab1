@@ -6,6 +6,7 @@
     <title>List of Goods</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,6 +23,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            top:20px;
         }
 
         h1 {
@@ -210,10 +212,85 @@
         .good-details p {
             margin: 0;
         }
+        header {
+            background-color: #ffffff;
+            color: #333333;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            flex-grow: 1; /* Allow logo to grow and take up available space */
+        }
+
+        .logo img {
+            height: 80px;
+        }
+
+        .icon-container {
+            display: flex;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .basket-icon {
+            margin-right: 20px; /* Adjust the spacing between the basket icon and the add item button */
+        }
+        .main-content{
+            padding-top: 180px;
+        }
     </style>
 </head>
 <body>
 
+
+
+
+
+
+<header>
+    <!-- Logo or website name -->
+    <div class="logo">
+        <img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.523418798.1711843200&semt=ais" alt="Logo">
+        <!-- If using text instead of an image, use <h1> or <p> -->
+    </div>
+
+
+
+    <!-- Icon Container -->
+    <div class="icon-container">
+        <!-- Basket Icon -->
+        <div class="basket-icon" onmouseover="displayBasketItems()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
+        </div>
+        <div id="basketItemsContainer" class="basket-items-container">
+            <!-- Basket items will be displayed here -->
+        </div>
+        <!-- Add Item Button -->
+        <div class="additem-icon">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+<div class="main-content">
 <div class="container" id="container">
     <h1>List of Goods</h1>
     <div class="goods-grid" id="goodsGrid"></div>
@@ -222,33 +299,7 @@
         <button id="loadMoreButton" class="btn btn-primary">Load More</button>
     </div>
 </div>
-
-
-<div class = "icon-container" id="icon-container">
-
-    <div class="basket-icon" onmouseover="displayBasketItems()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="badge badge-pill badge-primary" id="cartItemCount">0</span>
-    </div>
-
-    <!-- Basket Items List -->
-    <div id="basketItemsContainer" class="basket-items-container">
-        <!-- Basket items will be displayed here -->
-    </div>
-
-        <div class="additem-icon">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                <path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1 0-1h13a.5.5 0 0 1 .5.5z"/>
-            </svg>
-        </button>
-    </div>
 </div>
-
 <!-- Add Item Modal -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
