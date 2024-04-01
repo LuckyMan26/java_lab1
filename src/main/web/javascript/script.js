@@ -77,12 +77,12 @@
     div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
     '<div class="good-price">$' + good.price + '</div>' +
     '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
-    div.addEventListener('click', function(event) {
-    // Prevent the click event from bubbling up to parent elements
-    event.stopPropagation();
-    // Display the clicked good
-    displayGoodDetails(good);
-});
+        (function(good) {
+            // Add event listener to call "foo" method when div is clicked and pass the good object
+            div.addEventListener('click', function() {
+                displayGoodDetails(good);
+            });
+        })(good);
     goodsGridElement.appendChild(div);
 }
 
