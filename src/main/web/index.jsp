@@ -6,6 +6,7 @@
     <title>List of Goods</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -86,7 +87,7 @@
             justify-content: end;
             gap: 20px;
             position: absolute;
-            top: 0;
+            top: 20px;
             right: 20px;
             width: auto;
         }
@@ -236,17 +237,48 @@
             height: 80px;
         }
 
-        .icon-container {
-            display: flex;
-            align-items: center;
-            z-index: 999;
-        }
+
+
 
         .basket-icon {
             margin-right: 20px; /* Adjust the spacing between the basket icon and the add item button */
         }
         .main-content{
             padding-top: 180px;
+        }
+
+        .footer {
+            background-color: #ffffff;
+            color: #333333;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer h5 {
+            margin-top: 0;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+        }
+
+        .social-icons {
+            padding: 0;
+            list-style: none;
+        }
+
+        .social-icons li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        .social-icons li:last-child {
+            margin-right: 0;
         }
     </style>
 </head>
@@ -351,6 +383,26 @@
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>
+<footer class="footer">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Contact Information</h5>
+                <p>Email: example@example.com</p>
+                <p>Phone: +1234567890</p>
+                <p>Address: 123 Main St, City, Country</p>
+            </div>
+            <div class="col-md-6">
+                <h5>Follow Us</h5>
+                <ul class="list-inline social-icons">
+                    <li class="list-inline-item"><a href="https://www.facebook.com/Amazon/?locale=ru_RU"><i class="bi bi-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="https://twitter.com/amazon"><i class="bi bi-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.instagram.com/amazon/"><i class="bi bi-instagram"></i></a></li>
+                </ul>
+            </div>
+
+    </div>
+</footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
