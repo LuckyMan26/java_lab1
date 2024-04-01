@@ -9,6 +9,7 @@ import org.example.controllers.GoodsDAOImpl;
 import org.example.models.Good;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +24,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 @WebServlet(name = "AddGood", urlPatterns = {"/AddGood"})
-
+@MultipartConfig
 public class AddGoodServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(AddGoodServlet.class);
 
@@ -39,8 +41,14 @@ public class AddGoodServlet extends HttpServlet {
         int price = jsonNode.get("price").asInt();
         String descr = jsonNode.get("description").asText();
         int quantity = jsonNode.get("quantity").asInt();
+        //File imageFile = jsonNode.get("image").asInt();
+       /* FileInputStream inputStream = new FileInputStream(imageFile);
+        byte[] imageData = new byte[(int) imageFile.length()];
+        inputStream.read(imageData);*/
         GoodsDAOImpl.getInstance().addGood(new Good(1,name,descr,price,quantity));
-        }
+
+    }
+
 
 
     @Override

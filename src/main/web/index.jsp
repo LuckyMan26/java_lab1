@@ -280,6 +280,23 @@
         .social-icons li:last-child {
             margin-right: 0;
         }
+        #drop-area {
+
+            height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+        #drop-area.highlight {
+            border-color: purple;
+        }
+
+        .form-group{
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -360,6 +377,10 @@
                     <div class="form-group">
                         <label for="itemDescription">Description</label>
                         <textarea class="form-control" id="itemDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group" id="drop-area">
+                        <p>Drag & Drop files here</p>
+                        <input type="file" id="fileInput" multiple>
                     </div>
                 </form>
             </div>

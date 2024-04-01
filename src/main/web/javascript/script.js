@@ -205,3 +205,78 @@
     url.searchParams.set('good_id', id);
     window.history.replaceState({}, '', url);
 }
+
+    function previewImage(event) {
+        var imagePreview = document.getElementById('imagePreview');
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function() {
+            var img = document.createElement("img");
+            img.src = reader.result;
+            img.classList.add('img-fluid');
+            imagePreview.innerHTML = '';
+            imagePreview.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const dropArea = document.getElementById('drop-area');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        dropArea.classList.add('highlight');
+    }
+
+    function unhighlight() {
+        dropArea.classList.remove('highlight');
+    }
+
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        files = [...files];
+        files.forEach(uploadFile);
+    }
+
+    function uploadFile(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // You can use AJAX to send the file to the server
+        // Replace the URL with your server endpoint
+        fetch('/AddGood', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                // Handle response
+                console.log('File uploaded successfully!');
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error uploading file:', error);
+            });
+    }
