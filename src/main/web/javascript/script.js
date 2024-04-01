@@ -15,12 +15,12 @@
     console.log('Added ' + name + ' to cart. Price: $' + price);
 
 }
-    function displayGoodDetails(good) {
+    function displayGoodDetails(product) {
     var goodDetailsElement = document.getElementById('goodDetails');
     var good = {
-    name: good.name,
-    price: good.price,
-    description: good.description,
+    name: product.name,
+    price: product.price,
+    description: product.description,
     imageSrc: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
 };
 
@@ -28,7 +28,9 @@
     goodDetailsElement.querySelector('h2').textContent = good.name;
     goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
     goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
-    goodDetailsElement.querySelector('button').onclick = addToCart(good.name, good.price);
+        goodDetailsElement.querySelector('button').addEventListener('click', function() {
+            addToCart(good.name, good.price);
+        });
     goodDetailsElement.style.display='block';
     document.getElementById("container").style.display='none';
 
@@ -72,14 +74,14 @@
     // Loop through the list of goods and create div containers
     for (var i = startIndex; i < Math.min(endIndex, goods.length); i++) {
     var good = goods[i];
-    var div = document.createElement('div');
-    div.classList.add('good');
+        const div = document.createElement('div');
+        div.classList.add('good');
     div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
-    '<div class="good-price">$' + good.price + '</div>' +
-    '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
+    '<div class="good-price">$' + good.price + '</div>';
         (function(good) {
             // Add event listener to call "foo" method when div is clicked and pass the good object
             div.addEventListener('click', function() {
+                console.log('here');
                 displayGoodDetails(good);
             });
         })(good);
