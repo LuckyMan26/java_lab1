@@ -181,11 +181,29 @@
         .basket-items-container div:last-child {
             border-bottom: none;
         }
+
+
+        .good-details {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+        .good-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .good-details h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="container">
     <h1>List of Goods</h1>
     <div class="goods-grid" id="goodsGrid"></div>
     <div class="pagination-container mt-3">
@@ -195,7 +213,7 @@
 </div>
 
 
-<div class = "icon-container">
+<div class = "icon-container" id="icon-container">
 
     <div class="basket-icon" onmouseover="displayBasketItems()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
@@ -258,6 +276,13 @@
         </div>
     </div>
 </div>
+<div class="good-details" id="goodDetails" style="display: none">
+    <img src="your-good-image.jpg" alt="Good Image">
+    <h2>Good Name</h2>
+    <p>Price: $50</p>
+    <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet sem eu quam accumsan, in mollis arcu aliquam.</p>
+</div>
+
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>
@@ -280,9 +305,26 @@
         cartItems.push({ name: name, price: price }); // Store added goods
         document.getElementById('cartItemCount').textContent = cartItemCount;
         console.log('Added ' + name + ' to cart. Price: $' + price);
-    }
 
-    // Function to display added goods on hover
+    }
+    function displayGoodDetails(good) {
+        var goodDetailsElement = document.getElementById('goodDetails');
+        var good = {
+            name: good.name,
+            price: good.price,
+            description: good.description,
+            imageSrc: "your-good-image.jpg"
+        };
+
+        goodDetailsElement.querySelector('img').src = good.imageSrc;
+        goodDetailsElement.querySelector('h2').textContent = good.name;
+        goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
+        goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
+        goodDetailsElement.style.display='block';
+        document.getElementById("container").style.display='none';
+
+
+    }
     function displayBasketItems() {
         var basketItemsContainer = document.getElementById('basketItemsContainer');
         basketItemsContainer.innerHTML = ''; // Clear previous content
@@ -326,6 +368,12 @@
             div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
                 '<div class="good-price">$' + good.price + '</div>' +
                 '<button class="add-to-cart-button" onclick="addToCart(\'' + good.name + '\', ' + good.price + ')">Add to Cart</button>';
+            div.addEventListener('click', function(event) {
+                // Prevent the click event from bubbling up to parent elements
+                event.stopPropagation();
+                // Display the clicked good
+                displayGoodDetails(good);
+            });
             goodsGridElement.appendChild(div);
         }
 
@@ -423,6 +471,7 @@
         fetchData();
         document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
         document.getElementById('previousPageButton').addEventListener('click', previousPage);
+
     };
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
@@ -438,6 +487,11 @@
     function setCurrentPageParam(pageNumber) {
         var url = new URL(window.location.href);
         url.searchParams.set('page', pageNumber);
+        window.history.replaceState({}, '', url);
+    }
+    function setCurrentGoodParam(id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('good_id', id);
         window.history.replaceState({}, '', url);
     }
 </script>
