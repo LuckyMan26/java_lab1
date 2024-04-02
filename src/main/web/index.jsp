@@ -205,6 +205,7 @@
             border-radius: 5px;
             padding: 20px;
             max-width: 600px;
+            max-height: 600px;
             margin: auto;
             display: grid;
             grid-template-columns: 1fr 1fr; /* Two columns with equal width */
@@ -212,7 +213,9 @@
 
         }
         .product-details img {
+
             width: 100%; /* Image takes full width of its container */
+            max-height: 600px;
             border-radius: 5px;
 
         }
