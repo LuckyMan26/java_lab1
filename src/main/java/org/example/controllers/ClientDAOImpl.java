@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ClientDAOImpl implements ClientDAO {
-    private static final Logger logger = LogManager.getLogger(GoodsDAOImpl.class);
+    private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class);
 
     private static ClientDAOImpl instance;
 

@@ -1,31 +1,20 @@
 package org.example.servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.GoodsDAOImpl;
-import org.example.models.Good;
+import org.example.controllers.ProductDAOImpl;
+import org.example.models.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.*;
-import java.util.ArrayList;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.io.InputStream;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "AddGood", urlPatterns = {"/AddGood"})
 @MultipartConfig(
@@ -34,6 +23,19 @@ import java.util.List;
         maxRequestSize = 1024 * 1024 * 100   // 100 MB
 )
 public class AddGoodServlet extends HttpServlet {
+    private byte[] convertPartToByteArray(Part part) throws IOException {
+        // Create a byte array output stream
+        byte[] byteArray = null;
+        try (InputStream inputStream = part.getInputStream()) {
+            // Read the contents of the part into a byte array
+            byteArray = inputStream.readAllBytes();
+        } catch (IOException e) {
+            // Handle exception
+            e.printStackTrace();
+            throw e;
+        }
+        return byteArray;
+    }
     private static final Logger logger = LogManager.getLogger(AddGoodServlet.class);
 
     @Override
@@ -44,7 +46,6 @@ public class AddGoodServlet extends HttpServlet {
 
 
     }
-
 
 
     @Override
@@ -61,13 +62,10 @@ public class AddGoodServlet extends HttpServlet {
 
         Part filePart = request.getPart("file");
         String fileName = filePart.getSubmittedFileName();
-        for (Part part : request.getParts()) {
-            response.getWriter().print(fileName);
-            part.write("E:\\temp\\" + fileName);
-        }
-        GoodsDAOImpl.getInstance().addGood(new Good(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity)));
+
+        ProductDAOImpl.getInstance().addGood(new Product(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), convertPartToByteArray(filePart)));
         logger.info("Success");
 
     }
-    }
+}
 

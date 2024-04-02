@@ -1,18 +1,32 @@
 package org.example.models;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.servlet.AddGoodServlet;
 
-public class Good {
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class Product {
+    private static final Logger logger = LogManager.getLogger(Product.class);
     private final int good_id;
     private final String name;
     private final String description;
     private final double price;
     private final int quantity_available;
 
-    public Good(int good_id, String name, String description, double price, int quantity_available){
+    private final byte[] imageData;
+
+    public Product(int good_id, String name, String description, double price, int quantity_available, byte[] imageData){
         this.good_id = good_id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity_available = quantity_available;
+       this.imageData = imageData;
+
+
 
     }
     public int getGood_id(){
@@ -31,6 +45,9 @@ public class Good {
         return quantity_available;
     }
 
+    public byte[] getImageData(){
+        return imageData;
+    }
     @Override
     public String toString() {
         return "Good{" +

@@ -40,7 +40,7 @@
             list-style: none;
         }
 
-        .good {
+        .product {
             padding: 15px;
             border-radius: 8px;
             background-color: #f9f9f9;
@@ -49,12 +49,12 @@
             flex-direction: column;
         }
 
-        .good-name {
+        .product-name {
             font-weight: bold;
             color: #333;
         }
 
-        .good-price {
+        .product-price {
             color: #555;
         }
 
@@ -187,7 +187,7 @@
 
 
 
-        .good-details {
+        .product-details {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
@@ -198,19 +198,19 @@
             grid-gap: 20px; /* Gap between grid items */
 
         }
-        .good-details img {
+        .product-details img {
             width: 100%; /* Image takes full width of its container */
             border-radius: 5px;
 
         }
-        .good-details .text {
+        .product-details .text {
             display: flex;
             flex-direction: column;
         }
-        .good-details h2 {
+        .product-details h2 {
             margin-top: 0;
         }
-        .good-details p {
+        .product-details p {
             margin: 0;
         }
         header {
@@ -388,7 +388,7 @@
         </div>
     </div>
 </div>
-<div class="good-details" id="goodDetails" style="display: none">
+<div class="product-details" id="goodDetails" style="display: none">
     <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" alt="No Image">
     <div class="text">
         <h2></h2>
