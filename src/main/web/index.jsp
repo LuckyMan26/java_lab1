@@ -400,7 +400,8 @@
         <button class="add-to-cart-button">Add to Cart</button>
     </div>
 </div>
-
+<input id="ajaxfile" type="file"/> <br/>
+<button onclick="uploadFile()"> Upload </button>
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>
