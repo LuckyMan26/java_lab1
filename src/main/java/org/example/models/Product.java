@@ -16,15 +16,15 @@ public class Product {
     private final double price;
     private final int quantity_available;
 
-    private final byte[] imageData;
+    private final String imageData;
 
-    public Product(int good_id, String name, String description, double price, int quantity_available, byte[] imageData){
+    public Product(int good_id, String name, String description, double price, int quantity_available, String imageData){
         this.good_id = good_id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity_available = quantity_available;
-       this.imageData = imageData;
+        this.imageData = imageData;
 
 
 
@@ -45,7 +45,7 @@ public class Product {
         return quantity_available;
     }
 
-    public byte[] getImageData(){
+    public String getImageData(){
         return imageData;
     }
     @Override

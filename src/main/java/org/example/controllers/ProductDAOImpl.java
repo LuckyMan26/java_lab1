@@ -11,6 +11,7 @@ import org.example.connections.ConenctionPool;
 import org.example.DAOInterface.ProductDAO;
 import org.example.connections.TransactionWrapper;
 import org.example.models.Product;
+import java.util.Base64;
 
 public class ProductDAOImpl implements ProductDAO {
     private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class);
@@ -42,7 +43,9 @@ public class ProductDAOImpl implements ProductDAO {
                 statement.setString(2, product.getDescription());
                 statement.setDouble(3, product.getPrice());
                 statement.setInt(4, product.getQuantity_available());
-                statement.setBytes(5, product.getImageData());
+                byte[] bytea = Base64.getDecoder().decode( product.getImageData());
+
+                statement.setBytes(5, bytea);
                 statement.executeUpdate();
 
                 return null;
@@ -71,7 +74,8 @@ public class ProductDAOImpl implements ProductDAO {
                     double price = resultSet.getDouble("price");
                     int quantity = resultSet.getInt("quantity_available");
                     byte[] imageData = resultSet.getBytes("image");
-                    product = new Product(good_id, name, description, price, quantity, imageData);
+                    String base64String = Base64.getEncoder().encodeToString(imageData);
+                    product = new Product(good_id, name, description, price, quantity, base64String);
                    logger.info(product.toString());
                 }
                 return product;
@@ -102,7 +106,8 @@ public class ProductDAOImpl implements ProductDAO {
                     double price = resultSet.getDouble("price");
                     int quantity = resultSet.getInt("quantity_available");
                     byte[] imageData = resultSet.getBytes("image");
-                    product = new Product(good_id, name, description, price, quantity,imageData );
+                    String base64String  = Base64.getEncoder().encodeToString(imageData);
+                    product = new Product(good_id, name, description, price, quantity,base64String );
                     logger.info(product.toString());
                     list.add(product);
                     logger.info("list size:" + String.valueOf(list.size()));

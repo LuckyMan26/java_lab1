@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 @WebServlet(name = "AddGood", urlPatterns = {"/AddGood"})
 @MultipartConfig(
@@ -62,8 +63,8 @@ public class AddGoodServlet extends HttpServlet {
 
         Part filePart = request.getPart("file");
         String fileName = filePart.getSubmittedFileName();
-
-        ProductDAOImpl.getInstance().addGood(new Product(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), convertPartToByteArray(filePart)));
+        String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(filePart));
+        ProductDAOImpl.getInstance().addGood(new Product(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), base64String));
         logger.info("Success");
 
     }

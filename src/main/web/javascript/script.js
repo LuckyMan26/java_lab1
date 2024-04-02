@@ -21,10 +21,10 @@
     name: product.name,
     price: product.price,
     description: product.description,
-    imageSrc: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
+    imageData: product.imageData
 };
-
-    goodDetailsElement.querySelector('img').src = good.imageSrc;
+    console.log("displayGoodDetails");
+    goodDetailsElement.querySelector('img').src = "data:image/jpeg;base64, " + good.imageData;
     goodDetailsElement.querySelector('h2').textContent = good.name;
     goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
     goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
@@ -61,49 +61,55 @@
     var basketItemsContainer = document.getElementById('basketItemsContainer');
     basketItemsContainer.classList.remove('show'); // Hide the container
 }
+
     function displayGoods(goods) {
-    var goodsGridElement = document.getElementById('goodsGrid');
+        var goodsGridElement = document.getElementById('goodsGrid');
 
-    // Clear existing content
-    goodsGridElement.innerHTML = '';
+        // Clear existing content
+        goodsGridElement.innerHTML = '';
 
-    // Calculate start and end index for current page
-    var startIndex = (currentPage - 1) * itemsPerPage;
-    var endIndex = currentPage * itemsPerPage;
+        // Calculate start and end index for current page
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        var endIndex = currentPage * itemsPerPage;
 
-    // Loop through the list of goods and create div containers
-    for (var i = startIndex; i < Math.min(endIndex, goods.length); i++) {
-    var good = goods[i];
-        const div = document.createElement('div');
-        div.classList.add('good');
-    div.innerHTML = '<div class="good-name">' + good.name + '</div>' +
-    '<div class="good-price">$' + good.price + '</div>';
-        (function(good) {
-            // Add event listener to call "foo" method when div is clicked and pass the good object
-            div.addEventListener('click', function() {
-                console.log('here');
-                displayGoodDetails(good);
-            });
-        })(good);
-    goodsGridElement.appendChild(div);
-}
+        // Loop through the list of goods and create div containers
+        for (var i = startIndex; i < Math.min(endIndex, goods.length); i++) {
+            var good = goods[i];
+            const div = document.createElement('div');
+            div.classList.add('good');
+            console.log(good.imageData);
 
-    // Show or hide the load more button based on pagination
-    var loadMoreButton = document.getElementById('loadMoreButton');
-    if (endIndex < goods.length) {
-    loadMoreButton.style.display = 'block';
-} else {
-    loadMoreButton.style.display = 'none';
-}
+            div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + good.imageData + '" alt="' + good.name + '"></div>' +
+                '<div class="good-details">' +
+                '<div class="good-name">' + good.name + '</div>' +
+                '<div class="good-price">$' + good.price + '</div>' +
+                '</div>';
+            (function (good) {
+                // Add event listener to call "foo" method when div is clicked and pass the good object
+                div.addEventListener('click', function () {
+                    console.log('here');
+                    displayGoodDetails(good);
+                });
+            })(good);
+            goodsGridElement.appendChild(div);
+        }
 
-    // Enable or disable the previous page button based on current page
-    var previousPageButton = document.getElementById('previousPageButton');
-    if (currentPage > 1) {
-    previousPageButton.disabled = false;
-} else {
-    previousPageButton.disabled = true;
-}
-}
+        // Show or hide the load more button based on pagination
+        var loadMoreButton = document.getElementById('loadMoreButton');
+        if (endIndex < goods.length) {
+            loadMoreButton.style.display = 'block';
+        } else {
+            loadMoreButton.style.display = 'none';
+        }
+
+        // Enable or disable the previous page button based on current page
+        var previousPageButton = document.getElementById('previousPageButton');
+        if (currentPage > 1) {
+            previousPageButton.disabled = false;
+        } else {
+            previousPageButton.disabled = true;
+        }
+    }
 
     function loadMoreGoods() {
     currentPage++;

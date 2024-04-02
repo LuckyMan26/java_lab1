@@ -40,7 +40,7 @@
             list-style: none;
         }
 
-        .product {
+        .good {
             padding: 15px;
             border-radius: 8px;
             background-color: #f9f9f9;
@@ -49,15 +49,28 @@
             flex-direction: column;
         }
 
-        .product-name {
+        .good-name {
             font-weight: bold;
             color: #333;
         }
 
-        .product-price {
+        .good-price {
             color: #555;
         }
+        .good-image {
+            width: 150px; /* Adjust size as needed */
+            height: 150px;
+            margin-right: 10px;
+        }
 
+        .good-image img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .good-details {
+            flex: 1;
+        }
         .add-to-cart-button {
             margin-top: auto;
             background-color: #4CAF50;
@@ -389,7 +402,7 @@
     </div>
 </div>
 <div class="product-details" id="goodDetails" style="display: none">
-    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" alt="No Image">
+    <img src="" alt="No image">
     <div class="text">
         <h2></h2>
         <p></p>
