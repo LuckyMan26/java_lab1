@@ -54,18 +54,18 @@ public class AddGoodServlet extends HttpServlet {
        /* ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(request.getReader());*/
 
-       /* String name = jsonNode.get("name").asText();
-        int price = jsonNode.get("price").asInt();
-        String descr = jsonNode.get("description").asText();
-        int quantity = jsonNode.get("quantity").asInt();
-        GoodsDAOImpl.getInstance().addGood(new Good(1,name,descr,price,quantity));*/
+        String itemName = request.getParameter("name");
+        String itemPrice = request.getParameter("price");
+        String itemQuantity = request.getParameter("quantity");
+        String itemDescription = request.getParameter("description");
+
         Part filePart = request.getPart("file");
         String fileName = filePart.getSubmittedFileName();
         for (Part part : request.getParts()) {
             response.getWriter().print(fileName);
             part.write("E:\\temp\\" + fileName);
         }
-        //response.getWriter().print("The file uploaded sucessfully.");
+        GoodsDAOImpl.getInstance().addGood(new Good(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity)));
         logger.info("Success");
 
     }

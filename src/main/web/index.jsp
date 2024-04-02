@@ -280,18 +280,15 @@
         .social-icons li:last-child {
             margin-right: 0;
         }
-        #drop-area {
-
-            height: 200px;
+        #fileDropArea {
             border: 2px dashed #ccc;
-            border-radius: 10px;
             padding: 20px;
             text-align: center;
-            font-family: Arial, sans-serif;
             cursor: pointer;
         }
-        #drop-area.highlight {
-            border-color: purple;
+
+        #fileDropArea.dragover {
+            background-color: #f0f0f0;
         }
 
         .form-group{
@@ -378,9 +375,9 @@
                         <label for="itemDescription">Description</label>
                         <textarea class="form-control" id="itemDescription" rows="3"></textarea>
                     </div>
-                    <div class="form-group" id="drop-area">
-                        <p>Drag & Drop files here</p>
-                        <input type="file" id="fileInput" multiple>
+                    <div class="form-group" id="fileDropArea">
+                        <label for="fileUploader">Drag & Drop or Click to Upload File</label>
+                        <input type="file" class="form-control-file" id="fileUploader">
                     </div>
                 </form>
             </div>
@@ -394,14 +391,13 @@
 <div class="good-details" id="goodDetails" style="display: none">
     <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" alt="No Image">
     <div class="text">
-        <h2>Good Name</h2>
-        <p>Price: $50</p>
-        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet sem eu quam accumsan, in mollis arcu aliquam.</p>
+        <h2></h2>
+        <p></p>
+        <p></p>
         <button class="add-to-cart-button">Add to Cart</button>
     </div>
 </div>
-<input id="ajaxfile" type="file"/> <br/>
-<button onclick="uploadFile()"> Upload </button>
+
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>

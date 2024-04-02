@@ -134,21 +134,22 @@
     var itemPrice = document.getElementById('itemPrice').value;
     var itemQuantity = document.getElementById('itemQuantity').value;
     var itemDescription = document.getElementById('itemDescription').value;
-
+    var fileInput = document.getElementById('fileUploader');
+    var file = fileInput.files[0];
     console.log(itemName, itemPrice,itemQuantity, itemDescription);
-    var newItem = {
-    name: itemName,
-    price: parseFloat(itemPrice),
-    quantity: parseInt(itemQuantity),
-    description: itemDescription
-};
+    var formData = new FormData();
+    formData.append('name', itemName);
+    formData.append('price', parseFloat(itemPrice));
+    formData.append('quantity', parseInt(itemQuantity));
+    formData.append('description', itemDescription);
+    formData.append('file', file);
+
+
     fetch('http://localhost:5454/AddGood', {
     method: 'POST',
-    headers: {
-    'Content-Type': 'application/json'
-},
-    body: JSON.stringify(newItem)
-})
+
+    body: formData
+    })
     .then(function(response) {
     console.log(response);
     if (!response.ok) {
@@ -220,15 +221,38 @@
         reader.readAsDataURL(file);
     }
 
-    async function uploadFile() {
-        let formData = new FormData();
-        var ajaxfile = document.getElementById("ajaxfile");
-        console.log("Here");
-        formData.append("file", ajaxfile.files[0]);
-        console.log()
-        await fetch('http://localhost:5454/AddGood', {
-            method: "POST",
-            body: formData
-        });
-        alert('The file upload with Ajax and Java was a success!');
+    var fileInput = document.getElementById('fileUploader');
+    var fileDropArea = document.getElementById('fileDropArea');
+
+    // Prevent default behavior (open file in browser)
+    fileDropArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        fileDropArea.classList.add('dragover');
+    });
+
+    // Handle drag leave
+    fileDropArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        fileDropArea.classList.remove('dragover');
+    });
+
+    // Handle file drop
+    fileDropArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        fileDropArea.classList.remove('dragover');
+        var files = e.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    // Handle file selection from input
+    fileInput.addEventListener('change', function(e) {
+        var files = e.target.files;
+        handleFiles(files);
+    });
+
+
+    function handleFiles(files) {
+        var fileList = files;
+
+        console.log(fileList);
     }
