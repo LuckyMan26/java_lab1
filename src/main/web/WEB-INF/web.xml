@@ -4,25 +4,19 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <env-entry>
-        <env-entry-name>auth0.domain</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>dev-zycrb3xraiz8ecye.us.auth0.com</env-entry-value>
-    </env-entry>
-    <env-entry>
-        <env-entry-name>auth0.clientId</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>ZsALpu0ADeCJC5Q037nCJ2W86ntf8z5D</env-entry-value>
-    </env-entry>
-    <env-entry>
-        <env-entry-name>auth0.clientSecret</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>YOUR_CLIENT_SECRET</env-entry-value>
-    </env-entry>
-    <env-entry>
-        <env-entry-name>auth0.scope</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>openid profile email</env-entry-value>
-    </env-entry>
+    <context-param>
+        <param-name>com.auth0.domain</param-name>
+        <param-value>dev-zycrb3xraiz8ecye.us.auth0.com</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.auth0.clientId</param-name>
+        <param-value>5WGm3KpKgJRJ5pzRJMZu73icKgWYqz39</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.auth0.clientSecret</param-name>
+        <param-value>YOUR_CLIENT_SECRET</param-value>
+    </context-param>
 
 </web-app>
