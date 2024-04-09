@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ClientDAOImpl implements ClientDAO {
-    private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class);
+    private static final Logger logger = LogManager.getLogger(ClientDAOImpl.class);
 
     private static ClientDAOImpl instance;
 
@@ -42,6 +42,7 @@ public class ClientDAOImpl implements ClientDAO {
                 statement.executeUpdate();
                 return null;
             });
+            logger.info(client.toString());
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());

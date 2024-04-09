@@ -179,16 +179,18 @@
 }
 
     window.onload = function() {
+        var res = null;
 
-    currentPage = getParameterByName('page');
-    if (currentPage === null || isNaN(currentPage)) {
-    currentPage = 1;
-} else {
-    currentPage = parseInt(currentPage);
-}
-    fetchData();
-    document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
-    document.getElementById('previousPageButton').addEventListener('click', previousPage);
+
+        currentPage = getParameterByName('page');
+        if (currentPage === null || isNaN(currentPage)) {
+            currentPage = 1;
+        } else {
+            currentPage = parseInt(currentPage);
+        }
+        fetchData();
+        document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
+        document.getElementById('previousPageButton').addEventListener('click', previousPage);
 
 };
     function getParameterByName(name, url) {

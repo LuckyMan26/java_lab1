@@ -7,7 +7,7 @@ import com.auth0.jwk.JwkProviderBuilder;
 import javax.servlet.ServletConfig;
 import java.io.UnsupportedEncodingException;
 
-class AuthenticationControllerProvider {
+public class AuthenticationControllerProvider {
 
     private AuthenticationControllerProvider() {
     }
@@ -15,7 +15,7 @@ class AuthenticationControllerProvider {
     private static AuthenticationController INSTANCE;
 
     // if multiple threads may call this, synchronize this method and consider double locking
-    static AuthenticationController getInstance(ServletConfig config) throws UnsupportedEncodingException {
+    public static AuthenticationController getInstance(ServletConfig config) throws UnsupportedEncodingException {
         if (INSTANCE == null) {
             String domain = config.getServletContext().getInitParameter("com.auth0.domain");
             String clientId = config.getServletContext().getInitParameter("com.auth0.clientId");

@@ -1,6 +1,8 @@
 package org.example;
 
 import com.auth0.AuthenticationController;
+import org.example.controllers.ClientDAOImpl;
+import org.example.models.Client;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -34,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         if ((req.getScheme().equals("http") && req.getServerPort() != 80) || (req.getScheme().equals("https") && req.getServerPort() != 443)) {
             redirectUri += ":" + req.getServerPort();
         }
-        redirectUri += "/callback";
+        redirectUri += "/custom_login";
 
         String authorizeUrl = authenticationController.buildAuthorizeUrl(req, res, redirectUri)
                 .build();
