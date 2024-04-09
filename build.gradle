@@ -1,8 +1,20 @@
 plugins {
     id 'java'
     id 'war'
+    id "org.gretty" version "3.1.1"
+
+}
+compileJava {
+    sourceCompatibility '1.8'
+    targetCompatibility '1.8'
 }
 
+gretty {
+    httpPort = 3000
+    host = '0.0.0.0'
+    contextPath = '/'
+    servletContainer 'tomcat9'
+}
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 

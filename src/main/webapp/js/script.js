@@ -77,7 +77,7 @@
             var good = goods[i];
             const div = document.createElement('div');
             div.classList.add('good');
-            console.log(good.imageData);
+
 
             div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + good.imageData + '" alt="' + good.name + '"></div>' +
                 '<div class="good-details">' +
@@ -151,7 +151,7 @@
     formData.append('file', file);
 
 
-    fetch('http://localhost:5454/AddGood', {
+    fetch('http://localhost:5454/portal/home/AddGood', {
     method: 'POST',
 
     body: formData
@@ -213,19 +213,6 @@
     window.history.replaceState({}, '', url);
 }
 
-    function previewImage(event) {
-        var imagePreview = document.getElementById('imagePreview');
-        var file = event.target.files[0];
-        var reader = new FileReader();
-        reader.onload = function() {
-            var img = document.createElement("img");
-            img.src = reader.result;
-            img.classList.add('img-fluid');
-            imagePreview.innerHTML = '';
-            imagePreview.appendChild(img);
-        }
-        reader.readAsDataURL(file);
-    }
 
     var fileInput = document.getElementById('fileUploader');
     var fileDropArea = document.getElementById('fileDropArea');
