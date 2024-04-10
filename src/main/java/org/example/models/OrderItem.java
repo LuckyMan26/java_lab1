@@ -1,42 +1,32 @@
 package org.example.models;
 
+import java.util.HashMap;
+
 public class OrderItem {
-    private final int order_itemId;
-    private final int orderId;
-    private final int goodId;
+
+    private final int order_item_id;
+    private final int product_id;
     private final int quantity;
-    private final double price;
-    public OrderItem(int order_item_id, int order_id, int good_id, int quantity, double price){
-        this.order_itemId = order_item_id;
-        this.orderId = order_id;
-        this.goodId = good_id;
+    public OrderItem(int id, int product_id, int quantity){
+
+        order_item_id = id;
+        this.product_id = product_id;
         this.quantity = quantity;
-        this.price = price;
     }
+
     public int getOrder_item_id(){
-        return order_itemId;
-    }
-    public int getOrder_id(){
-        return orderId;
-    }
-    public int getGood_id(){
-        return goodId;
+        return order_item_id;
     }
     public int getQuantity(){
         return quantity;
     }
-    public double getPrice(){
-        return price;
-    }
-
     @Override
-    public String toString() {
-        return "OrderItems{" +
-                "order_itemId=" + order_itemId +
-                ", orderId=" + orderId +
-                ", goodId=" + goodId +
-                ", quantity=" + quantity +
-                ", price=" + price +
+    public String toString(){
+        return "OrderItem{" +
+                "order_item_id=" + order_item_id +
+                ", product_id='" + product_id + '\'' +
+                ", quantity='" + quantity + '\'' +
+
                 '}';
     }
 }

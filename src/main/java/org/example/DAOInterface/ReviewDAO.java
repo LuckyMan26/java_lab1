@@ -5,8 +5,8 @@ import org.example.models.Review;
 import java.util.List;
 
 public interface ReviewDAO {
-    void addReview(Review good);
-    Review getReviewId(int id);
-    List<Review> getAllReviewsById(int id);
-    void deleteReview(int id);
+    public void addReview(Review good);
+    public Review getReviewId(int id);
+    public List<Review> getAllReviewsById(int id);
+    public void deleteReview(int id);
 }
