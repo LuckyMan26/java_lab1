@@ -28,8 +28,14 @@
 </div>
 
 
-<%@ include file="footer.jspf" %>
+<div id="successMessage" class="alert alert-success fade" role="alert">
+    Item successfully added!
+</div>
+
 <%@ include file="addItemModal.jspf" %>
+<%@ include file="product-details.jspf" %>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

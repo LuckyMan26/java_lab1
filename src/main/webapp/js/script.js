@@ -33,6 +33,7 @@
         });
     goodDetailsElement.style.display='block';
     document.getElementById("container").style.display='none';
+    window.good_id = product.good_id;
 
 
 }

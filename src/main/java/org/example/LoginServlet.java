@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         if ((req.getScheme().equals("http") && req.getServerPort() != 80) || (req.getScheme().equals("https") && req.getServerPort() != 443)) {
             redirectUri += ":" + req.getServerPort();
         }
-        redirectUri += "/custom_login";
+        redirectUri += "/callback";
 
         String authorizeUrl = authenticationController.buildAuthorizeUrl(req, res, redirectUri)
                 .build();

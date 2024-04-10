@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     position: relative; /* Add position relative for positioning the basket */
+    height: 100%;
 }
 
 .container {
@@ -189,35 +190,7 @@ h1 {
 
 
 
-.product-details {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    max-width: 600px;
-    max-height: 600px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns with equal width */
-    grid-gap: 20px; /* Gap between grid items */
 
-}
-.product-details img {
-
-    width: 100%; /* Image takes full width of its container */
-    max-height: 600px;
-    border-radius: 5px;
-
-}
-.product-details .text {
-    display: flex;
-    flex-direction: column;
-}
-.product-details h2 {
-    margin-top: 0;
-}
-.product-details p {
-    margin: 0;
-}
 header {
     background-color: #ffffff;
     color: #333333;
@@ -257,7 +230,8 @@ header {
     color: #333333;
     padding: 20px;
     text-align: center;
-    position: fixed;
+    position: relative;
+
     bottom: 0;
     left: 0;
     width: 100%;

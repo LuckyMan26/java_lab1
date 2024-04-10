@@ -2,41 +2,41 @@ package org.example.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.DAOInterface.BlackListDAO;
+import org.example.DAOInterface.ReviewDAO;
 import org.example.connections.ConenctionPool;
 import org.example.connections.TransactionWrapper;
-import org.example.models.BlackListElement;
+import org.example.models.Review;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BlackListDAOImpl implements BlackListDAO {
-    private static final Logger logger = LogManager.getLogger(BlackListDAOImpl.class);
+public class ReviewDAOImpl implements ReviewDAO {
+    private static final Logger logger = LogManager.getLogger(ReviewDAOImpl.class);
 
-    private static BlackListDAOImpl instance;
+    private static ReviewDAOImpl instance;
 
     // Private constructor to prevent instantiation from outside
-    private BlackListDAOImpl() {
+    private ReviewDAOImpl() {
     }
 
     // Static method to get the singleton instance
-    public static synchronized BlackListDAOImpl getInstance() {
+    public static synchronized ReviewDAOImpl getInstance() {
         if (instance == null) {
-            instance = new BlackListDAOImpl();
+            instance = new ReviewDAOImpl();
         }
         return instance;
     }
     @Override
-    public void addClientToBlackList(BlackListElement element) {
+    public void addReview(Review element) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO blacklist (client_id, reason) VALUES ( ?, ?,)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (client_id, text, stars) VALUES ( ?, ?,)");
                 statement.setInt(1, element.getClientid());
-                statement.setString(2, element.getReason());
-
+                statement.setString(2, element.getText());
+                statement.setInt(2, element.getStars());
                 statement.executeUpdate();
                 return null;
             });
@@ -47,23 +47,25 @@ public class BlackListDAOImpl implements BlackListDAO {
     }
 
     @Override
-    public BlackListElement getBlackListElementId(int id) {
+    public Review getReviewId(int id) {
 
-        BlackListElement g = null;
+        Review g = null;
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             g = transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM blacklist WHERE blacklist_id = ?");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE review_id = ?");
                 statement.setInt(1, id);
 
                 ResultSet resultSet = statement.executeQuery();
-                BlackListElement e = null;
+                Review e = null;
                 while (resultSet.next()) {
-                    int blacklistid = resultSet.getInt("blacklist_id");
+                    int reviewid = resultSet.getInt("blacklist_id");
                     int clientId = resultSet.getInt("client_id");
-                    String reason = resultSet.getString("reason");
+                    int goodId = resultSet.getInt("good_id");
+                    String text = resultSet.getString("text");
+                    int stars = resultSet.getInt("stars");
 
-                    e = new BlackListElement(blacklistid, clientId, reason);
+                    e = new Review(reviewid, clientId, goodId, text, stars);
                     logger.info(e.toString());
                 }
                 return e;
@@ -76,23 +78,25 @@ public class BlackListDAOImpl implements BlackListDAO {
     }
 
     @Override
-    public List<BlackListElement> getAllBlackList() {
-        List<BlackListElement> listOfElements = null;
+    public List<Review> getAllReviewsById(int id) {
+        List<Review> listOfElements = null;
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             listOfElements = transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM blacklist");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews");
 
 
                 ResultSet resultSet = statement.executeQuery();
-                BlackListElement e = null;
-                List<BlackListElement> list = null;
+                Review e = null;
+                List<Review> list = null;
                 while (resultSet.next()) {
-                    int blacklistid = resultSet.getInt("blacklit_id");
-                    int cliendid = resultSet.getInt("client_id");
-                    String reason = resultSet.getString("reason");
+                    int blacklistid = resultSet.getInt("review_id");
+                    int clientid = resultSet.getInt("client_id");
+                    int good_id = resultSet.getInt("good_id");
+                    String text = resultSet.getString("text");
+                    int stars = resultSet.getInt("stars");
 
-                    e = new BlackListElement(blacklistid, cliendid, reason);
+                    e = new Review(blacklistid, clientid,good_id, text, stars);
                     logger.info(e.toString());
                     list.add(e);
                 }
@@ -106,11 +110,11 @@ public class BlackListDAOImpl implements BlackListDAO {
     }
 
     @Override
-    public void deleteBlackListElement(int id) {
+    public void deleteReview(int id) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("DELETE  * FROM blacklist WHERE blacklist_id = ?");
+                PreparedStatement statement = connection.prepareStatement("DELETE  * FROM blacklist WHERE review_id = ?");
 
                 statement.setInt(1, id);
                 statement.executeUpdate();
