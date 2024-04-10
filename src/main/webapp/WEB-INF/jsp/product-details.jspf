@@ -20,22 +20,31 @@
                 <label for="rating">Rating:</label>
                 <select id="rating" name="rating" required>
                     <option value="">Select Rating</option>
-                    <option value="5">😍</option>
-                    <option value="4">😊</option>
-                    <option value="3">😐</option>
-                    <option value="2">😕</option>
-                    <option value="1">😞</option>
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="review">Your Review:</label>
                 <textarea id="review" name="review" required></textarea>
             </div>
-            <button type="submit">Submit Review</button>
+
         </form>
+        <button type="submit" id="submitButton" onclick="addReview()">Submit Review</button>
+    </div>
+    <div id="existingReviews">
+        <h2>Existing Reviews</h2>
+        <ul id="reviewsList"></ul>
     </div>
 </div>
 
 
 </body>
+<script>
+
+
+</script>
 <script src="${pageContext.request.contextPath}/js/product_details_script.js"></script>

@@ -5,11 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.example.DAOInterface.ReviewDAO;
 import org.example.connections.ConenctionPool;
 import org.example.connections.TransactionWrapper;
+import org.example.models.Product;
 import org.example.models.Review;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewDAOImpl implements ReviewDAO {
@@ -33,10 +35,11 @@ public class ReviewDAOImpl implements ReviewDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (client_id, text, stars) VALUES ( ?, ?,)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (client_id,good_id, text, rating) VALUES ( ?, ?,?,?)");
                 statement.setInt(1, element.getClientid());
-                statement.setString(2, element.getText());
-                statement.setInt(2, element.getStars());
+                statement.setInt(2, element.getGoodId());
+                statement.setString(3, element.getText());
+                statement.setInt(4, element.getStars());
                 statement.executeUpdate();
                 return null;
             });
@@ -63,7 +66,7 @@ public class ReviewDAOImpl implements ReviewDAO {
                     int clientId = resultSet.getInt("client_id");
                     int goodId = resultSet.getInt("good_id");
                     String text = resultSet.getString("text");
-                    int stars = resultSet.getInt("stars");
+                    int stars = resultSet.getInt("rating");
 
                     e = new Review(reviewid, clientId, goodId, text, stars);
                     logger.info(e.toString());
@@ -83,20 +86,21 @@ public class ReviewDAOImpl implements ReviewDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             listOfElements = transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews");
-
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE good_id = ?");
+                logger.info(id);
+                statement.setInt(1,id);
 
                 ResultSet resultSet = statement.executeQuery();
                 Review e = null;
-                List<Review> list = null;
+                List<Review> list = new ArrayList<Review>();
                 while (resultSet.next()) {
-                    int blacklistid = resultSet.getInt("review_id");
+                    int review_id = resultSet.getInt("review_id");
                     int clientid = resultSet.getInt("client_id");
                     int good_id = resultSet.getInt("good_id");
                     String text = resultSet.getString("text");
-                    int stars = resultSet.getInt("stars");
+                    int stars = resultSet.getInt("rating");
 
-                    e = new Review(blacklistid, clientid,good_id, text, stars);
+                    e = new Review(review_id, clientid,good_id, text, stars);
                     logger.info(e.toString());
                     list.add(e);
                 }

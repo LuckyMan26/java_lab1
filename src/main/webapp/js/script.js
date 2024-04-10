@@ -15,28 +15,7 @@
     console.log('Added ' + name + ' to cart. Price: $' + price);
 
 }
-    function displayGoodDetails(product) {
-    var goodDetailsElement = document.getElementById('goodDetails');
-    var good = {
-    name: product.name,
-    price: product.price,
-    description: product.description,
-    imageData: product.imageData
-};
-    console.log("displayGoodDetails");
-    goodDetailsElement.querySelector('img').src = "data:image/jpeg;base64, " + good.imageData;
-    goodDetailsElement.querySelector('h2').textContent = good.name;
-    goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
-    goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
-        goodDetailsElement.querySelector('button').addEventListener('click', function() {
-            addToCart(good.name, good.price);
-        });
-    goodDetailsElement.style.display='block';
-    document.getElementById("container").style.display='none';
-    window.good_id = product.good_id;
 
-
-}
     function displayBasketItems() {
     var basketItemsContainer = document.getElementById('basketItemsContainer');
     basketItemsContainer.innerHTML = ''; // Clear previous content
@@ -152,7 +131,7 @@
     formData.append('file', file);
 
 
-    fetch('http://localhost:5454/portal/home/AddGood', {
+    fetch('/AddGood', {
     method: 'POST',
 
     body: formData
@@ -178,10 +157,8 @@
     document.getElementById('addItemForm').reset();
 
 }
-
     window.onload = function() {
         var res = null;
-
 
         currentPage = getParameterByName('page');
         if (currentPage === null || isNaN(currentPage)) {
@@ -210,11 +187,7 @@
     url.searchParams.set('page', pageNumber);
     window.history.replaceState({}, '', url);
 }
-    function setCurrentGoodParam(id) {
-    var url = new URL(window.location.href);
-    url.searchParams.set('good_id', id);
-    window.history.replaceState({}, '', url);
-}
+
 
 
     var fileInput = document.getElementById('fileUploader');
