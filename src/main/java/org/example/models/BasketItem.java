@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public class BasketItem {
     private final int basketItemId;
-    private final ArrayList<OrderItem> items;
+    private final ArrayList<Integer> items;
     private final int client_id;
 
-    public BasketItem(int basketItemId,  ArrayList<OrderItem> items, int client_id){
+    public BasketItem(int basketItemId,  ArrayList<Integer> items, int client_id){
         this.basketItemId = basketItemId;
         this.items = items;
         this.client_id = client_id;
@@ -18,7 +18,7 @@ public class BasketItem {
     public int getBasketItemId(){
         return basketItemId;
     }
-    public ArrayList<OrderItem> getItems(){
+    public ArrayList<Integer> getItems(){
         return items;
     }
     public int getClient_id(){
@@ -33,7 +33,7 @@ public class BasketItem {
         res += "BasketItem{" +
                 "basketItemId=" + basketItemId;
 
-        for (OrderItem item : items){
+        for (Integer item : items){
             res += item.toString();
         }
         res+="}";

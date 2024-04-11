@@ -1,3 +1,4 @@
+/*
 package org.example.DAOInterface;
 
 import org.example.models.BasketItem;
@@ -11,3 +12,4 @@ public interface OrderItemDAO {
 
     public void deleteOrderItem(int id);
 }
+*/

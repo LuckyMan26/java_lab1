@@ -6,12 +6,13 @@ import org.example.connections.ConenctionPool;
 import org.example.DAOInterface.BasketDAO;
 import org.example.connections.TransactionWrapper;
 import org.example.models.BasketItem;
-import org.example.models.OrderItem;
+import org.example.models.Product;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BasketDAOImpl implements BasketDAO {
@@ -32,29 +33,7 @@ public class BasketDAOImpl implements BasketDAO {
         return instance;
     }
 
-    @Override
-    public void addProductToBasket(BasketItem basketItem) {
-        try {
-            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
-            transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO basket (order_items_id, client_id) VALUES ( ?, ?, ?, ?)");
-                ArrayList<OrderItem> items = basketItem.getItems();
-                Integer[] array = new Integer[items.size()];
-                int counter = 0;
-                for(OrderItem item : items){
-                    array[counter] = item.getOrder_item_id();
-                    counter+=1;
-                }
-                statement.setArray(1, connection.createArrayOf("INTEGER", array));
-                statement.setInt(2, basketItem.getClient_id());
-                statement.executeUpdate();
-                return null;
-            });
-        }
-        catch (InterruptedException | SQLException e){
-            logger.error(e.getMessage());
-        }
-    }
+
 
     @Override
     public BasketItem getBasketItemById(int id) {
@@ -70,13 +49,10 @@ public class BasketDAOImpl implements BasketDAO {
                 while (resultSet.next()) {
                     int basket_id = resultSet.getInt("basket_id");
 
-                    Integer[] integerArray = (Integer[]) resultSet.getArray("order_items_id").getArray();
-                    ArrayList<OrderItem> items = new ArrayList<OrderItem>();
+                    Integer[] integerArray = (Integer[]) resultSet.getArray("product_items_id").getArray();
 
-                    for(int i = 0; i < integerArray.length; i++){
-                        OrderItem orderItem = OrderItemImpl.getInstance().getOrderItemById(integerArray[i]);
-                        items.add(orderItem);
-                    }
+                    ArrayList<Integer> items = new ArrayList<Integer>(Arrays.asList(integerArray));
+
                     int client_id = resultSet.getInt("client_id");
                     basketItem1 = new BasketItem(basket_id,items,client_id);
                 }
@@ -103,13 +79,11 @@ public class BasketDAOImpl implements BasketDAO {
                 while (resultSet.next()) {
                     int basket_id = resultSet.getInt("basket_id");
 
-                    Integer[] integerArray = (Integer[]) resultSet.getArray("order_items_id").getArray();
-                    ArrayList<OrderItem> items = new ArrayList<OrderItem>();
+                    Integer[] integerArray = (Integer[]) resultSet.getArray("product_items_id").getArray();
 
-                    for(int i = 0; i < integerArray.length; i++){
-                        OrderItem orderItem = OrderItemImpl.getInstance().getOrderItemById(integerArray[i]);
-                        items.add(orderItem);
-                    }
+                    ArrayList<Integer> items = new ArrayList<Integer>(Arrays.asList(integerArray));
+
+
 
                     basketItem1 = new BasketItem(basket_id,items,client_id);
                 }
@@ -123,6 +97,35 @@ public class BasketDAOImpl implements BasketDAO {
 
     }
 
+    @Override
+    public void addOneProductToBasket(int product_id, int client_id){
+        try {
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            transactionWrapper.executeTransaction(connection -> {
+                Product product = ProductDAOImpl.getInstance().getGoodById(product_id);
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO basket (product_items_id, client_id) VALUES ( ?, ?,)");
+                BasketItem basketItem = BasketDAOImpl.getInstance().getBasketItemById(client_id);
+                ArrayList<Integer> items = basketItem.getItems();
+                Integer[] array = new Integer[items.size()+1];
+                int counter = 0;
+
+
+                for(Integer item : items){
+                    array[counter] =  item;
+                    counter+=1;
+                }
+                array[items.size()] = product_id;
+
+                statement.setArray(1, connection.createArrayOf("INTEGER", array));
+                statement.setInt(2, client_id);
+                statement.executeUpdate();
+                return null;
+            });
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+    }
     @Override
     public void deleteBasketItem(int id) {
         try {
