@@ -1,6 +1,6 @@
 var cartItemCount = 0;
 var cartItems = [];
-async function fetchBasket(){
+ function fetchBasket(){
     console.log("fetchBasket");
     fetch('/FetchBasket')
         .then(response =>  response.json())

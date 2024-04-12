@@ -37,10 +37,10 @@ public class BasketItem {
     public String toString() {
         String res = "";
         res += "BasketItem{" +
-                "basketItemId=" + basketItemId;
+                "basketItemId=" + basketItemId+" ";
 
         for (Long item : items){
-            res += item.toString();
+            res += item.toString() + " ";
         }
         res+="}";
         return res;

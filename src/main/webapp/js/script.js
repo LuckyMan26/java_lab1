@@ -1,6 +1,6 @@
 var currentPage = 1;
 var itemsPerPage = 15;
-window.onload = async function () {
+window.onload =  function () {
     var res = null;
 
     currentPage = getParameterByName('page');
@@ -9,8 +9,8 @@ window.onload = async function () {
     } else {
         currentPage = parseInt(currentPage);
     }
-    await fetchBasket();
-    await fetchData();
+     fetchBasket();
+     fetchData();
 
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
@@ -89,7 +89,7 @@ window.onload = async function () {
 }
 }
 
-    async function fetchData() {
+     function fetchData() {
     fetch('/GoodServlet')
         .then(response =>  response.json())
         .then(data => {

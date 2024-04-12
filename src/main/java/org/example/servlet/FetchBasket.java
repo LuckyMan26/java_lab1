@@ -28,18 +28,18 @@ public class FetchBasket extends HttpServlet {
         Long client_id = 16L;
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
-            logger.info("AAAAAAAAAA");
+
             Gson gson = new Gson();
             BasketItem basketItem =  BasketDAOImpl.getInstance().getBasketItemByClientId(client_id);
-            logger.info("dsafadsfsa");
+
             logger.info(basketItem);
-            logger.info(basketItem.toString());
+            //logger.info(basketItem.toString());
             ArrayList<Long> products = basketItem.getItems();
             ArrayList<Product> prouducts_in_basket = new ArrayList<>();
             for(Long index : products){
                 prouducts_in_basket.add(ProductDAOImpl.getInstance().getGoodById(index));
            }
-            //logger.info(prouducts_in_basket.size());
+            logger.info("product size: " + prouducts_in_basket.size());
 
             JsonElement element = gson.toJsonTree(prouducts_in_basket);
             writer.write(element.toString());

@@ -91,12 +91,13 @@ public class BasketDAOImpl implements BasketDAO {
     @Override
     public BasketItem getBasketItemByClientId(Long client_id) {
         BasketItem basketItem = null;
+        logger.info("getBasketItemByClientId");
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             basketItem = transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM Basket WHERE client_id = ?");
                 statement.setLong(1, client_id);
-
+                logger.info("set long");
                 ResultSet resultSet = statement.executeQuery();
                 BasketItem basketItem1 = null;
                 logger.info("basketItem1");
@@ -128,7 +129,7 @@ public class BasketDAOImpl implements BasketDAO {
             transactionWrapper.executeTransaction(connection -> {
                 Product product = ProductDAOImpl.getInstance().getGoodById(product_id);
                 logger.info("HERE");
-                BasketItem basketItem1 = null;
+                BasketItem basketItem1 = getBasketItemByClientId(client_id);
                 PreparedStatement statement = null;
                 logger.info(basketItem1);
                 if(basketItem1 == null){
@@ -140,8 +141,8 @@ public class BasketDAOImpl implements BasketDAO {
                 }
                 else {
                     statement = connection.prepareStatement("UPDATE Basket SET product_items_id = ? WHERE client_id = ?");
-                    BasketItem basketItem = BasketDAOImpl.getInstance().getBasketItemById(client_id);
-                    ArrayList<Long> items = basketItem.getItems();
+                    logger.info(basketItem1.toString());
+                    ArrayList<Long> items = basketItem1.getItems();
                     Long[] array = new Long[items.size() + 1];
                     int counter = 0;
 
