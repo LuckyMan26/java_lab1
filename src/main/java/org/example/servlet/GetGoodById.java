@@ -25,7 +25,7 @@ public class GetGoodById extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(request.getReader());
 
-        int id = jsonNode.get("good_id").asInt();
+        Long id = jsonNode.get("good_id").asLong();
         Product product = ProductDAOImpl.getInstance().getGoodById(id);
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();

@@ -60,7 +60,7 @@ public class AddGoodServlet extends HttpServlet {
         Part filePart = request.getPart("file");
         String fileName = filePart.getSubmittedFileName();
         String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(filePart));
-        ProductDAOImpl.getInstance().addGood(new Product(1,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), base64String));
+        ProductDAOImpl.getInstance().addGood(new Product(1L,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), base64String));
         logger.info("Success");
 
     }

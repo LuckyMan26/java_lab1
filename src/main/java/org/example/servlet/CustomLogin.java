@@ -55,24 +55,6 @@ public class CustomLogin extends HttpServlet {
         logger.info("do Post");
 
 
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String token = request.getParameter("token");
-        Client client = new Client(1,name,email,address);
-        logger.info(name);
-        ClientDAOImpl.getInstance().addClient(client);
-        Tokens tokens = null;
-
-        try {
-            tokens = authenticationController.handle(request, response);
-            SessionUtils.set(request, "accessToken", tokens.getAccessToken());
-            SessionUtils.set(request, "idToken", tokens.getIdToken());
-        } catch (IdentityVerificationException e) {
-            throw new RuntimeException(e);
-        }
-
-        response.sendRedirect("/portal/home");
 
 
 

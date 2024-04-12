@@ -49,6 +49,6 @@ public class AddReview extends HttpServlet {
         logger.info(text);
         logger.info(good_id);
         logger.info(client_id);
-        ReviewDAOImpl.getInstance().addReview(new Review(1, Integer.parseInt(client_id), Integer.parseInt(good_id), text, Integer.parseInt(rating)));
+        ReviewDAOImpl.getInstance().addReview(new Review(1L, Long.parseLong(client_id), Long.parseLong(good_id), text, Integer.parseInt(rating)));
     }
 }

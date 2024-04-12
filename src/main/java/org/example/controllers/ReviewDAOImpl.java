@@ -36,8 +36,8 @@ public class ReviewDAOImpl implements ReviewDAO {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (client_id,good_id, text, rating) VALUES ( ?, ?,?,?)");
-                statement.setInt(1, element.getClientid());
-                statement.setInt(2, element.getGoodId());
+                statement.setLong(1, element.getClientid());
+                statement.setLong(2, element.getGoodId());
                 statement.setString(3, element.getText());
                 statement.setInt(4, element.getStars());
                 statement.executeUpdate();
@@ -62,9 +62,9 @@ public class ReviewDAOImpl implements ReviewDAO {
                 ResultSet resultSet = statement.executeQuery();
                 Review e = null;
                 while (resultSet.next()) {
-                    int reviewid = resultSet.getInt("blacklist_id");
-                    int clientId = resultSet.getInt("client_id");
-                    int goodId = resultSet.getInt("good_id");
+                    Long reviewid = resultSet.getLong("blacklist_id");
+                    Long clientId = resultSet.getLong("client_id");
+                    Long goodId = resultSet.getLong("good_id");
                     String text = resultSet.getString("text");
                     int stars = resultSet.getInt("rating");
 
@@ -94,9 +94,9 @@ public class ReviewDAOImpl implements ReviewDAO {
                 Review e = null;
                 List<Review> list = new ArrayList<Review>();
                 while (resultSet.next()) {
-                    int review_id = resultSet.getInt("review_id");
-                    int clientid = resultSet.getInt("client_id");
-                    int good_id = resultSet.getInt("good_id");
+                    Long review_id = resultSet.getLong("review_id");
+                    Long clientid = resultSet.getLong("client_id");
+                    Long good_id = resultSet.getLong("good_id");
                     String text = resultSet.getString("text");
                     int stars = resultSet.getInt("rating");
 

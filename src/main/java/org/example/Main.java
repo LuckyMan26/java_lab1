@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, InterruptedException, IOException {
         Logger logger = LogManager.getLogger(Main.class);
 
-
+/*
         Client client = new Client(1,"Artem","volikartem6@gmail.com","Kiev");
         TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
         transactionWrapper.executeTransaction(connection -> {
@@ -32,6 +32,6 @@ public class Main {
             statement.executeUpdate();
 
             return null;
-        });
+        });*/
     }
 }

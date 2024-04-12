@@ -1,48 +1,32 @@
+var currentPage = 1;
+var itemsPerPage = 15;
+window.onload = async function () {
+    var res = null;
+
+    currentPage = getParameterByName('page');
+    if (currentPage === null || isNaN(currentPage)) {
+        currentPage = 1;
+    } else {
+        currentPage = parseInt(currentPage);
+    }
+    await fetchBasket();
+    await fetchData();
+
+    document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
+    document.getElementById('previousPageButton').addEventListener('click', previousPage);
+
+};
 
 
-    var cartItemCount = 0;
+    // Array to store added goods
 
-    var currentPage = 1;
-    var itemsPerPage = 15;
-    var cartItemCount = 0;
-    var cartItems = []; // Array to store added goods
 
-    // Function to add item to the cart
-    function addToCart(name, price) {
-    cartItemCount++;
-    cartItems.push({ name: name, price: price }); // Store added goods
-    document.getElementById('cartItemCount').textContent = cartItemCount;
-    console.log('Added ' + name + ' to cart. Price: $' + price);
-
-}
-
-    function displayBasketItems() {
-    var basketItemsContainer = document.getElementById('basketItemsContainer');
-    basketItemsContainer.innerHTML = ''; // Clear previous content
-
-    if (cartItems.length === 0) {
-    basketItemsContainer.textContent = 'No items added';
-} else {
-    cartItems.forEach(function(item) {
-    var itemElement = document.createElement('div');
-    itemElement.textContent = item.name + ' - $' + item.price;
-    basketItemsContainer.appendChild(itemElement);
-});
-}
-
-    basketItemsContainer.classList.add('show'); // Show the container
-
-    // Add event listener to hide basket items list when mouse moves away from both basket icon and basket items list
-    basketItemsContainer.addEventListener('mouseleave', hideBasketItems);
-}
-
-    // Function to hide the basket items list
     function hideBasketItems() {
     var basketItemsContainer = document.getElementById('basketItemsContainer');
     basketItemsContainer.classList.remove('show'); // Hide the container
 }
 
-    function displayGoods(goods) {
+    function displayGoods(products) {
         var goodsGridElement = document.getElementById('goodsGrid');
 
         // Clear existing content
@@ -53,30 +37,30 @@
         var endIndex = currentPage * itemsPerPage;
 
         // Loop through the list of goods and create div containers
-        for (var i = startIndex; i < Math.min(endIndex, goods.length); i++) {
-            var good = goods[i];
+        for (var i = startIndex; i < Math.min(endIndex, products.length); i++) {
+            var product = products[i];
             const div = document.createElement('div');
             div.classList.add('good');
 
 
-            div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + good.imageData + '" alt="' + good.name + '"></div>' +
+            div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + product.imageData + '" alt="' + product.name + '"></div>' +
                 '<div class="good-details">' +
-                '<div class="good-name">' + good.name + '</div>' +
-                '<div class="good-price">$' + good.price + '</div>' +
+                '<div class="good-name">' + product.name + '</div>' +
+                '<div class="good-price">$' + product.price + '</div>' +
                 '</div>';
-            (function (good) {
+            (function (product) {
                 // Add event listener to call "foo" method when div is clicked and pass the good object
                 div.addEventListener('click', function () {
                     console.log('here');
-                    displayGoodDetails(good);
+                    displayProductDetails(product);
                 });
-            })(good);
+            })(product);
             goodsGridElement.appendChild(div);
         }
 
         // Show or hide the load more button based on pagination
         var loadMoreButton = document.getElementById('loadMoreButton');
-        if (endIndex < goods.length) {
+        if (endIndex < products.length) {
             loadMoreButton.style.display = 'block';
         } else {
             loadMoreButton.style.display = 'none';
@@ -105,7 +89,7 @@
 }
 }
 
-    function fetchData() {
+    async function fetchData() {
     fetch('/GoodServlet')
         .then(response =>  response.json())
         .then(data => {
@@ -157,20 +141,7 @@
     document.getElementById('addItemForm').reset();
 
 }
-    window.onload = function() {
-        var res = null;
 
-        currentPage = getParameterByName('page');
-        if (currentPage === null || isNaN(currentPage)) {
-            currentPage = 1;
-        } else {
-            currentPage = parseInt(currentPage);
-        }
-        fetchData();
-        document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
-        document.getElementById('previousPageButton').addEventListener('click', previousPage);
-
-};
     function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");

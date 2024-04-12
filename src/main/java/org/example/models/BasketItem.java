@@ -4,24 +4,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BasketItem {
-    private final int basketItemId;
-    private final ArrayList<Integer> items;
-    private final int client_id;
+    private Long basketItemId;
+    private final ArrayList<Long> items;
+    private final Long client_id;
 
-    public BasketItem(int basketItemId,  ArrayList<Integer> items, int client_id){
+    public BasketItem(Long basketItemId,  ArrayList<Long> items, Long client_id){
         this.basketItemId = basketItemId;
+        this.items = items;
+        this.client_id = client_id;
+
+    }
+    public BasketItem(ArrayList<Long> items, Long client_id){
+
         this.items = items;
         this.client_id = client_id;
 
 
     }
-    public int getBasketItemId(){
+    public Long getBasketItemId(){
         return basketItemId;
     }
-    public ArrayList<Integer> getItems(){
+    public ArrayList<Long> getItems(){
         return items;
     }
-    public int getClient_id(){
+    public Long getClient_id(){
         return client_id;
     }
 
@@ -33,7 +39,7 @@ public class BasketItem {
         res += "BasketItem{" +
                 "basketItemId=" + basketItemId;
 
-        for (Integer item : items){
+        for (Long item : items){
             res += item.toString();
         }
         res+="}";

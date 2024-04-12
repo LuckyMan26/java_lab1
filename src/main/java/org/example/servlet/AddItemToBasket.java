@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.controllers.BasketDAOImpl;
 import org.example.controllers.ReviewDAOImpl;
 import org.example.models.Review;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,7 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "AddItemToBasket", urlPatterns = {"/AddItemToBasket"})
 @MultipartConfig(
@@ -35,10 +39,16 @@ public class AddItemToBasket extends HttpServlet {
             throws ServletException, IOException {
         logger.info("doPost");
 
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = reader.lines().collect(Collectors.joining());
+        reader.close();
 
-        String product_id = request.getParameter("product_id");
-        String client_id = request.getParameter("client_id");
+        // Parse JSON data
+        JSONObject jsonObject = new JSONObject(json);
 
-        BasketDAOImpl.getInstance().addOneProductToBasket(Integer.parseInt(product_id),Integer.parseInt(client_id));
+        Long product_id = jsonObject.getLong("product_id");
+        Long client_id = jsonObject.getLong("client_id");
+        logger.info(Long.toString(product_id), Long.toString(client_id));
+        BasketDAOImpl.getInstance().addOneProductToBasket((product_id), (client_id));
     }
 }

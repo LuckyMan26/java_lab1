@@ -1,17 +1,17 @@
 package org.example.models;
 
 public class Client {
-    private final int cliendId;
+    private final Long cliendId;
     private final String name;
     private final String email;
     private final String address;
-    public Client(int cliendId, String name, String email, String address){
+    public Client(Long cliendId, String name, String email, String address){
         this.cliendId = cliendId;
         this.name = name;
         this.email = email;
         this.address = address;
     }
-    public int getCliendId(){
+    public Long getCliendId(){
         return cliendId;
     }
     public String getName(){

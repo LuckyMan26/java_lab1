@@ -6,10 +6,11 @@ import java.util.List;
 
 public interface BasketDAO {
 
-    BasketItem getBasketItemById(int id);
-    BasketItem getBasketItemByClientId(int id);
+    BasketItem getBasketItemById(Long id);
+    BasketItem getBasketItemByClientId(Long id);
 
-    void addOneProductToBasket(int product_id, int client_i);
+    void addOneProductToBasket(Long product_id, Long client_i);
 
     void deleteBasketItem(int id);
+    public void addProductToBasket(BasketItem basketItem);
 }

@@ -61,7 +61,7 @@ public class ClientDAOImpl implements ClientDAO {
                 ResultSet resultSet = statement.executeQuery();
                 Client client = null;
                 while (resultSet.next()) {
-                    int client_id = resultSet.getInt("client_id");
+                    Long client_id = resultSet.getLong("client_id");
                     String name = resultSet.getString("name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");
@@ -90,7 +90,7 @@ public class ClientDAOImpl implements ClientDAO {
                 Client client = null;
                 List<Client> list = null;
                 while (resultSet.next()) {
-                    int client_id = resultSet.getInt("client_id");
+                    Long client_id = resultSet.getLong("client_id");
                     String name = resultSet.getString("name");
                     String email = resultSet.getString("email");
                     String address = resultSet.getString("address");

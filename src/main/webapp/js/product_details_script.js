@@ -4,7 +4,7 @@ function setCurrentGoodParam(id) {
     url.searchParams.set('good_id', id);
     window.history.replaceState({}, '', url);
 }
-async function displayGoodDetails(product) {
+async function displayProductDetails(product) {
 
 
     var goodDetailsElement = document.getElementById('goodDetails');
@@ -20,14 +20,14 @@ async function displayGoodDetails(product) {
     goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
     goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
     goodDetailsElement.querySelector('button').addEventListener('click', function () {
-        addToCart(good.name, good.price);
+        addToCart(product);
     });
-    setCurrentGoodParam(product.good_id);
+    setCurrentGoodParam(product.product_id);
     goodDetailsElement.style.display = 'block';
     document.getElementById("container").style.display = 'none';
-    window.good_id = product.good_id;
-    console.log(window.good_id);
-    const good_id = window.good_id;
+    window.product_id = product.product_id;
+    console.log(window.product_id);
+    const good_id = window.product_id;
     await sendGoodId(good_id);
 
 }
@@ -87,7 +87,7 @@ function addReview(){
     formData.append('text', text);
     formData.append('rating', parseFloat(rating));
     formData.append('client_id', 16);
-    formData.append('good_id', window.good_id);
+    formData.append('good_id', window.product_id);
 
 
     fetch('/AddReview', {

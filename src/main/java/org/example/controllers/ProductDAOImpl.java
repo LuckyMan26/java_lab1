@@ -57,18 +57,18 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public Product getGoodById(int id) {
+    public Product getGoodById(Long id) {
         Product g = null;
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             g = transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE goods_id = ?");
-                statement.setInt(1, id);
+                statement.setLong(1, id);
 
                 ResultSet resultSet = statement.executeQuery();
                 Product product = null;
                 while (resultSet.next()) {
-                    int good_id = resultSet.getInt("goods_id");
+                    Long good_id = resultSet.getLong("goods_id");
                     String name = resultSet.getString("name");
                     String description = resultSet.getString("description");
                     double price = resultSet.getDouble("price");
@@ -100,7 +100,7 @@ public class ProductDAOImpl implements ProductDAO {
                 Product product = null;
                 List<Product> list =  new ArrayList<Product>();
                 while (resultSet.next()) {
-                    int good_id = resultSet.getInt("goods_id");
+                    Long good_id = resultSet.getLong("goods_id");
                     String name = resultSet.getString("name");
                     String description = resultSet.getString("description");
                     double price = resultSet.getDouble("price");
@@ -125,13 +125,13 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public void deleteGood(int id) {
+    public void deleteGood(Long id) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
            transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("DELETE  * FROM products WHERE goods_id = ?");
 
-                statement.setInt(1, id);
+                statement.setLong(1, id);
                 statement.executeUpdate();
 
                 return null;
