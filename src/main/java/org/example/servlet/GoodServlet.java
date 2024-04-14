@@ -32,6 +32,7 @@ public class GoodServlet extends HttpServlet {
             JsonElement element = gson.toJsonTree(listOfProducts);
             writer.write(element.toString());
         }
+        logger.info("success");
     }
 
     @Override

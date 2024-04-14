@@ -50,5 +50,6 @@ public class AddItemToBasket extends HttpServlet {
         Long client_id = jsonObject.getLong("client_id");
         logger.info(Long.toString(product_id), Long.toString(client_id));
         BasketDAOImpl.getInstance().addOneProductToBasket((product_id), (client_id));
+        logger.info("success");
     }
 }

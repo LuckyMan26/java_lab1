@@ -1,34 +1,46 @@
 package org.example.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
-    private final int orderId;
-    private final int clientId;
+    private final Long orderId;
+    private final Long clientId;
+    private final ArrayList<Long> products;
     private final Date order_date;
-    private final int total_amount;
-    private final String status;
-    public Order(int orderId, int clientId, Date order_date, int total_amount, String status){
+
+    private final Status status;
+    public Order(Long orderId, Long clientId, Date order_date,  Status status,ArrayList<Long> products ){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
-        this.total_amount = total_amount;
+
         this.status = status;
+        this.products = products;
     }
-    public int getOrderId(){
+    public Order(Long orderId, Long clientId, Date order_date, ArrayList<Long> products){
+        this.orderId = orderId;
+        this.clientId = clientId;
+        this.order_date = order_date;
+
+        this.status = Status.Pending;
+        this.products = products;
+    }
+    public Long getOrderId(){
         return orderId;
     }
-    public int getClientId(){
+    public Long getClientId(){
         return clientId;
     }
     public Date getOrder_date(){
         return order_date;
     }
-    public int getTotal_amount(){
-        return total_amount;
-    }
-    public String getStatus(){
+
+    public Status getStatus(){
         return status;
+    }
+    public ArrayList<Long> getProducts(){
+        return products;
     }
     @Override
     public String toString() {
@@ -36,7 +48,7 @@ public class Order {
                 "order_id=" + orderId +
                 ", clientId='" + clientId + '\'' +
                 ", order_date='" + order_date + '\'' +
-                ", total_amount=" + total_amount +
+
                 ", status=" + status +
                 '}';
     }

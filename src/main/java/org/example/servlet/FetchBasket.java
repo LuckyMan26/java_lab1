@@ -35,13 +35,18 @@ public class FetchBasket extends HttpServlet {
             logger.info(basketItem);
             //logger.info(basketItem.toString());
             ArrayList<Long> products = basketItem.getItems();
+            logger.info(products.size());
             ArrayList<Product> prouducts_in_basket = new ArrayList<>();
-            for(Long index : products){
+            /*for(Long index : products){
+                logger.info("index: " + index);
                 prouducts_in_basket.add(ProductDAOImpl.getInstance().getGoodById(index));
            }
             logger.info("product size: " + prouducts_in_basket.size());
-
-            JsonElement element = gson.toJsonTree(prouducts_in_basket);
+*/
+            Integer[] arr = new Integer[2];
+            arr[0] = 0;
+            arr[1] = 1;
+            JsonElement element = gson.toJsonTree(arr);
             writer.write(element.toString());
         }
         logger.info("success");

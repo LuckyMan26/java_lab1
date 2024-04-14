@@ -13,6 +13,7 @@ var cartItems = [];
         .catch(error => console.error('Error:', error));
     console.log("fetch basket finished");
     console.log(cartItemCount);
+    alert("fetchBasket");
 
 }
 
@@ -36,7 +37,7 @@ function addToCart(product) {
                 throw new Error('Network response was not ok');
             }
         });
-
+   alert("add to cart");
 }
 
 function displayBasketItems() {

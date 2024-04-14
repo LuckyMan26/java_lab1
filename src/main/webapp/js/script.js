@@ -1,6 +1,6 @@
 var currentPage = 1;
 var itemsPerPage = 15;
-window.onload =  function () {
+window.onload =  async function () {
     var res = null;
 
     currentPage = getParameterByName('page');
@@ -9,8 +9,8 @@ window.onload =  function () {
     } else {
         currentPage = parseInt(currentPage);
     }
-     fetchBasket();
-     fetchData();
+    //await fetchBasket();
+    await fetchData();
 
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
     document.getElementById('previousPageButton').addEventListener('click', previousPage);

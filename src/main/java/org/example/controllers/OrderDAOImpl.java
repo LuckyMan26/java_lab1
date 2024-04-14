@@ -6,11 +6,14 @@ import org.example.connections.ConenctionPool;
 import org.example.DAOInterface.OrderDAO;
 import org.example.connections.TransactionWrapper;
 import org.example.models.Order;
+import org.example.models.Status;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
@@ -35,11 +38,19 @@ public class OrderDAOImpl implements OrderDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, total_amount, status) VALUES ( ?, ?, ?, ?, ?)");
-                statement.setInt(1, order.getClientId());
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, product_ids) VALUES ( ?, ?, ?, ?, ?)");
+                statement.setLong(1, order.getClientId());
                 statement.setDate(2, (Date) order.getOrder_date());
-                statement.setInt(3, order.getTotal_amount());
-                statement.setString(4, order.getStatus());
+
+                statement.setString(3, order.getStatus().toString());
+                ArrayList<Long> items = order.getProducts();
+                Long[] array = new Long[items.size()];
+                int counter = 0;
+                for(Long item : items){
+                    array[counter] = item;
+                    counter+=1;
+                }
+                statement.setArray(4, connection.createArrayOf("INTEGER", array));
                 statement.executeUpdate();
                 return null;
             });
@@ -61,12 +72,15 @@ public class OrderDAOImpl implements OrderDAO {
                 ResultSet resultSet = statement.executeQuery();
                 Order order = null;
                 while (resultSet.next()) {
-                    int order_id = resultSet.getInt("order_id");
-                    int client_id = resultSet.getInt("client_id");
+                    Long order_id = resultSet.getLong("order_id");
+                    Long client_id = resultSet.getLong("client_id");
                     Date order_date = resultSet.getDate("order_date");
-                    int total_amount = resultSet.getInt("total_amount");
-                    String status = resultSet.getString("status");
-                    order = new Order(order_id, client_id, order_date, total_amount, status);
+                    Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
+
+                    ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
+                    Status status = Status.valueOf(resultSet.getString("status"));
+
+                    order = new Order(order_id, client_id, order_date, status, product_id);
                     logger.info(order.toString());
                 }
                 return order;
@@ -92,12 +106,14 @@ public class OrderDAOImpl implements OrderDAO {
                 Order order = null;
                 List<Order> list = null;
                 while (resultSet.next()) {
-                    int order_id = resultSet.getInt("order_id");
-                    int client_id = resultSet.getInt("client_id");
+                    Long order_id = resultSet.getLong("order_id");
+                    Long client_id = resultSet.getLong("client_id");
                     Date order_date = resultSet.getDate("order_date");
-                    int total_amount = resultSet.getInt("total_amount");
+                    Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
+
+                    ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
                     String status = resultSet.getString("status");
-                    order = new Order(order_id, client_id, order_date, total_amount, status);
+                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id);
                     logger.info(order.toString());
                     list.add(order);
                 }
