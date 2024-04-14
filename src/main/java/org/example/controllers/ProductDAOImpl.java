@@ -125,6 +125,44 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public void decreaseQuantity(Long product_id, int num){
+
+        logger.info("Decreasing number of: " + product_id + " "+ num);
+        try {
+            logger.info("Here");
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            transactionWrapper.executeTransaction(connection -> {
+
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE goods_id = ?");
+                statement.setLong(1, product_id);
+
+                ResultSet resultSet = statement.executeQuery();
+                Product product = null;
+                List<Product> list =  new ArrayList<Product>();
+                while (resultSet.next()) {
+
+                    int quantity = resultSet.getInt("quantity_available");
+
+                    if(quantity < num){
+                        throw new RuntimeException("quantity < num" + quantity + "<"+num);
+                    }
+                    else {
+                        PreparedStatement statement1 = connection.prepareStatement("UPDATE products SET quantity_available = ? WHERE product id ?");
+                        statement1.setInt(1,quantity-num);
+                        statement1.setLong(2,product_id);
+                        statement1.executeUpdate();
+                    }
+                }
+                statement.executeUpdate();
+
+                return null;
+            });
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+    }
+    @Override
     public void deleteGood(Long id) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());

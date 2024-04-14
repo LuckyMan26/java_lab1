@@ -139,7 +139,7 @@ public class OrderDAOImpl implements OrderDAO {
                 List<Order> list = null;
                 while (resultSet.next()) {
                     Long order_id = resultSet.getLong("order_id");
-                    Long client_id = resultSet.getLong("client_id");
+
                     Date order_date = resultSet.getDate("order_date");
                     Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
 

@@ -9,5 +9,6 @@ public interface ProductDAO {
     public Product getGoodById(Long id);
     public List<Product> getAllGoods();
     public void deleteGood(Long id);
-
+    public void decreaseQuantity(Long product_id, int num);
 }
+
