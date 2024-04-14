@@ -38,9 +38,9 @@ public class OrderDAOImpl implements OrderDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, product_ids) VALUES ( ?, ?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids) VALUES ( ?, ?, ?, ?)");
                 statement.setLong(1, order.getClientId());
-                statement.setDate(2, (Date) order.getOrder_date());
+                statement.setDate(2, new java.sql.Date(order.getOrder_date().getTime()));
 
                 statement.setString(3, order.getStatus().toString());
                 ArrayList<Long> items = order.getProducts();
@@ -50,8 +50,10 @@ public class OrderDAOImpl implements OrderDAO {
                     array[counter] = item;
                     counter+=1;
                 }
+                logger.info("addOrder");
                 statement.setArray(4, connection.createArrayOf("INTEGER", array));
                 statement.executeUpdate();
+
                 return null;
             });
         }

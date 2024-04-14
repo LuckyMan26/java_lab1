@@ -34,7 +34,7 @@
 <%@ include file="itemsInCart.jspf" %>
 <%@ include file="addItemModal.jspf" %>
 <%@ include file="product-details.jspf" %>
-
+<%@ include file="footer.jspf" %>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
