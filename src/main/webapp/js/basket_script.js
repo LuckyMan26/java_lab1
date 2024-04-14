@@ -5,6 +5,7 @@ var cartItems = [];
     fetch('/FetchBasket')
         .then(response =>  response.json())
         .then(data => {
+
             cartItems = data;
             cartItemCount = data.length;
             console.log(data.length);
@@ -13,7 +14,7 @@ var cartItems = [];
         .catch(error => console.error('Error:', error));
     console.log("fetch basket finished");
     console.log(cartItemCount);
-    alert("fetchBasket");
+
 
 }
 

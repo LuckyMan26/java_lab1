@@ -8,6 +8,8 @@ async function displayProductDetails(product) {
 
 
     var goodDetailsElement = document.getElementById('goodDetails');
+    var wrapper = document.getElementById("product-details");
+    wrapper.style.display='block';
     var good = {
         name: product.name,
         price: product.price,
@@ -24,7 +26,7 @@ async function displayProductDetails(product) {
     });
     setCurrentGoodParam(product.product_id);
     goodDetailsElement.style.display = 'block';
-    document.getElementById("container").style.display = 'none';
+    document.getElementById("home").style.display = 'none';
     window.product_id = product.product_id;
     console.log(window.product_id);
     const good_id = window.product_id;

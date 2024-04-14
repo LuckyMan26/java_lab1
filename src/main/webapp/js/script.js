@@ -9,7 +9,7 @@ window.onload =  async function () {
     } else {
         currentPage = parseInt(currentPage);
     }
-    //await fetchBasket();
+    await fetchBasket();
     await fetchData();
 
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
@@ -18,7 +18,7 @@ window.onload =  async function () {
 };
 
 
-    // Array to store added goods
+
 
 
     function hideBasketItems() {

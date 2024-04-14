@@ -2,9 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <meta charset="UTF-8">
-
 <body>
-<div class="product-details" id="goodDetails" style="display: none">
+<div style="display: none" id="product-details">
+<div class="product-details" id="goodDetails" >
     <img src="" alt="No image">
     <div class="text">
         <h2></h2>
@@ -42,6 +42,7 @@
 </div>
 
 
+</div>
 </body>
 <script>
 </script>

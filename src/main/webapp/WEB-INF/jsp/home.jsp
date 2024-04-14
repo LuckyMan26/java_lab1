@@ -16,8 +16,8 @@
 <%@ include file="header.jspf" %>
 
 
-<div class="main-content">
-<div class="container" id="container">
+<div class="main-content" >
+<div class="container" id="home">
     <h1>List of Goods</h1>
     <div class="goods-grid" id="goodsGrid"></div>
     <div class="pagination-container mt-3">
@@ -31,7 +31,7 @@
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>
-
+<%@ include file="itemsInCart.jspf" %>
 <%@ include file="addItemModal.jspf" %>
 <%@ include file="product-details.jspf" %>
 
