@@ -5,8 +5,10 @@ import org.example.models.Order;
 import java.util.List;
 
 public interface OrderDAO {
-    void addOrder(Order order);
-    Order getOrderById(int id);
-    List<Order> getAllOrders();
-    void deleteOrder(int id);
+    public void addOrder(Order order);
+    public Order getOrderById(int id);
+    public List<Order> getAllOrders();
+    public void deleteOrder(int id);
+    public List<Order> getAllOrdersByClient(Long client_id);
+
 }

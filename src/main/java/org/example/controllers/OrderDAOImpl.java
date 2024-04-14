@@ -125,6 +125,38 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return listOfOrders;
     }
+    @Override
+    public List<Order> getAllOrdersByClient(Long client_id) {
+        List<Order> listOfOrders = null;
+        try {
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            listOfOrders = transactionWrapper.executeTransaction(connection -> {
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE client_id = ?");
+
+                statement.setLong(1,client_id);
+                ResultSet resultSet = statement.executeQuery();
+                Order order = null;
+                List<Order> list = null;
+                while (resultSet.next()) {
+                    Long order_id = resultSet.getLong("order_id");
+                    Long client_id = resultSet.getLong("client_id");
+                    Date order_date = resultSet.getDate("order_date");
+                    Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
+
+                    ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
+                    String status = resultSet.getString("status");
+                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id);
+                    logger.info(order.toString());
+                    list.add(order);
+                }
+                return list;
+            });
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+        return listOfOrders;
+    }
 
     @Override
     public void deleteOrder(int id) {
