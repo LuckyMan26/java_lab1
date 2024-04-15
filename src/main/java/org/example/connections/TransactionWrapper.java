@@ -17,7 +17,9 @@ public class TransactionWrapper implements Closeable {
     private final ConenctionPool pool;
     public TransactionWrapper(ConenctionPool pool) throws SQLException, InterruptedException {
         this.pool = pool;
+        logger.info("get connection");
         this.connection = this.pool.getConnection();
+        logger.info("get connection");
         try {
             beginTransactionStatement = connection.prepareStatement("BEGIN");
             commitTransactionStatement = connection.prepareStatement("COMMIT");

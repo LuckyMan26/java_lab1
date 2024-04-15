@@ -9,10 +9,11 @@ function showOrdersHistory() {
             console.log(data);
         })
         .catch(error => console.error('Error:', error));
+    console.log("showOrdersHistory");
 }
 
 function displayOrderHistoryOfUser(orders){
-    console.log("displayOrderHistory");
+    console.log("displayOrderHistoryOfUser");
     const historyContainer = document.getElementById('history-of-orders-container');
     historyContainer.innerHTML = '';
 

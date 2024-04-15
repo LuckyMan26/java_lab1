@@ -50,6 +50,7 @@ public class ProductDAOImpl implements ProductDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
         logger.error(e.getMessage());
@@ -59,27 +60,37 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public Product getGoodById(Long id) {
         Product g = null;
+        logger.info(id);
         try {
+            logger.info(id);
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            logger.info(id);
             g = transactionWrapper.executeTransaction(connection -> {
+                logger.info(id);
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE goods_id = ?");
                 statement.setLong(1, id);
-
+                logger.info("id " +  id);
                 ResultSet resultSet = statement.executeQuery();
                 Product product = null;
+                logger.info("product");
                 while (resultSet.next()) {
+
                     Long good_id = resultSet.getLong("goods_id");
                     String name = resultSet.getString("name");
+
                     String description = resultSet.getString("description");
+
                     double price = resultSet.getDouble("price");
+
                     int quantity = resultSet.getInt("quantity_available");
                     byte[] imageData = resultSet.getBytes("image");
                     String base64String = Base64.getEncoder().encodeToString(imageData);
                     product = new Product(good_id, name, description, price, quantity, base64String);
-                   logger.info(product.toString());
+                    logger.info(product.toString());
                 }
                 return product;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -115,6 +126,7 @@ public class ProductDAOImpl implements ProductDAO {
                 logger.info("list size:" + String.valueOf(list.size()));
                 return list;
             });
+            transactionWrapper.close();
             logger.info(listOfProducts.size());
         }
         catch (InterruptedException | SQLException e){
@@ -157,6 +169,7 @@ public class ProductDAOImpl implements ProductDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -174,6 +187,7 @@ public class ProductDAOImpl implements ProductDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());

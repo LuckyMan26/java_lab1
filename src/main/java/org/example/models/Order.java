@@ -35,6 +35,7 @@ public class Order {
         this.products = products;
         double res = 0;
         for(Long product : products){
+
             res += ProductDAOImpl.getInstance().getGoodById(product).getPrice();
         }
         this.total_price = res;

@@ -115,10 +115,12 @@ public class BasketDAOImpl implements BasketDAO {
                 }
                 return basketItem1;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
         }
+
         return basketItem;
 
     }
@@ -161,6 +163,7 @@ public class BasketDAOImpl implements BasketDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -178,6 +181,7 @@ public class BasketDAOImpl implements BasketDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -224,6 +228,7 @@ public class BasketDAOImpl implements BasketDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());

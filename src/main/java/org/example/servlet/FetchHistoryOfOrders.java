@@ -39,7 +39,9 @@ public class FetchHistoryOfOrders  extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
+            logger.info("getAllOrdersByClient");
             ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderDAOImpl.getInstance().getAllOrdersByClient(client_id);
+            logger.info(listOfOrders.toString());
             JsonElement element = gson.toJsonTree(listOfOrders);
             writer.write(element.toString());
         }

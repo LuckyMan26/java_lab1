@@ -1,11 +1,16 @@
 package org.example.connections;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ConenctionPool {
+    private static final Logger logger = LogManager.getLogger(ConenctionPool.class);
+
     private static ConenctionPool instance;
     private String url = "jdbc:postgresql://localhost:5432/postgres";
     private String username = "postgres";
@@ -28,6 +33,7 @@ public class ConenctionPool {
         }
     }
     public synchronized Connection getConnection() throws SQLException, InterruptedException {
+        logger.info(connectionPool.size());
         if (connectionPool.isEmpty()) {
 
             wait();

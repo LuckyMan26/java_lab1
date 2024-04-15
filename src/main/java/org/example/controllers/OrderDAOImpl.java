@@ -57,6 +57,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -88,6 +89,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
                 return order;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -122,6 +124,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
                 return list;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -135,29 +138,37 @@ public class OrderDAOImpl implements OrderDAO {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             listOfOrders = transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE client_id = ?");
-
+                logger.info("dsafasdfds");
                 statement.setLong(1,client_id);
                 ResultSet resultSet = statement.executeQuery();
+                logger.info("resultSet");
                 Order order = null;
                 ArrayList<Order> list = new ArrayList<>();
-                while (resultSet.next()) {
-                    Long order_id = resultSet.getLong("order_id");
 
+                while (resultSet.next()) {
+                    logger.info("iter");
+                    Long order_id = resultSet.getLong("order_id");
+                    logger.info("pizda 1");
                     Date order_date = resultSet.getDate("order_date");
                     Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
 
                     ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
+                    logger.info("pizda 2");
                     String status = resultSet.getString("status");
+                    logger.info("pizda 3");
                     order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id);
                     logger.info(order.toString());
                     list.add(order);
                 }
+                logger.info("almost success");
                 return list;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
         }
+        logger.info("finished");
         return listOfOrders;
     }
 
@@ -173,6 +184,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
@@ -191,6 +203,7 @@ public class OrderDAOImpl implements OrderDAO {
                  statement.executeUpdate();
                 return null;
             });
+            transactionWrapper.close();
         }
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
