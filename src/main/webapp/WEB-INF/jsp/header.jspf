@@ -10,6 +10,11 @@
     <!-- Icon Container -->
     <div class="icon-container">
         <div class="history-icon">
+            <button type="button" class="btn btn-primary" onclick="getAllOrders()">
+                Change order status(for admin only)
+            </button>
+        </div>
+        <div class="history-icon">
             <button type="button" class="btn btn-primary" onclick="showOrdersHistory()">
                 History of orders
             </button>

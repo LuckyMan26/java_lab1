@@ -35,6 +35,8 @@
 <%@ include file="addItemModal.jspf" %>
 <%@ include file="product-details.jspf" %>
 <%@ include file="history_of_orders.jspf" %>
+<%@ include file="change_order_status.jspf" %>
+
 <%@ include file="footer.jspf" %>
 
 

@@ -60,3 +60,8 @@ function displayBasketItems() {
     // Add event listener to hide basket items list when mouse moves away from both basket icon and basket items list
     basketItemsContainer.addEventListener('mouseleave', hideBasketItems);
 }
+
+function hideBasketItems() {
+    var basketItemsContainer = document.getElementById('basketItemsContainer');
+    basketItemsContainer.classList.remove('show'); // Hide the container
+}
