@@ -43,3 +43,4 @@
     </div>
 </header>
 <script src="${pageContext.request.contextPath}/js/show_history_of_orders_script.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript"></script>

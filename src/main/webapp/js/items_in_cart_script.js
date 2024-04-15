@@ -1,8 +1,5 @@
 function showBasketItems(){
-    document.getElementById("itemsInCart").style.display = 'block';
-    document.getElementById("product-details").style.display='none';
-    document.getElementById("home").style.display='none';
-    document.getElementById("history-of-orders").style.display='none';
+    hideAllFragments("itemsInCart");
 
     console.log("showBasketItems");
     displayitems(cartItems);
@@ -10,31 +7,12 @@ function showBasketItems(){
 }
 
 function displayitems(data){
-    document.getElementById('itemsInCartContainer').innerHTML = '';
+    const container = document.getElementById('itemsInCartContainer');
+    const textContent = document.createElement('div');
+
     data.forEach(item => {
-        console.log(item);
-        const productDiv = document.createElement('div');
-        productDiv.classList.add('product');
+        displayOneProduct(item,container);
 
-
-        const image = document.createElement('img');
-        image.src = "data:image/jpeg;base64," + item.imageData ;
-        image.alt = item.name;
-        image.classList.add('product-image');
-        productDiv.appendChild(image);
-        const productName = document.createElement('span');
-        productName.textContent = 'Product Name: ' + item.name;
-        productDiv.appendChild(productName);
-        console.log('name: ' + item.name);
-        const price = document.createElement('span');
-        price.textContent = 'Price: $' + item.price;
-        productDiv.appendChild(price);
-
-        const quantity = document.createElement('span');
-        quantity.textContent = 'Quantity: ' + item.quantity_available;
-        productDiv.appendChild(quantity);
-
-        document.getElementById('itemsInCartContainer').appendChild(productDiv);
     });
 }
 function buy() {

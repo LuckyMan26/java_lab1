@@ -1,6 +1,7 @@
 var currentPage = 1;
 var itemsPerPage = 15;
 window.onload =  async function () {
+    hideAllFragments("home");
     var res = null;
 
     currentPage = getParameterByName('page');

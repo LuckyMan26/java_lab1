@@ -1,23 +1,23 @@
 function showOrdersHistory() {
 
-    document.getElementById('itemsInCart').style.display = 'none';
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('product-details').style.display = 'none';
-    document.getElementById('history-of-orders').style.display = 'block';
+    hideAllFragments("history-of-orders");
     fetch('/FetchOrders')
         .then(response =>  response.json())
         .then(data => {
-            displayOrderHistory(data);
+            console.log(data);
+            displayOrderHistoryOfUser(data);
+            console.log(data);
         })
         .catch(error => console.error('Error:', error));
 }
 
-function displayOrderHistory(orders){
-
+function displayOrderHistoryOfUser(orders){
+    console.log("displayOrderHistory");
     const historyContainer = document.getElementById('history-of-orders-container');
     historyContainer.innerHTML = '';
 
     orders.forEach(order => {
+        console.log(order);
         const orderDiv = document.createElement('div');
         orderDiv.classList.add('order');
 
@@ -63,21 +63,24 @@ function displayOrderHistory(orders){
 
 function displayOneProduct(product, container){
     const productDiv = document.createElement('div');
+    const textContent = document.createElement('div');
     productDiv.classList.add('product');
-
+    textContent.classList.add('product-text')
     const image = document.createElement('img');
     image.src = "data:image/jpeg;base64," + product.imageData ;
+    image.style.maxWidth = '100px';
+    image.style.maxHeight = '100px';
     image.alt = product.name;
     image.classList.add('product-image');
     productDiv.appendChild(image);
 
     const productName = document.createElement('span');
     productName.textContent = 'Product Name: ' + product.name;
-    productDiv.appendChild(productName);
+    textContent.appendChild(productName);
 
     const price = document.createElement('span');
     price.textContent = 'Price: $' + product.price;
-    productDiv.appendChild(price);
-
+    textContent.appendChild(price);
+    productDiv.appendChild(textContent);
     container.appendChild(productDiv);
 }

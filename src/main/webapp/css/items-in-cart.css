@@ -39,6 +39,8 @@ h1 {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: stretch;
 }
 
 .product img {
@@ -82,4 +84,10 @@ h1 {
     .product {
         width: 100%; /* Single item per row on extra small screens */
     }
+}
+
+.product-text{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
