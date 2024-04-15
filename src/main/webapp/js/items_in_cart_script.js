@@ -2,6 +2,8 @@ function showBasketItems(){
     document.getElementById("itemsInCart").style.display = 'block';
     document.getElementById("product-details").style.display='none';
     document.getElementById("home").style.display='none';
+    document.getElementById("history-of-orders").style.display='none';
+
     console.log("showBasketItems");
     displayitems(cartItems);
     console.log(cartItems);

@@ -13,12 +13,26 @@ function showOrdersHistory() {
 }
 
 function displayOrderHistory(orders){
-    document.getElementById('itemsInCartContainer').innerHTML = '';
+
+    const historyContainer = document.getElementById('history-of-orders-container');
+    historyContainer.innerHTML = '';
 
     orders.forEach(order => {
+        const orderDiv = document.createElement('div');
+        orderDiv.classList.add('order');
+
+        const orderInfo = document.createElement('div');
+        orderInfo.textContent = `Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}`;
+        const h1 = document.createElement('p');
+        h1.textContent = `Total price: ${order.total_price}`;
+        orderDiv.appendChild(orderInfo);
+        orderDiv.appendChild(h1);
+        const productsContainer = document.createElement('div');
+        productsContainer.classList.add('products-container');
         let data = {
             products: order.products
         }
+
         console.log(data);
         fetch('/GetGoodById', {
             method: 'POST',
@@ -31,7 +45,7 @@ function displayOrderHistory(orders){
             .then(data => {
                 console.log(data);
                 data.forEach(element => {
-                    displayOneProduct(element);
+                    displayOneProduct(element,productsContainer);
                 })
 
 
@@ -40,29 +54,30 @@ function displayOrderHistory(orders){
                 // Handle any errors
                 console.error('Error:', error);
             });
+        orderDiv.appendChild(productsContainer);
+        historyContainer.appendChild(orderDiv);
         console.log(order);
 
     });
 }
 
-function displayOneProduct(product){
+function displayOneProduct(product, container){
     const productDiv = document.createElement('div');
     productDiv.classList.add('product');
-
 
     const image = document.createElement('img');
     image.src = "data:image/jpeg;base64," + product.imageData ;
     image.alt = product.name;
     image.classList.add('product-image');
     productDiv.appendChild(image);
+
     const productName = document.createElement('span');
     productName.textContent = 'Product Name: ' + product.name;
     productDiv.appendChild(productName);
-    console.log('name: ' + product.name);
+
     const price = document.createElement('span');
     price.textContent = 'Price: $' + product.price;
     productDiv.appendChild(price);
 
-
-    document.getElementById('history-of-orders').appendChild(productDiv);
+    container.appendChild(productDiv);
 }

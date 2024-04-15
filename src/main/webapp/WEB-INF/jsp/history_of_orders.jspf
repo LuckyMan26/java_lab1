@@ -9,10 +9,53 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .orders-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .order-info {
+            font-weight: bold;
+        }
+
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product {
+            flex: 0 0 calc(33.33% - 20px); /* Adjust as needed for desired product width */
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            max-height: 150px; /* Adjust as needed for desired image height */
+            object-fit: cover;
+        }
+
+        .product-name,
+        .product-price {
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-<div id="history-of-orders"></div>
-
+<div id="history-of-orders" style="display: none">
+<h1>Order history</h1>
+    <div id="history-of-orders-container" class="orders-container"></div>
+</div>
 </body>
 <script src="${pageContext.request.contextPath}/js/show_history_of_orders_script.js" type="text/javascript"></script>
 

@@ -38,7 +38,7 @@ public class OrderDAOImpl implements OrderDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids) VALUES ( ?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids, total_price) VALUES ( ?, ?, ?, ?, ?)");
                 statement.setLong(1, order.getClientId());
                 statement.setDate(2, new java.sql.Date(order.getOrder_date().getTime()));
 
@@ -52,6 +52,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
                 logger.info("addOrder");
                 statement.setArray(4, connection.createArrayOf("INTEGER", array));
+                statement.setDouble(5, order.getTotalPrice());
                 statement.executeUpdate();
 
                 return null;
@@ -81,8 +82,8 @@ public class OrderDAOImpl implements OrderDAO {
 
                     ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
                     Status status = Status.valueOf(resultSet.getString("status"));
-
-                    order = new Order(order_id, client_id, order_date, status, product_id);
+                    double price = resultSet.getDouble("total_price");
+                    order = new Order(order_id, client_id, order_date, status, product_id, price);
                     logger.info(order.toString());
                 }
                 return order;
@@ -106,7 +107,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                 ResultSet resultSet = statement.executeQuery();
                 Order order = null;
-                List<Order> list = null;
+                List<Order> list = new ArrayList<>();
                 while (resultSet.next()) {
                     Long order_id = resultSet.getLong("order_id");
                     Long client_id = resultSet.getLong("client_id");
@@ -170,6 +171,24 @@ public class OrderDAOImpl implements OrderDAO {
                 statement.setInt(1, id);
                 statement.executeUpdate();
 
+                return null;
+            });
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public void changeOrderStatus(Long order_id, Status status){
+        try {
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+             transactionWrapper.executeTransaction(connection -> {
+                PreparedStatement statement = connection.prepareStatement("UPDATE orders SET status = ? WHERE order_id = ?");
+                logger.info(order_id);
+                statement.setString(1,status.toString());
+                statement.setLong(2,order_id);
+                 statement.executeUpdate();
                 return null;
             });
         }
