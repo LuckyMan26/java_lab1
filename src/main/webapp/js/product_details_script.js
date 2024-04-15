@@ -7,8 +7,10 @@ function setCurrentGoodParam(id) {
 async function displayProductDetails(product) {
 
     hideAllFragments("product-details");
+
     var goodDetailsElement = document.getElementById('goodDetails');
-    var wrapper = document.getElementById("product-details");
+    goodDetailsElement.innerHTML = "";
+
 
     var good = {
         name: product.name,
@@ -16,19 +18,40 @@ async function displayProductDetails(product) {
         description: product.description,
         imageData: product.imageData
     };
-    console.log("displayGoodDetails");
-    goodDetailsElement.querySelector('img').src = "data:image/jpeg;base64, " + good.imageData;
-    goodDetailsElement.querySelector('h2').textContent = good.name;
-    goodDetailsElement.querySelector('p:nth-of-type(1)').textContent = 'Price: $' + good.price;
-    goodDetailsElement.querySelector('p:nth-of-type(2)').textContent = 'Description: ' + good.description;
-    goodDetailsElement.querySelector('button').addEventListener('click', function () {
+    //console.log("displayGoodDetails");
+
+    const productDiv = document.createElement('div');
+    const textContent = document.createElement('div');
+    productDiv.classList.add('product-details');
+    textContent.classList.add('product-text')
+    const image = document.createElement('img');
+    image.src = "data:image/jpeg;base64," + product.imageData ;
+
+    image.alt = product.name;
+    image.classList.add('product-image');
+    productDiv.appendChild(image);
+
+    const productName = document.createElement('span');
+    productName.textContent = 'Product Name: ' + product.name;
+    textContent.appendChild(productName);
+
+    const price = document.createElement('span');
+    price.textContent = 'Price: $' + product.price;
+    const btn = document.createElement('button');
+    btn.addEventListener("click", function (){
         addToCart(product);
-    });
+    })
+    btn.textContent = "Add to Cart";
+    btn.classList.add("add-to-cart-button");
+    textContent.appendChild(price);
+    textContent.appendChild(btn);
+    productDiv.appendChild(textContent);
+    goodDetailsElement.appendChild(productDiv);
     setCurrentGoodParam(product.product_id);
-    goodDetailsElement.style.display = 'block';
+
 
     window.product_id = product.product_id;
-    console.log(window.product_id);
+    //console.log(window.product_id);
     const good_id = window.product_id;
     await sendGoodId(good_id);
 
@@ -45,7 +68,7 @@ async function fetchReviews(){
         .catch(error => console.error('Error:', error));
 }
 async function sendGoodId(id){
-    console.log("id ", id)
+    //console.log("id ", id)
     const data = {
         command: 'good_id',
         good_id: id
@@ -57,7 +80,7 @@ async function sendGoodId(id){
         body: JSON.stringify(data)
     })
         .then(function(response) {
-            console.log(response);
+            //console.log(response);
             fetchReviews();
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -67,7 +90,7 @@ async function sendGoodId(id){
 
 
 function renderExistingReviews(reviews) {
-    console.log(reviews);
+    //console.log(reviews);
     const reviewsList = document.getElementById("reviewsList");
     reviewsList.innerHTML = "";
 
@@ -98,7 +121,7 @@ function addReview(){
         body: formData
     })
         .then(function(response) {
-            console.log(response);
+            //console.log(response);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

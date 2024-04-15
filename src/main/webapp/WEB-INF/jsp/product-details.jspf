@@ -5,14 +5,9 @@
 <body>
 <div style="display: none" id="product-details">
 <div class="product-details" id="goodDetails" >
-    <img src="" alt="No image">
-    <div class="text">
-        <h2></h2>
-        <p></p>
-        <p></p>
-        <button class="add-to-cart-button">Add to Cart</button>
-    </div>
 
+
+</div>
     <div class="review-form">
         <h2>Leave a Review</h2>
         <form id="reviewForm">
@@ -41,8 +36,6 @@
     </div>
 </div>
 
-
-</div>
 </body>
 
 <script src="${pageContext.request.contextPath}/js/product_details_script.js"></script>

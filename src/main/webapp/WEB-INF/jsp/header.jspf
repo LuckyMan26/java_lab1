@@ -4,7 +4,7 @@
 <header>
     <!-- Logo or website name -->
     <div class="logo">
-        <a href="${pageContext.request.contextPath}/portal/home"><img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.523418798.1711843200&semt=ais" alt="Logo"></a>
+        <img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.523418798.1711843200&semt=ais" alt="Logo" onclick="displayMainPage()">
         <!-- If using text instead of an image, use <h1> or <p> -->
     </div>
 

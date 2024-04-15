@@ -12,19 +12,20 @@ var cartItems = [];
             document.getElementById('cartItemCount').textContent = cartItemCount;
         })
         .catch(error => console.error('Error:', error));
-    console.log("fetch basket finished");
-    console.log(cartItemCount);
+    //console.log("fetch basket finished");
+    //console.log(cartItemCount);
 
 
 }
 
 function addToCart(product) {
     cartItemCount++;
+    console.log(cartItemCount);
     cartItems.push({ name: product.name, price: product.price,product_id: product.good_id });
     document.getElementById('cartItemCount').textContent = cartItemCount;
     console.log('Added ' + product.name + ' to cart. Price: $' + product.price);
     const data = {
-        'product_id': product_id,
+        'product_id': product.product_id,
         'client_id': 16
     };
     fetch('/AddItemToBasket', {
@@ -78,7 +79,7 @@ function removeItemFromCart(index) {
         'product_id': cartItems[index].product_id,
         'client_id': 16
     };
-     console.log('removeItemFromCart');
+     //console.log('removeItemFromCart');
     // Remove item from cartItems array
     cartItems.splice(index, 1);
     // Update cartItemCount
@@ -93,7 +94,7 @@ function removeItemFromCart(index) {
         body: JSON.stringify(data)
     })
         .then(function(response) {
-            console.log(response);
+            //console.log(response);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

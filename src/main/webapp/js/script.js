@@ -17,7 +17,9 @@ window.onload =  async function () {
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
 
 };
-
+function displayMainPage(){
+    hideAllFragments("home");
+}
 
     function displayGoods(products) {
         var goodsGridElement = document.getElementById('goodsGrid');
