@@ -9,7 +9,17 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 
+<style>
+    .remove-button {
+        padding: 5px; /* Adjust padding as needed */
+    }
 
+    .remove-button:hover {
+        background-color: #f8d7da; /* Light red background on hover */
+        border-color: #c82333; /* Darker red border color on hover */
+        color: #721c24; /* Dark text color on hover */
+    }
+</style>
 </head>
 <body>
 

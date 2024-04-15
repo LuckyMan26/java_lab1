@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BasketDAOImpl implements BasketDAO {
     private static final Logger logger = LogManager.getLogger(BasketDAOImpl.class);
@@ -127,7 +128,7 @@ public class BasketDAOImpl implements BasketDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                Product product = ProductDAOImpl.getInstance().getGoodById(product_id);
+
                 logger.info("HERE");
                 BasketItem basketItem1 = getBasketItemByClientId(client_id);
                 PreparedStatement statement = null;
@@ -166,13 +167,13 @@ public class BasketDAOImpl implements BasketDAO {
         }
     }
     @Override
-    public void deleteBasketItem(int id) {
+    public void deleteBasketItem(Long id) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("DELETE  * FROM basket_items WHERE basket_item_id = ?");
+                PreparedStatement statement = connection.prepareStatement("DELETE  * FROM Basket WHERE basket_item_id = ?");
 
-                statement.setInt(1, id);
+                statement.setLong(1, id);
                 statement.executeUpdate();
 
                 return null;
@@ -182,6 +183,51 @@ public class BasketDAOImpl implements BasketDAO {
             logger.error(e.getMessage());
         }
     }
+    @Override
+    public void deleteProductInBasket(Long client_id, Long product_id) {
+        try {
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            transactionWrapper.executeTransaction(connection -> {
 
+                logger.info("HERE");
+                BasketItem basketItem1 = getBasketItemByClientId(client_id);
+                PreparedStatement statement = null;
+                logger.info(basketItem1);
+                if(basketItem1.getItems().size() == 1){
+                    logger.info("Here");
+                    deleteBasketItem(basketItem1.getBasketItemId());
+                }
+                else {
+                    statement = connection.prepareStatement("UPDATE Basket SET product_items_id = ? WHERE client_id = ?");
+                    logger.info(basketItem1.toString());
+                    ArrayList<Long> items = basketItem1.getItems();
+                    ArrayList<Long> list_without_element = new ArrayList<>();
+
+                    int counter = 0;
+                    for (Long item : items) {
+                       if (!Objects.equals(item, product_id)){
+                           list_without_element.add(item);
+                       }
+                    }
+                    Long[] array = new Long[list_without_element.size()];
+                    for(Long item : list_without_element){
+                        array[counter] = item;
+                        counter+=1;
+                    }
+
+
+
+                    statement.setArray(1, connection.createArrayOf("INTEGER", array));
+                    statement.setLong(2, client_id);
+                    statement.executeUpdate();
+                }
+
+                return null;
+            });
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+    }
 
 }

@@ -9,7 +9,7 @@ function showBasketItems(){
 function displayitems(data){
     const container = document.getElementById('itemsInCartContainer');
     const textContent = document.createElement('div');
-
+    container.innerHTML = '';
     data.forEach(item => {
         displayOneProduct(item,container);
 
