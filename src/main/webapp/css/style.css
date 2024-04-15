@@ -85,8 +85,9 @@ h1 {
 
 }
 .icon-container {
-    display: grid;
-    grid-template-columns: auto auto; /* This will create two columns of equal width */
+    display: flex;
+    align-items: center;
+
     justify-content: end;
     gap: 20px;
     position: absolute;

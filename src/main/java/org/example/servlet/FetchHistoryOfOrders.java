@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@WebServlet(urlPatterns = {"/FetchOrders"})
 public class FetchHistoryOfOrders  extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchHistoryOfOrders.class);
 

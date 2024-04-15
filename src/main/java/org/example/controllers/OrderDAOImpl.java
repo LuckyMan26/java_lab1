@@ -138,7 +138,7 @@ public class OrderDAOImpl implements OrderDAO {
                 statement.setLong(1,client_id);
                 ResultSet resultSet = statement.executeQuery();
                 Order order = null;
-                List<Order> list = null;
+                ArrayList<Order> list = new ArrayList<>();
                 while (resultSet.next()) {
                     Long order_id = resultSet.getLong("order_id");
 
