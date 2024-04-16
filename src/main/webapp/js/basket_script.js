@@ -50,16 +50,36 @@ function displayBasketItems() {
         basketItemsContainer.textContent = 'No items added';
     } else {
         cartItems.forEach(function(item, index) {
-            var itemElement = document.createElement('div');
-            itemElement.textContent = item.name + ' - $' + item.price;
+            const itemElement = document.createElement('div');
+            itemElement.onclick = function (){
+                displayProductDetails(item);
+            }
+
+            const imgElement = document.createElement('img');
+            imgElement.src = "data:image/jpeg;base64," + item.imageData ;
+            imgElement.style.maxWidth = '100px';
+            imgElement.style.maxHeight = '100px';
+            imgElement.alt = item.name; // Set alt text for accessibility
+
+            itemElement.appendChild(imgElement);
+
+            // Create and append name and price text
+            const itemInfo = document.createElement('div');
+            itemInfo.textContent = item.name + ' - $' + item.price;
+
+
+
             // Create remove button using Bootstrap's cross icon
-            var removeButton = document.createElement('button');
+            const removeButton = document.createElement('button');
             removeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-times" viewBox="0 0 16 16"><path d="M3.854 3.146a.5.5 0 0 1 0 .708L8.207 8l-4.353 4.146a.5.5 0 0 1-.708-.708L7.793 8 3.146 3.854a.5.5 0 0 1 0-.708z"/><path d="M12.854 3.146a.5.5 0 0 0-.708 0L8 7.793l-4.146-4.647a.5.5 0 1 0-.708.708L7.293 8l-4.647 4.146a.5.5 0 0 0 .708.708L8 8.707l4.146 4.647a.5.5 0 0 0 .708-.708L8.707 8l4.647-4.146a.5.5 0 0 0 0-.708z"/></svg>';
             removeButton.classList.add('btn', 'remove-button'); // Add Bootstrap button classes
             removeButton.onclick = function() {
                 removeItemFromCart(index);
             };
-            itemElement.appendChild(removeButton);
+            removeButton.style.padding = '15px'
+            itemInfo.appendChild(removeButton);
+            itemElement.appendChild(itemInfo);
+            itemElement.appendChild(itemInfo);
             basketItemsContainer.appendChild(itemElement);
         });
     }
