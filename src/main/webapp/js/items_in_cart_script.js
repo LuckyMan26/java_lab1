@@ -2,18 +2,26 @@ function showBasketItems(){
     hideAllFragments("itemsInCart");
 
     console.log("showBasketItems");
-    displayitems(cartItems);
+    displayItems(cartItems);
     console.log(cartItems);
 }
 
-function displayitems(data){
+function displayItems(data){
     const container = document.getElementById('itemsInCartContainer');
     const textContent = document.createElement('div');
     container.innerHTML = '';
     data.forEach(item => {
-        displayOneProduct(item,container);
-
+        displayOneProduct(item, container);
     });
+    // Display the checkout section after items are loaded
+    document.getElementById('checkoutSection').style.display = 'block';
+    let price =0;
+    for(let i =0; i < cartItems.length; i++){
+        price+=cartItems[i].price;
+    }
+    let currentDate = new Date();
+    document.getElementById('totalPrice').textContent = price + "$";
+    document.getElementById('orderDate').textContent = currentDate.toLocaleDateString();
 }
 function displayConfirmation(cost) {
     return new Promise((resolve, reject) => {
@@ -21,8 +29,7 @@ function displayConfirmation(cost) {
 
         const confirmBtn = document.getElementById("confirmBtn");
         const cancelBtn = document.getElementById("cancelBtn");
-        const price = document.createElement('div');
-        price.textContent = "Total price: " + cost + "$";
+        const price = document.getElementById('total-price');
         confirmationDialog.appendChild(price);
         confirmBtn.addEventListener("click", () => {
             resolve();
@@ -35,6 +42,7 @@ function displayConfirmation(cost) {
         });
 
         confirmationDialog.style.display = "block";
+
     });
 }
 
@@ -64,6 +72,8 @@ function buy() {
                 });
             cartItems = [];
             cartItemCount = 0;
+
+
         })
         .catch((error) => {
             // User canceled the purchase

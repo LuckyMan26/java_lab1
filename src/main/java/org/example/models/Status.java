@@ -4,5 +4,5 @@ public enum Status {
     Pending,
     Processing,
     Shipping,
-    Done
+    Delivered,
 }

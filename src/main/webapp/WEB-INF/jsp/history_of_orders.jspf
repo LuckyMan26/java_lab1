@@ -10,12 +10,36 @@
 <head>
     <title>Title</title>
     <style>
+        .order-info {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        #toggle-delivered-orders {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 5px;
 
+        }
+
+        #toggle-delivered-orders:hover {
+            background-color: #45a049; /* Darker Green */
+        }
     </style>
 </head>
 <body>
 <div id="history-of-orders" style="display: none">
 <h1>Order history</h1>
+    <button id="toggle-delivered-orders" onclick="toggleDeliveredOrders()">Show Delivered Orders</button>
     <div id="history-of-orders-container" class="orders-container"></div>
 </div>
 </body>

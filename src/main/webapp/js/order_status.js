@@ -83,6 +83,7 @@ function saveOrderStatus(orderId, status) {
 
 // Function to change the status of an order
 function changeOrderStatus(orderId, new_status) {
+    console.log("changeOrderStatus");
     let data = {
         order_id: orderId,
         status : new_status

@@ -61,23 +61,65 @@
         .confirmation-dialog button:hover {
             background-color: #0056b3;
         }
+        /* Remaining styles */
+
+        /* Flex container */
+        .flex-container {
+            display: flex;
+        }
+
+        /* Left column */
+        .left-column {
+            flex: 2;
+            background-color: #f2f2f2; /* Light gray background */
+            padding: 20px; /* Add padding for spacing */
+        }
+
+        /* Right column */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #e6e6e6; /* Light gray background */
+            padding: 20px; /* Add padding for spacing */
+        }
+
+        /* Checkout section */
+        .checkout-section {
+            width: 60%; /* Adjust width as needed */
+            text-align: center; /* Center content */
+        }
+
     </style>
 </head>
 <body>
-<div id="itemsInCart" style="display: none">
-<h1>Your Shopping Basket</h1>
-<div id="itemsInCartContainer" class="products-container">
+<div id="itemsInCart" class="itemsInCart">
+    <div class="flex-container">
+        <div class="left-column">
+            <h1>Your Shopping Basket</h1>
+            <div id="itemsInCartContainer" class="products-container">
+                <!-- Items in cart will be displayed here -->
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="checkout-section" id="checkoutSection">
+                <h2>Checkout</h2>
+                <p>Total Price: <span id="totalPrice"></span></p>
+                <p>Order Date: <span id="orderDate"></span></p>
+                <button class="buy-button" onclick="buy()">Buy</button>
+            </div>
+        </div>
+    </div>
+    <div class="confirmation-dialog" id="confirmationDialog" style="display: none">
+        <p>Are you sure you want to proceed with the purchase?</p>
+        <p id="total-price"></p>
+        <button id="confirmBtn">Yes</button>
+        <button id="cancelBtn">Cancel</button>
 
-
+    </div>
 </div>
-<button class="buy-button" onclick="buy()">Buy</button>
-</div>
-<div class="confirmation-dialog" id="confirmationDialog" style="display: none">
-    <p>Are you sure you want to proceed with the purchase?</p>
-    <button id="confirmBtn">Yes</button>
-    <button id="cancelBtn">Cancel</button>
-</div>
-
 <script src="${pageContext.request.contextPath}/js/items_in_cart_script.js"></script>
 <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript"></script>
 

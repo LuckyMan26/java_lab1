@@ -21,7 +21,7 @@ var cartItems = [];
 function addToCart(product) {
     cartItemCount++;
     console.log(cartItemCount);
-    cartItems.push({ name: product.name, price: product.price,product_id: product.good_id });
+    cartItems.push({ name: product.name, price: product.price,product_id: product.good_id,imageData: product.imageData });
     document.getElementById('cartItemCount').textContent = cartItemCount;
     console.log('Added ' + product.name + ' to cart. Price: $' + product.price);
     const data = {

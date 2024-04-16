@@ -1,3 +1,4 @@
+let showDeliveredOnly = false;
 function showOrdersHistory() {
 
     hideAllFragments("history-of-orders");
@@ -11,7 +12,28 @@ function showOrdersHistory() {
         .catch(error => console.error('Error:', error));
     console.log("showOrdersHistory");
 }
+function toggleDeliveredOrders() {
+    showDeliveredOnly = !showDeliveredOnly;
+    const button = document.getElementById('toggle-delivered-orders');
+    if (showDeliveredOnly) {
+        button.textContent = 'Show All Orders';
+        filterOrdersByStatus('Delivered');
+    } else {
+        button.textContent = 'Show Delivered Orders';
+        showOrdersHistory();
+    }
+}
 
+function filterOrdersByStatus(status) {
+    hideAllFragments("history-of-orders");
+    fetch('/FetchOrders')
+        .then(response => response.json())
+        .then(data => {
+            const filteredOrders = data.filter(order => order.status === status);
+            displayOrderHistoryOfUser(filteredOrders);
+        })
+        .catch(error => console.error('Error:', error));
+}
 function displayOrderHistoryOfUser(orders){
     console.log("displayOrderHistoryOfUser");
     const historyContainer = document.getElementById('history-of-orders-container');
@@ -23,7 +45,7 @@ function displayOrderHistoryOfUser(orders){
         orderDiv.classList.add('order');
 
         const orderInfo = document.createElement('div');
-        orderInfo.textContent = `Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}`;
+        orderInfo.innerHTML = `<p class="order-info">Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}</p>`;
         const h1 = document.createElement('p');
         h1.textContent = `Total price: ${order.total_price}`;
         orderDiv.appendChild(orderInfo);
@@ -65,6 +87,9 @@ function displayOrderHistoryOfUser(orders){
 function displayOneProduct(product, container){
     const productDiv = document.createElement('div');
     const textContent = document.createElement('div');
+    productDiv.onclick = function (){
+        displayProductDetails(product);
+    }
     productDiv.classList.add('product');
     textContent.classList.add('product-text')
     const image = document.createElement('img');
