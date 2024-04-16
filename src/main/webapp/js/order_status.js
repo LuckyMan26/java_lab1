@@ -77,8 +77,11 @@ function displayOrderHistory(orders){
         })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
-                data.forEach(element => {
-                    displayOneProduct(element,productsContainer);
+                let res = countDuplicates(data);
+                console.log(res);
+                res.forEach(element => {
+                    console.log(element);
+                    displayOneProduct(element.product,element.quantity, productsContainer);
                 })
             })
             .catch(error => {

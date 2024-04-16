@@ -23,8 +23,9 @@ function displayItems(data){
     const container = document.getElementById('itemsInCartContainer');
     const textContent = document.createElement('div');
     container.innerHTML = '';
-    data.forEach(item => {
-        displayOneProduct(item, container);
+    let res = countDuplicates(data);
+    res.forEach(item => {
+        displayOneProduct(item.product,item.quantity, container);
     });
     // Display the checkout section after items are loaded
     document.getElementById('checkoutSection').style.display = 'block';

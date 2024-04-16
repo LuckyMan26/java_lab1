@@ -77,9 +77,12 @@ function displayOrderHistoryOfUser(orders){
         })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
+                let res = countDuplicates(data);
                 console.log(data);
-                data.forEach(element => {
-                    displayOneProduct(element,productsContainer);
+                console.log(res);
+                res.forEach(element => {
+                    console.log(element);
+                    displayOneProduct(element.product,element.quantity, productsContainer);
                 })
 
 
@@ -95,7 +98,7 @@ function displayOrderHistoryOfUser(orders){
     });
 }
 
-function displayOneProduct(product, container){
+function displayOneProduct(product,quantity, container){
     const productDiv = document.createElement('div');
     const textContent = document.createElement('div');
     productDiv.onclick = function (){
@@ -118,6 +121,9 @@ function displayOneProduct(product, container){
     const price = document.createElement('span');
     price.textContent = 'Price: $' + product.price;
     textContent.appendChild(price);
+    const q = document.createElement('span');
+    q.textContent = 'Quantity: ' + quantity;
+    textContent.appendChild(q);
     productDiv.appendChild(textContent);
     container.appendChild(productDiv);
 }

@@ -11,10 +11,10 @@ function hideAllFragments(name){
 const compareDates = (a, b) => {
     return new Date(b.order_date) - new Date(a.order_date);
 };
-function getElementFromCart(product_id){
+function getElementFromCart(product_id, collection){
     let res;
-    console.log(cartItems);
-    cartItems.forEach(element => {
+    console.log(collection);
+    collection.forEach(element => {
 
         if(element.product_id.toString()===product_id.toString()){
 
@@ -51,7 +51,7 @@ const countDuplicates = (arr) => {
     });
     const res = [];
     Object.keys(counts).forEach((object) =>{
-        res.push({product: getElementFromCart(object), quantity: counts[object]});
+        res.push({product: getElementFromCart(object, arr), quantity: counts[object]});
         });
 
     return res;
