@@ -95,22 +95,86 @@ function renderExistingReviews(reviews) {
     reviewsList.innerHTML = "";
 
     reviews.forEach(review => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML =  '<strong>' + review.text + '</strong>';
+        const listItem = document.createElement("div");
+
+        // Create a container for the review content
+        const reviewContent = document.createElement("div");
+        reviewContent.classList.add("review-content");
+
+        // Display the author's full name
+        const authorName = document.createElement("div");
+        authorName.classList.add("author-name");
+        authorName.textContent = "Artem Volyk";
+        authorName.style.fontSize = "12px"; // Smaller font size
+        authorName.style.color = "#888"; // Shade of gray
+
+        // Display the review grade as stars
+        const ratingStars = document.createElement("div");
+        ratingStars.classList.add("rating-stars");
+        for (let i = 0; i < review.stars; i++) {
+            const starIcon = document.createElement("span");
+            starIcon.innerHTML = "&#9733;"; // Star symbol
+            ratingStars.appendChild(starIcon);
+        }
+
+        // Display the review text
+        const reviewText = document.createElement("div");
+        reviewText.textContent = review.text;
+
+        // Append all elements to the review content container
+        reviewContent.appendChild(authorName);
+        reviewContent.appendChild(ratingStars);
+        reviewContent.appendChild(reviewText);
+
+        // Append the review content container to the list item
+        listItem.appendChild(reviewContent);
+
+        // Append the list item to the reviews list
         reviewsList.appendChild(listItem);
     });
 }
 
 
+function getSelectedStars() {
+    // Get all star elements
+    var stars = document.querySelectorAll('.rating  .radio-btn');
 
+    // Initialize counter for selected stars
+    var selectedStars = 0;
+
+    // Iterate over star elements
+    stars.forEach(function(star) {
+        // Check if the star is checked
+        if (star.checked) {
+            console.log("here");
+            console.log(star.value);
+            // Increment the counter if the star is checked
+            selectedStars =  star.value;
+        }
+    });
+
+    // Return the number of selected stars
+    return selectedStars;
+}
 function addReview(){
+    const stars = document.querySelectorAll('.rating input[type="radio"]');
+    let selectedRating = getSelectedStars();
+
+
     var text = document.getElementById('review').value;
-    var rating = document.getElementById('rating').value;
+
+    document.getElementById('review').value = '';
+    stars.forEach(function(star) {
+        // Check if the star is checked
+        if (star.checked) {
+            star.checked = false;
+        }
+    });
 
 
     var formData = new FormData();
     formData.append('text', text);
-    formData.append('rating', parseFloat(rating));
+    formData.append('rating', parseFloat(selectedRating));
     formData.append('client_id', 16);
     formData.append('good_id', window.product_id);
 
@@ -127,3 +191,4 @@ function addReview(){
             }
         });
 }
+

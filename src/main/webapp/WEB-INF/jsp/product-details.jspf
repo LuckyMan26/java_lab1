@@ -2,6 +2,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <meta charset="UTF-8">
+<style>
+    .review-form {
+        max-width: 400px; /* Adjust the width as needed */
+        margin: 0 auto; /* Center the review form horizontally */
+    }
+
+    #submitButton {
+        width: 100%; /* Make the button fill the width of its container */
+        max-width: 200px; /* Limit the maximum width of the button */
+        margin: 0 auto; /* Center the button horizontally */
+    }
+    #existingReviews{
+        padding: 10px;
+    }
+</style>
 <body>
 <div style="display: none" id="product-details">
 <div class="product-details" id="goodDetails" >
@@ -12,28 +27,33 @@
         <h2>Leave a Review</h2>
         <form id="reviewForm">
             <div class="form-group">
-                <label for="rating">Rating:</label>
-                <select id="rating" name="rating" required>
-                    <option value="">Select Rating</option>
-                    <option value="5">5</option>
-                    <option value="4">4</option>
-                    <option value="3">3</option>
-                    <option value="2">2</option>
-                    <option value="1">1</option>
-                </select>
+                <div class="rating">
+                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                    <label for="star5" >&#9733;</label>
+                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                    <label for="star4" >&#9733;</label>
+                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                    <label for="star3" >&#9733;</label>
+                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                    <label for="star2" >&#9733;</label>
+                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                    <label for="star1" >&#9733;</label>
+                    <div class="clear"></div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="review">Your Review:</label>
-                <textarea id="review" name="review" required></textarea>
+                <textarea id="review" name="review"></textarea>
             </div>
 
         </form>
         <button type="submit" id="submitButton" onclick="addReview()">Submit Review</button>
+        <div id="existingReviews">
+            <h2>Existing Reviews</h2>
+            <div id="reviewsList"></div>
+        </div>
     </div>
-    <div id="existingReviews">
-        <h2>Existing Reviews</h2>
-        <ul id="reviewsList"></ul>
-    </div>
+
 </div>
 
 </body>
