@@ -1,10 +1,15 @@
 
-function setCurrentGoodParam(id) {
+function setCurrentProductParam(id) {
     var url = new URL(window.location.href);
-    url.searchParams.set('good_id', id);
+
+    url.searchParams.set('product_id', id);
     window.history.replaceState({}, '', url);
+    console.log("here");
 }
 async function displayProductDetails(product) {
+    clearSearchParams();
+    setCurrentLocation('product_details');
+    setCurrentProductParam(product.product_id);
 
     hideAllFragments("product-details");
 
@@ -18,6 +23,7 @@ async function displayProductDetails(product) {
         description: product.description,
         imageData: product.imageData
     };
+    console.log(product);
     //console.log("displayGoodDetails");
 
     const productDiv = document.createElement('div');
@@ -47,7 +53,6 @@ async function displayProductDetails(product) {
     textContent.appendChild(btn);
     productDiv.appendChild(textContent);
     goodDetailsElement.appendChild(productDiv);
-    setCurrentGoodParam(product.product_id);
 
 
     window.product_id = product.product_id;

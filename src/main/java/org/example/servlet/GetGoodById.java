@@ -56,6 +56,7 @@ public class GetGoodById extends HttpServlet {
         logger.info(jsonObject.toString());
 
         JSONArray products = jsonObject.getJSONArray("products");
+        logger.info(products.length());
         ArrayList<Product> productArrayList = new ArrayList<>();
         logger.info(products);
         for (int i = 0; i < products.length(); i++) {

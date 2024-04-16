@@ -1,8 +1,21 @@
-function showBasketItems(){
+function setCurrentClientId(id){
+    var url = new URL(window.location.href);
+
+    url.searchParams.set('client_id', id);
+    window.history.replaceState({}, '', url);
+
+}
+ function showBasketItems() {
+
+    clearSearchParams();
+    setCurrentLocation('items_in_cart');
+    setCurrentClientId(16);
     hideAllFragments("itemsInCart");
 
     console.log("showBasketItems");
+
     displayItems(cartItems);
+
     console.log(cartItems);
 }
 

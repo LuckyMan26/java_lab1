@@ -1,6 +1,62 @@
 var currentPage = 1;
 var itemsPerPage = 15;
 window.onload =  async function () {
+    let location = getParameterByName('location');
+    let data;
+    console.log(location);
+
+    fetchBasket();
+    console.log(cartItems);
+    if (location === "product_details") {
+        let product_id = getParameterByName("product_id");
+        console.log(product_id);
+        data = {products: [product_id]};
+        fetch('/GetGoodById', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type based on your data format
+            },
+            body: JSON.stringify(data) // Convert your data to JSON format
+        })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+               displayProductDetails(data[0]);
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+            });
+
+    }
+    else if(location==="order_status"){
+        getAllOrders();
+    }
+    else if(location==="items_in_cart"){
+        fetch('/FetchBasket')
+            .then(response =>  response.json())
+            .then(data => {
+
+                cartItems = data;
+                console.log(cartItems);
+                cartItemCount = data.length;
+                console.log(data.length);
+                document.getElementById('cartItemCount').textContent = cartItemCount;
+                showBasketItems();
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
+    else if(location ==="order_history"){
+        showOrdersHistory();
+    }
+    else{
+        await displayMainPage();
+    }
+
+
+};
+async function displayMainPage() {
+    clearSearchParams();
     hideAllFragments("home");
     var res = null;
 
@@ -10,15 +66,11 @@ window.onload =  async function () {
     } else {
         currentPage = parseInt(currentPage);
     }
-    await fetchBasket();
+
     await fetchData();
 
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreGoods);
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
-
-};
-function displayMainPage(){
-    hideAllFragments("home");
 }
 
     function displayGoods(products) {

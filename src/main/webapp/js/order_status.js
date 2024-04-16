@@ -1,5 +1,7 @@
-function getAllOrders(){
 
+function getAllOrders(){
+    clearSearchParams();
+    setCurrentLocation('order_status');
     hideAllFragments("orders");
     fetch('/GetAllOrders')
         .then(response =>  response.json())

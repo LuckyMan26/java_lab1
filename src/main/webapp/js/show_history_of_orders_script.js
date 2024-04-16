@@ -1,7 +1,10 @@
 let showDeliveredOnly = false;
 function showOrdersHistory() {
-
+    clearSearchParams();
+    setCurrentLocation("order_history");
+    setCurrentClientId(16);
     hideAllFragments("history-of-orders");
+
     fetch('/FetchOrders')
         .then(response =>  response.json())
         .then(data => {

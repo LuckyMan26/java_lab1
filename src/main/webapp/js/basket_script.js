@@ -1,12 +1,14 @@
-var cartItemCount = 0;
-var cartItems = [];
- function fetchBasket(){
+let cartItemCount = 0;
+let cartItems = [];
+
+function fetchBasket(){
     console.log("fetchBasket");
     fetch('/FetchBasket')
         .then(response =>  response.json())
         .then(data => {
 
             cartItems = data;
+            console.log(cartItems);
             cartItemCount = data.length;
             console.log(data.length);
             document.getElementById('cartItemCount').textContent = cartItemCount;
@@ -21,9 +23,10 @@ var cartItems = [];
 function addToCart(product) {
     cartItemCount++;
     console.log(cartItemCount);
-    cartItems.push({ name: product.name, price: product.price,product_id: product.good_id,imageData: product.imageData });
+    cartItems.push({ name: product.name, price: product.price,product_id: product.product_id,imageData: product.imageData });
     document.getElementById('cartItemCount').textContent = cartItemCount;
-    console.log('Added ' + product.name + ' to cart. Price: $' + product.price);
+    console.log('Added ' + product.name + ' to cart. Price: $' + product.price + " " + product.product_id);
+    console.log(cartItems[cartItems.length -1]);
     const data = {
         'product_id': product.product_id,
         'client_id': 16
@@ -43,13 +46,16 @@ function addToCart(product) {
 }
 
 function displayBasketItems() {
+    let res = countDuplicates(cartItems);
+    console.log(res);
     var basketItemsContainer = document.getElementById('basketItemsContainer');
     basketItemsContainer.innerHTML = ''; // Clear previous content
 
     if (cartItems.length === 0) {
         basketItemsContainer.textContent = 'No items added';
     } else {
-        cartItems.forEach(function(item, index) {
+        res.forEach(function(element, index) {
+            const item = element.product;
             const itemElement = document.createElement('div');
             itemElement.onclick = function (){
                 displayProductDetails(item);
@@ -66,6 +72,8 @@ function displayBasketItems() {
             // Create and append name and price text
             const itemInfo = document.createElement('div');
             itemInfo.textContent = item.name + ' - $' + item.price;
+            const quantity = document.createElement('p');
+            quantity.textContent = 'Quantity: ' + element.quantity;
 
 
 
@@ -76,9 +84,10 @@ function displayBasketItems() {
             removeButton.onclick = function() {
                 removeItemFromCart(index);
             };
-            removeButton.style.padding = '15px'
+            removeButton.style.padding = '5px'
             itemInfo.appendChild(removeButton);
-            itemElement.appendChild(itemInfo);
+
+            itemInfo.appendChild(quantity);
             itemElement.appendChild(itemInfo);
             basketItemsContainer.appendChild(itemElement);
         });
