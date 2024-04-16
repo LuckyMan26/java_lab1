@@ -4,14 +4,24 @@ function getAllOrders(){
     fetch('/GetAllOrders')
         .then(response =>  response.json())
         .then(data => {
-            console.log(data);
-            displayOrderHistory(data);
+            console.log(typeof data[0].order_date)
+            let filteredOrders = data.filter(order => order.status !== "Delivered");
+            filteredOrders = filteredOrders.sort(function(a,b){
+                let dateA = parseDate(a.order_date);
+                let dateB = parseDate(b.order_date);
+
+                // Compare the dates
+                return dateA - dateB;
+            });
+            console.log(filteredOrders);
+            displayOrderHistory(filteredOrders);
         })
         .catch(error => console.error('Error:', error));
 }
 
 function displayOrderHistory(orders){
 
+    console.log(orders);
     const historyContainer = document.getElementById('orders');
     historyContainer.innerHTML = '';
 

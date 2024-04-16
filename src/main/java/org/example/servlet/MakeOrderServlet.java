@@ -24,6 +24,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
 @WebServlet(urlPatterns = {"/MakeOrder"})
@@ -71,7 +72,7 @@ public class MakeOrderServlet extends HttpServlet {
             throw new RuntimeException(e);
 
         }
-
+        logger.info(date.toString());
         OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order));
         BasketDAOImpl.getInstance().clearBasket(client_id);
         logger.info("success");

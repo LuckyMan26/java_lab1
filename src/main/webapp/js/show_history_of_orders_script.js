@@ -8,6 +8,14 @@ function showOrdersHistory() {
             console.log(data);
             displayOrderHistoryOfUser(data);
             console.log(data);
+            data = data.sort(function(a,b){
+
+                let dateA = parseDate(a.order_date);
+                let dateB = parseDate(b.order_date);
+
+                // Compare the dates
+                return dateA - dateB;
+            });
         })
         .catch(error => console.error('Error:', error));
     console.log("showOrdersHistory");

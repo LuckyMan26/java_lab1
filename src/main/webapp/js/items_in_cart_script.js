@@ -55,6 +55,7 @@ function buy() {
         .then(() => {
             // User confirmed, proceed with purchase logic
             let currentDate = new Date();
+            console.log(currentDate.getHours());
             const data = {
                 products: cartItems,
                 date: currentDate,
