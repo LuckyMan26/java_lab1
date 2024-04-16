@@ -30,6 +30,37 @@
         button.buy-button:hover {
             background-color: #45a049;
         }
+        .confirmation-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .confirmation-dialog p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .confirmation-dialog button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .confirmation-dialog button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +71,11 @@
 
 </div>
 <button class="buy-button" onclick="buy()">Buy</button>
+</div>
+<div class="confirmation-dialog" id="confirmationDialog" style="display: none">
+    <p>Are you sure you want to proceed with the purchase?</p>
+    <button id="confirmBtn">Yes</button>
+    <button id="cancelBtn">Cancel</button>
 </div>
 
 <script src="${pageContext.request.contextPath}/js/items_in_cart_script.js"></script>

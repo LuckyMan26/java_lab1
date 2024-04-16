@@ -186,6 +186,7 @@ public class BasketDAOImpl implements BasketDAO {
         catch (InterruptedException | SQLException e){
             logger.error(e.getMessage());
         }
+
     }
     @Override
     public void deleteProductInBasket(Long client_id, Long product_id) {
@@ -234,5 +235,23 @@ public class BasketDAOImpl implements BasketDAO {
             logger.error(e.getMessage());
         }
     }
+    @Override
+    public void clearBasket(Long client_id){
+        try {
+            logger.info("clearBasket");
+            TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
+            transactionWrapper.executeTransaction(connection -> {
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Basket WHERE client_id = ?");
+                statement.setLong(1, client_id);
+                logger.info(client_id);
+                statement.executeUpdate();
 
+                return null;
+            });
+            transactionWrapper.close();
+        }
+        catch (InterruptedException | SQLException e){
+            logger.error(e.getMessage());
+        }
+    }
 }

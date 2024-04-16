@@ -14,4 +14,6 @@ public interface BasketDAO {
     void deleteBasketItem(Long id);
     void deleteProductInBasket(Long client_id,Long product_id);
     public void addProductToBasket(BasketItem basketItem);
+
+    public void clearBasket(Long client_id);
 }

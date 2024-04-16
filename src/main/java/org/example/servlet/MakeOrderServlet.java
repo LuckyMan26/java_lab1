@@ -73,7 +73,7 @@ public class MakeOrderServlet extends HttpServlet {
         }
 
         OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order));
-
+        BasketDAOImpl.getInstance().clearBasket(client_id);
         logger.info("success");
     }
 }
