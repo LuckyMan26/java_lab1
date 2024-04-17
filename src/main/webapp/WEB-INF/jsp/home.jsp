@@ -28,8 +28,12 @@
 
 
 <div class="main-content" >
+
 <div class="container" id="home">
     <h1>List of Goods</h1>
+    <%
+        String userId = (String) request.getAttribute("userId");
+    %>
     <div class="goods-grid" id="goodsGrid"></div>
     <div class="pagination-container mt-3">
         <button id="previousPageButton" class="btn btn-secondary mr-2" disabled>Previous Page</button>
@@ -42,6 +46,16 @@
 <div id="successMessage" class="alert alert-success fade" role="alert">
     Item successfully added!
 </div>
+<script>
+    // Get the value of the userId attribute
+    var userId = '<%= request.getAttribute("userId") %>';
+
+    // Now you can manipulate the userId variable using JavaScript
+    console.log("User ID:", userId);
+
+    // Example: Manipulate the userId and display it in an alert
+
+</script>
 <%@ include file="itemsInCart.jspf" %>
 <%@ include file="addItemModal.jspf" %>
 <%@ include file="product-details.jspf" %>

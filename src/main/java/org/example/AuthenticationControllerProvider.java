@@ -7,10 +7,23 @@ import com.auth0.jwk.JwkProviderBuilder;
 import javax.servlet.ServletConfig;
 import java.io.UnsupportedEncodingException;
 
+import com.auth0.AuthenticationController;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.JwkProviderBuilder;
+
+import javax.servlet.ServletConfig;
+import java.io.UnsupportedEncodingException;
+
+/**
+ * A class that manages a singleton instance of a {@link JwkProvider} and {@link AuthenticationController} to be used
+ * by Servlets to authenticate users with Auth0.
+ * <p>
+ * Note that each application instance should only create <strong>one</strong> instance of the {@linkplain AuthenticationController}
+ * per domain and application to minimize unnecessary resource usage.
+ */
 public class AuthenticationControllerProvider {
 
-    private AuthenticationControllerProvider() {
-    }
+    private AuthenticationControllerProvider() {}
 
     private static AuthenticationController INSTANCE;
 

@@ -5,6 +5,8 @@ window.onload =  async function () {
     let data;
     console.log(location);
 
+    console.log(userId);
+
     fetchBasket();
     console.log(cartItems);
     if (location === "product_details") {

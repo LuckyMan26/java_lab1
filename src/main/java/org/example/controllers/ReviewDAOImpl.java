@@ -35,11 +35,11 @@ public class ReviewDAOImpl implements ReviewDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (client_id,good_id, text, rating) VALUES ( ?, ?,?,?)");
-                statement.setLong(1, element.getClientid());
-                statement.setLong(2, element.getGoodId());
-                statement.setString(3, element.getText());
-                statement.setInt(4, element.getStars());
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews (product_id, text, rating,client_id) VALUES ( ?, ?,?,?)");
+                statement.setString(4, element.getClientid());
+                statement.setLong(1, element.getGoodId());
+                statement.setString(2, element.getText());
+                statement.setInt(3, element.getStars());
                 statement.executeUpdate();
                 return null;
             });
@@ -63,12 +63,12 @@ public class ReviewDAOImpl implements ReviewDAO {
                 Review e = null;
                 while (resultSet.next()) {
                     Long reviewid = resultSet.getLong("blacklist_id");
-                    Long clientId = resultSet.getLong("client_id");
-                    Long goodId = resultSet.getLong("good_id");
+                    String client_token = resultSet.getString("client_id");
+                    Long goodId = resultSet.getLong("product_id");
                     String text = resultSet.getString("text");
                     int stars = resultSet.getInt("rating");
 
-                    e = new Review(reviewid, clientId, goodId, text, stars);
+                    e = new Review(reviewid, client_token, goodId, text, stars);
                     logger.info(e.toString());
                 }
                 return e;
@@ -86,7 +86,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             listOfElements = transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE good_id = ?");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE product_id = ?");
                 logger.info(id);
                 statement.setInt(1,id);
 
@@ -95,12 +95,12 @@ public class ReviewDAOImpl implements ReviewDAO {
                 List<Review> list = new ArrayList<Review>();
                 while (resultSet.next()) {
                     Long review_id = resultSet.getLong("review_id");
-                    Long clientid = resultSet.getLong("client_id");
-                    Long good_id = resultSet.getLong("good_id");
+                    String client_token = resultSet.getString("client_id");
+                    Long good_id = resultSet.getLong("product_id");
                     String text = resultSet.getString("text");
                     int stars = resultSet.getInt("rating");
 
-                    e = new Review(review_id, clientid,good_id, text, stars);
+                    e = new Review(review_id, client_token,good_id, text, stars);
                     logger.info(e.toString());
                     list.add(e);
                 }

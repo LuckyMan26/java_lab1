@@ -42,13 +42,13 @@ public class AddReview extends HttpServlet {
         logger.info("here");
 
 
-        String client_id = request.getParameter("client_id");
+        String client_token = request.getParameter("client_token");
         String good_id = request.getParameter("good_id");
         String text = request.getParameter("text");
         String rating = request.getParameter("rating");
         logger.info(text);
         logger.info(good_id);
-        logger.info(client_id);
-        ReviewDAOImpl.getInstance().addReview(new Review(1L, Long.parseLong(client_id), Long.parseLong(good_id), text, Integer.parseInt(rating)));
+        logger.info(client_token);
+        ReviewDAOImpl.getInstance().addReview(new Review(1L, client_token, Long.parseLong(good_id), text, Integer.parseInt(rating)));
     }
 }

@@ -2,11 +2,11 @@ package org.example.models;
 
 public class Review {
     private final Long reviewid;
-    private final Long clientid;
+    private final String clientid;
     private final String text;
     private final Long goodId;
     private final int stars;
-    public Review(Long reviewid, Long clientid,Long good_id, String text, int stars){
+    public Review(Long reviewid, String clientid,Long good_id, String text, int stars){
         this.reviewid = reviewid;
         this.clientid = clientid;
         this.text = text;
@@ -16,7 +16,7 @@ public class Review {
     public Long getGoodId(){
         return goodId;
     }
-    public Long getClientid(){
+    public String getClientid(){
         return clientid;
     }
     public String getText(){

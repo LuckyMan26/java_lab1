@@ -95,47 +95,71 @@ async function sendGoodId(id){
 
 
 function renderExistingReviews(reviews) {
+
     //console.log(reviews);
+
     const reviewsList = document.getElementById("reviewsList");
     reviewsList.innerHTML = "";
 
     reviews.forEach(review => {
-        const listItem = document.createElement("div");
-
-        // Create a container for the review content
-        const reviewContent = document.createElement("div");
-        reviewContent.classList.add("review-content");
-
-        // Display the author's full name
-        const authorName = document.createElement("div");
-        authorName.classList.add("author-name");
-        authorName.textContent = "Artem Volyk";
-        authorName.style.fontSize = "12px"; // Smaller font size
-        authorName.style.color = "#888"; // Shade of gray
-
-        // Display the review grade as stars
-        const ratingStars = document.createElement("div");
-        ratingStars.classList.add("rating-stars");
-        for (let i = 0; i < review.stars; i++) {
-            const starIcon = document.createElement("span");
-            starIcon.innerHTML = "&#9733;"; // Star symbol
-            ratingStars.appendChild(starIcon);
+        console.log(review);
+        let full_name = null;
+        let data = {
+            user_id :    (review.clientid)
         }
+        fetch('/GetUserInfo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type based on your data format
+            },
+            body: JSON.stringify(data) // Convert your data to JSON format
+        })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                const obj = JSON.parse(data);
+                console.log(obj);
+                const full_name = obj.user_metadata.full_name;
 
-        // Display the review text
-        const reviewText = document.createElement("div");
-        reviewText.textContent = review.text;
+                // Create a container for the review content
+                const reviewContent = document.createElement("div");
+                reviewContent.classList.add("review-content");
 
-        // Append all elements to the review content container
-        reviewContent.appendChild(authorName);
-        reviewContent.appendChild(ratingStars);
-        reviewContent.appendChild(reviewText);
+                // Display the author's full name
+                const authorName = document.createElement("div");
+                authorName.classList.add("author-name");
+                authorName.textContent = full_name;
+                authorName.style.fontSize = "12px"; // Smaller font size
+                authorName.style.color = "#888"; // Shade of gray
 
-        // Append the review content container to the list item
-        listItem.appendChild(reviewContent);
+                // Display the review grade as stars
+                const ratingStars = document.createElement("div");
+                ratingStars.classList.add("rating-stars");
+                for (let i = 0; i < review.stars; i++) {
+                    const starIcon = document.createElement("span");
+                    starIcon.innerHTML = "&#9733;"; // Star symbol
+                    ratingStars.appendChild(starIcon);
+                }
 
-        // Append the list item to the reviews list
-        reviewsList.appendChild(listItem);
+                // Display the review text
+                const reviewText = document.createElement("div");
+                reviewText.textContent = review.text;
+
+                // Append all elements to the review content container
+                reviewContent.appendChild(authorName);
+                reviewContent.appendChild(ratingStars);
+                reviewContent.appendChild(reviewText);
+
+                // Create a list item for the review content
+                const listItem = document.createElement("div");
+                listItem.appendChild(reviewContent);
+
+                // Append the list item to the reviews list
+                reviewsList.appendChild(listItem);
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+            });
     });
 }
 
@@ -161,7 +185,7 @@ function getSelectedStars() {
     // Return the number of selected stars
     return selectedStars;
 }
-function addReview(){
+async function addReview() {
     const stars = document.querySelectorAll('.rating input[type="radio"]');
     let selectedRating = getSelectedStars();
 
@@ -169,18 +193,18 @@ function addReview(){
     var text = document.getElementById('review').value;
 
     document.getElementById('review').value = '';
-    stars.forEach(function(star) {
+    stars.forEach(function (star) {
         // Check if the star is checked
         if (star.checked) {
             star.checked = false;
         }
     });
 
-
+    const accessToken = await accessCode();
     var formData = new FormData();
     formData.append('text', text);
     formData.append('rating', parseFloat(selectedRating));
-    formData.append('client_id', 16);
+    formData.append('client_token', getUserIdFromToken(userId));
     formData.append('good_id', window.product_id);
 
 
@@ -189,7 +213,7 @@ function addReview(){
 
         body: formData
     })
-        .then(function(response) {
+        .then(function (response) {
             //console.log(response);
             if (!response.ok) {
                 throw new Error('Network response was not ok');

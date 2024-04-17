@@ -71,10 +71,68 @@ function clearSearchParams() {
 
     // Loop through each search parameter in the copy and delete it
     searchParamsCopy.forEach((value, key) => {
-        url.searchParams.delete(key);
+        if(key!=="userId" && key!=="accessToken"){
+            url.searchParams.delete(key);
+        }
+
     });
 
     window.history.replaceState({}, '', url);
 
     console.log("Search parameters cleared");
+}
+
+async function accessCode() {
+    const url = '/GetAccessToken';
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error; // rethrow the error
+    }
+}
+
+async function getUserData() {
+    let res;
+    try {
+        const accessToken = await accessCode();
+        console.log(accessToken);
+        const data = {
+          accessToken
+        };
+        const response = await fetch('/GetUserInfo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(accessToken)
+        });
+        const userData = await response.json();
+        console.log(userData);
+        res = userData;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    return res;
+}
+
+function getUserIdFromToken(userId) {
+
+
+    // Split the token into its parts
+    const tokenParts = userId.split('.');
+
+    // Decode the payload (the second part of the token)
+    const payload = JSON.parse(atob(tokenParts[1]));
+
+    // Extract the user ID from the payload
+    const res = payload.sub; // 'sub' is the standard claim for the subject (user ID)
+    console.log(res);
+    return res;
 }
