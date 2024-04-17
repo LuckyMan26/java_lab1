@@ -6,15 +6,15 @@ import java.util.HashMap;
 public class BasketItem {
     private Long basketItemId;
     private final ArrayList<Long> items;
-    private final Long client_id;
+    private final String client_id;
 
-    public BasketItem(Long basketItemId,  ArrayList<Long> items, Long client_id){
+    public BasketItem(Long basketItemId,  ArrayList<Long> items, String client_id){
         this.basketItemId = basketItemId;
         this.items = items;
         this.client_id = client_id;
 
     }
-    public BasketItem(ArrayList<Long> items, Long client_id){
+    public BasketItem(ArrayList<Long> items, String client_id){
 
         this.items = items;
         this.client_id = client_id;
@@ -27,7 +27,7 @@ public class BasketItem {
     public ArrayList<Long> getItems(){
         return items;
     }
-    public Long getClient_id(){
+    public String getClient_id(){
         return client_id;
     }
 

@@ -35,7 +35,22 @@ public class FetchHistoryOfOrders  extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             logger.info("do get");
-        Long client_id = 16L;
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        logger.info("doPost");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = reader.lines().collect(Collectors.joining());
+        reader.close();
+
+
+        JSONObject jsonObject = new JSONObject(json);
+
+
+        String client_id = jsonObject.getString("user_id");
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
@@ -46,13 +61,6 @@ public class FetchHistoryOfOrders  extends HttpServlet {
             writer.write(element.toString());
         }
         logger.info("success");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        logger.info("doPost");
-
 
     }
 }

@@ -9,7 +9,7 @@ function setCurrentClientId(id){
 
     clearSearchParams();
     setCurrentLocation('items_in_cart');
-    setCurrentClientId(16);
+
     hideAllFragments("itemsInCart");
 
     console.log("showBasketItems");
@@ -73,7 +73,7 @@ function buy() {
             const data = {
                 products: cartItems,
                 date: currentDate,
-                client_id: 16,
+                client_id: getUserIdFromToken(userId),
             };
 
             fetch('/MakeOrder', {

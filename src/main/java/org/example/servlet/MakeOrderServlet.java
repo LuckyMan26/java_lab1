@@ -62,7 +62,7 @@ public class MakeOrderServlet extends HttpServlet {
 
             logger.info(id );
         }
-        Long client_id = jsonObject.getLong("client_id");
+        String client_id = jsonObject.getString("client_id");
         String dateString = jsonObject.getString("date");
         Date date;
         try {

@@ -10,7 +10,7 @@ public interface OrderDAO {
     public Order getOrderById(int id);
     public List<Order> getAllOrders();
     public void deleteOrder(int id);
-    public List<Order> getAllOrdersByClient(Long client_id);
+    public List<Order> getAllOrdersByClient(String client_id);
 
     public void changeOrderStatus(Long order_id, Status status);
 }

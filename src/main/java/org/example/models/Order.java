@@ -7,13 +7,13 @@ import java.util.Date;
 
 public class Order {
     private final Long orderId;
-    private final Long clientId;
+    private final String clientId;
     private final ArrayList<Long> products;
     private final Date order_date;
 
     private final Status status;
     private final double total_price;
-    public Order(Long orderId, Long clientId, Date order_date,  Status status,ArrayList<Long> products ){
+    public Order(Long orderId, String clientId, Date order_date,  Status status,ArrayList<Long> products ){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -26,7 +26,7 @@ public class Order {
         }
         this.total_price = res;
     }
-    public Order(Long orderId, Long clientId, Date order_date, ArrayList<Long> products){
+    public Order(Long orderId, String clientId, Date order_date, ArrayList<Long> products){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -40,7 +40,7 @@ public class Order {
         }
         this.total_price = res;
     }
-    public Order(Long orderId, Long clientId, Date order_date, Status status, ArrayList<Long> products, double total_price){
+    public Order(Long orderId, String clientId, Date order_date, Status status, ArrayList<Long> products, double total_price){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -53,7 +53,7 @@ public class Order {
     public Long getOrderId(){
         return orderId;
     }
-    public Long getClientId(){
+    public String getClientId(){
         return clientId;
     }
     public Date getOrder_date(){

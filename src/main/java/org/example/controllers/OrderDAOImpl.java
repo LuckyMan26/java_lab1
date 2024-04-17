@@ -39,7 +39,7 @@ public class OrderDAOImpl implements OrderDAO {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids, total_price) VALUES ( ?, ?, ?, ?, ?)");
-                statement.setLong(1, order.getClientId());
+                statement.setString(1, order.getClientId());
                 statement.setDate(2, new java.sql.Date(order.getOrder_date().getTime()));
 
                 statement.setString(3, order.getStatus().toString());
@@ -77,7 +77,7 @@ public class OrderDAOImpl implements OrderDAO {
                 Order order = null;
                 while (resultSet.next()) {
                     Long order_id = resultSet.getLong("order_id");
-                    Long client_id = resultSet.getLong("client_id");
+                    String client_id = resultSet.getString("client_id");
                     Date order_date = resultSet.getDate("order_date");
                     Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
 
@@ -112,7 +112,7 @@ public class OrderDAOImpl implements OrderDAO {
                 List<Order> list = new ArrayList<>();
                 while (resultSet.next()) {
                     Long order_id = resultSet.getLong("order_id");
-                    Long client_id = resultSet.getLong("client_id");
+                    String client_id = resultSet.getString("client_id");
                     Date order_date = resultSet.getDate("order_date");
                     Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
 
@@ -132,14 +132,14 @@ public class OrderDAOImpl implements OrderDAO {
         return listOfOrders;
     }
     @Override
-    public List<Order> getAllOrdersByClient(Long client_id) {
+    public List<Order> getAllOrdersByClient(String client_id) {
         List<Order> listOfOrders = null;
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             listOfOrders = transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE client_id = ?");
                 logger.info("dsafasdfds");
-                statement.setLong(1,client_id);
+                statement.setString(1,client_id);
                 ResultSet resultSet = statement.executeQuery();
                 logger.info("resultSet");
                 Order order = null;

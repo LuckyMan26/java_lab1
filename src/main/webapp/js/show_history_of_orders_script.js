@@ -5,8 +5,18 @@ function showOrdersHistory() {
     setCurrentClientId(16);
     hideAllFragments("history-of-orders");
 
-    fetch('/FetchOrders')
-        .then(response =>  response.json())
+
+    let data = {
+        user_id : getUserIdFromToken(userId)
+    }
+    fetch('/FetchOrders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Set the content type based on your data format
+        },
+        body: JSON.stringify(data) // Convert your data to JSON format
+    })
+        .then(response => response.json()) // Parse the JSON response
         .then(data => {
             console.log(data);
             displayOrderHistoryOfUser(data);
@@ -20,7 +30,10 @@ function showOrdersHistory() {
                 return dateA - dateB;
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
     console.log("showOrdersHistory");
 }
 function toggleDeliveredOrders() {
@@ -36,8 +49,17 @@ function toggleDeliveredOrders() {
 }
 
 function filterOrdersByStatus(status) {
+    let data = {
+        user_id : getUserIdFromToken(userId)
+    }
     hideAllFragments("history-of-orders");
-    fetch('/FetchOrders')
+    fetch('/FetchOrders', {
+        method: 'POST',
+            headers: {
+            'Content-Type': 'application/json', // Set the content type based on your data format
+        },
+        body: JSON.stringify(data)
+    })
         .then(response => response.json())
         .then(data => {
             const filteredOrders = data.filter(order => order.status === status);

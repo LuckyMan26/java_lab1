@@ -3,19 +3,28 @@ let cartItems = [];
 
 function fetchBasket(){
     console.log("fetchBasket");
-    fetch('/FetchBasket')
-        .then(response =>  response.json())
+    let data = {
+        user_id: getUserIdFromToken(userId)
+    }
+    fetch('/FetchBasket', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Set the content type based on your data format
+        },
+        body: JSON.stringify(data) // Convert your data to JSON format
+    })
+        .then(response => response.json()) // Parse the JSON response
         .then(data => {
-
             cartItems = data;
-            console.log(cartItems);
             cartItemCount = data.length;
             console.log(data.length);
             document.getElementById('cartItemCount').textContent = cartItemCount;
         })
-        .catch(error => console.error('Error:', error));
-    //console.log("fetch basket finished");
-    //console.log(cartItemCount);
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+
 
 
 }
@@ -29,7 +38,7 @@ function addToCart(product) {
     console.log(cartItems[cartItems.length -1]);
     const data = {
         'product_id': product.product_id,
-        'client_id': 16
+        'client_id': getUserIdFromToken(userId)
     };
     fetch('/AddItemToBasket', {
         method: 'POST',

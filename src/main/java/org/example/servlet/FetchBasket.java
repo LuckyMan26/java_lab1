@@ -8,15 +8,21 @@ import org.example.controllers.BasketDAOImpl;
 import org.example.controllers.ProductDAOImpl;
 import org.example.models.BasketItem;
 import org.example.models.Product;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @WebServlet(urlPatterns = {"/FetchBasket"})
 public class FetchBasket extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchBasket.class);
@@ -24,8 +30,22 @@ public class FetchBasket extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("do get");
-        Long client_id = 16L;
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        logger.info("do post");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = reader.lines().collect(Collectors.joining());
+        reader.close();
+
+
+        JSONObject jsonObject = new JSONObject(json);
+
+
+        String client_id = jsonObject.getString("user_id");
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
 
@@ -52,11 +72,5 @@ public class FetchBasket extends HttpServlet {
             }
         }
         logger.info("success");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        logger.info("do post");
     }
 }

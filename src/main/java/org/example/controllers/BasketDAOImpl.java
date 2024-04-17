@@ -50,7 +50,7 @@ public class BasketDAOImpl implements BasketDAO {
                     counter+=1;
                 }
                 statement.setArray(1, connection.createArrayOf("INTEGER", array));
-                statement.setLong(2, basketItem.getClient_id());
+                statement.setString(2, basketItem.getClient_id());
                 statement.executeUpdate();
                 return null;
             });
@@ -77,7 +77,7 @@ public class BasketDAOImpl implements BasketDAO {
 
                     ArrayList<Long> items = new ArrayList<Long>(Arrays.asList(integerArray));
 
-                    Long client_id = resultSet.getLong("client_id");
+                    String client_id = resultSet.getString("client_id");
                     basketItem1 = new BasketItem(basket_id,items,client_id);
                 }
                 return basketItem1;
@@ -90,14 +90,14 @@ public class BasketDAOImpl implements BasketDAO {
     }
 
     @Override
-    public BasketItem getBasketItemByClientId(Long client_id) {
+    public BasketItem getBasketItemByClientId(String client_id) {
         BasketItem basketItem = null;
         logger.info("getBasketItemByClientId");
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             basketItem = transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM Basket WHERE client_id = ?");
-                statement.setLong(1, client_id);
+                statement.setString(1, client_id);
                 logger.info("set long");
                 ResultSet resultSet = statement.executeQuery();
                 BasketItem basketItem1 = null;
@@ -126,7 +126,7 @@ public class BasketDAOImpl implements BasketDAO {
     }
 
     @Override
-    public void addOneProductToBasket(Long product_id, Long client_id){
+    public void addOneProductToBasket(Long product_id, String client_id){
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
@@ -157,7 +157,7 @@ public class BasketDAOImpl implements BasketDAO {
                     array[items.size()] = product_id;
 
                     statement.setArray(1, connection.createArrayOf("INTEGER", array));
-                    statement.setLong(2, client_id);
+                    statement.setString(2, client_id);
                     statement.executeUpdate();
                 }
 
@@ -189,7 +189,7 @@ public class BasketDAOImpl implements BasketDAO {
 
     }
     @Override
-    public void deleteProductInBasket(Long client_id, Long product_id) {
+    public void deleteProductInBasket(String client_id, Long product_id) {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
@@ -223,7 +223,7 @@ public class BasketDAOImpl implements BasketDAO {
 
 
                     statement.setArray(1, connection.createArrayOf("INTEGER", array));
-                    statement.setLong(2, client_id);
+                    statement.setString(2, client_id);
                     statement.executeUpdate();
                 }
 
@@ -236,13 +236,13 @@ public class BasketDAOImpl implements BasketDAO {
         }
     }
     @Override
-    public void clearBasket(Long client_id){
+    public void clearBasket(String client_id){
         try {
             logger.info("clearBasket");
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM Basket WHERE client_id = ?");
-                statement.setLong(1, client_id);
+                statement.setString(1, client_id);
                 logger.info(client_id);
                 statement.executeUpdate();
 
