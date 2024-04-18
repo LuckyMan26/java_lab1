@@ -172,9 +172,10 @@ public class BasketDAOImpl implements BasketDAO {
     @Override
     public void deleteBasketItem(Long id) {
         try {
+            logger.info("delete " + id);
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("DELETE  * FROM Basket WHERE basket_item_id = ?");
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Basket WHERE basket_id = ?");
 
                 statement.setLong(1, id);
                 statement.executeUpdate();
@@ -203,6 +204,7 @@ public class BasketDAOImpl implements BasketDAO {
                     deleteBasketItem(basketItem1.getBasketItemId());
                 }
                 else {
+                    logger.info(client_id);
                     statement = connection.prepareStatement("UPDATE Basket SET product_items_id = ? WHERE client_id = ?");
                     logger.info(basketItem1.toString());
                     ArrayList<Long> items = basketItem1.getItems();

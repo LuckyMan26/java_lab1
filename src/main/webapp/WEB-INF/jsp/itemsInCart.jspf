@@ -115,6 +115,8 @@
     <div class="confirmation-dialog" id="confirmationDialog" style="display: none">
         <p>Are you sure you want to proceed with the purchase?</p>
         <p id="total-price"></p>
+        <label for="addressInput">Address:</label>
+        <input type="text" id="addressInput" placeholder="Enter your address">
         <button id="confirmBtn">Yes</button>
         <button id="cancelBtn">Cancel</button>
 

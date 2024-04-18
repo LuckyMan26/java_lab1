@@ -83,6 +83,14 @@ function displayOrderHistoryOfUser(orders){
         h1.textContent = `Total price: ${order.total_price}`;
         orderDiv.appendChild(orderInfo);
         orderDiv.appendChild(h1);
+        const ad = document.createElement('div');
+        ad.textContent = 'Address: ' + order.address;
+        const name = document.createElement('div');
+        name.textContent = 'Full name: ' + order.full_name;
+
+
+        orderDiv.appendChild(ad);
+        orderDiv.appendChild(name);
         const productsContainer = document.createElement('div');
         productsContainer.classList.add('products-container');
         let data = {
@@ -146,6 +154,8 @@ function displayOneProduct(product,quantity, container){
     const q = document.createElement('span');
     q.textContent = 'Quantity: ' + quantity;
     textContent.appendChild(q);
+
+
     productDiv.appendChild(textContent);
     container.appendChild(productDiv);
 }

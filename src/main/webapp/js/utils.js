@@ -104,14 +104,15 @@ async function getUserData() {
         const accessToken = await accessCode();
         console.log(accessToken);
         const data = {
-          accessToken
+            user_id: getUserIdFromToken(userId)
         };
+        console.log(data);
         const response = await fetch('/GetUserInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(accessToken)
+            body: JSON.stringify(data)
         });
         const userData = await response.json();
         console.log(userData);

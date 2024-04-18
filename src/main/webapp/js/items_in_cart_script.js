@@ -40,13 +40,19 @@ function displayItems(data){
 function displayConfirmation(cost) {
     return new Promise((resolve, reject) => {
         const confirmationDialog = document.getElementById("confirmationDialog");
+        const addressInput = document.getElementById("addressInput");
 
         const confirmBtn = document.getElementById("confirmBtn");
         const cancelBtn = document.getElementById("cancelBtn");
-        const price = document.getElementById('total-price');
-        confirmationDialog.appendChild(price);
+
         confirmBtn.addEventListener("click", () => {
-            resolve();
+            const address = addressInput.value.trim();
+            if (address.length < 5) {
+                alert("Please enter a valid address (at least 5 characters).");
+                return; // Prevent further execution
+            }
+            console.log(address);
+            resolve(address); // Pass the address as resolved value
             confirmationDialog.style.display = "none";
         });
 
@@ -56,7 +62,6 @@ function displayConfirmation(cost) {
         });
 
         confirmationDialog.style.display = "block";
-
     });
 }
 
@@ -66,21 +71,31 @@ function buy() {
         price+=cartItems[i].price;
     }
     displayConfirmation(price)
-        .then(() => {
+        .then(async (address) => {
             // User confirmed, proceed with purchase logic
             let currentDate = new Date();
             console.log(currentDate.getHours());
-            const data = {
+            const obj = await getUserData();
+            console.log(obj);
+            const json_obj = JSON.parse(obj);
+            console.log(json_obj);
+            const full_name = json_obj.user_metadata.full_name;
+            console.log('Address '+ address);
+            console.log(obj);
+            const d = {
                 products: cartItems,
                 date: currentDate,
                 client_id: getUserIdFromToken(userId),
+                address: address,
+                full_name: full_name
             };
-
+            console.log(full_name);
+            console.log(d);
             fetch('/MakeOrder', {
                 method: 'POST',
-                body: JSON.stringify(data)
+                body: JSON.stringify(d)
             })
-                .then(function(response) {
+                .then(function (response) {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }

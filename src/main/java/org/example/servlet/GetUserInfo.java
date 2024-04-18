@@ -54,7 +54,7 @@ public class GetUserInfo extends HttpServlet {
 
 
         JSONObject jsonObject = new JSONObject(json);
-
+        logger.info(jsonObject.toString());
         String user_id = jsonObject.getString("user_id");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();

@@ -62,6 +62,17 @@ function displayOrderHistory(orders){
 
         orderDiv.appendChild(statusSelect);
 
+        const ad = document.createElement('div');
+        ad.textContent = 'Address: ' + order.address;
+        const name = document.createElement('div');
+        name.textContent = 'Full name: ' + order.full_name;
+        const user_id = document.createElement('div');
+        user_id.textContent ='Client id: ' + order.clientId;
+
+        orderDiv.appendChild(ad);
+        orderDiv.appendChild(name);
+        orderDiv.appendChild(user_id);
+
         const productsContainer = document.createElement('div');
         productsContainer.classList.add('products-container');
         let data = {

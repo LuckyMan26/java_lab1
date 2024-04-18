@@ -38,7 +38,7 @@ public class OrderDAOImpl implements OrderDAO {
         try {
             TransactionWrapper transactionWrapper = new TransactionWrapper(ConenctionPool.getInstance());
             transactionWrapper.executeTransaction(connection -> {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids, total_price) VALUES ( ?, ?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (client_id, order_date, status, products_ids, total_price, full_name ,address) VALUES (?, ?, ?, ?, ?,?,?)");
                 statement.setString(1, order.getClientId());
                 statement.setDate(2, new java.sql.Date(order.getOrder_date().getTime()));
 
@@ -53,6 +53,8 @@ public class OrderDAOImpl implements OrderDAO {
                 logger.info("addOrder");
                 statement.setArray(4, connection.createArrayOf("INTEGER", array));
                 statement.setDouble(5, order.getTotalPrice());
+                statement.setString(6,order.getFullName());
+                statement.setString(7,order.getAddress());
                 statement.executeUpdate();
 
                 return null;
@@ -84,7 +86,9 @@ public class OrderDAOImpl implements OrderDAO {
                     ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
                     Status status = Status.valueOf(resultSet.getString("status"));
                     double price = resultSet.getDouble("total_price");
-                    order = new Order(order_id, client_id, order_date, status, product_id, price);
+                    String full_name = resultSet.getString("full_name");
+                    String address = resultSet.getString("address");
+                    order = new Order(order_id, client_id, order_date, status, product_id, price, full_name,address);
                     logger.info(order.toString());
                 }
                 return order;
@@ -118,7 +122,9 @@ public class OrderDAOImpl implements OrderDAO {
 
                     ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
                     String status = resultSet.getString("status");
-                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id);
+                    String full_name = resultSet.getString("full_name");
+                    String address = resultSet.getString("address");
+                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id,full_name,address);
                     logger.info(order.toString());
                     list.add(order);
                 }
@@ -155,8 +161,11 @@ public class OrderDAOImpl implements OrderDAO {
                     ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
                     logger.info("pizda 2");
                     String status = resultSet.getString("status");
+
                     logger.info("pizda 3");
-                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id);
+                    String full_name = resultSet.getString("full_name");
+                    String address = resultSet.getString("address");
+                    order = new Order(order_id, client_id, order_date,Status.valueOf(status),product_id, full_name,address);
                     logger.info(order.toString());
                     list.add(order);
                 }

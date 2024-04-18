@@ -1,6 +1,8 @@
 var currentPage = 1;
 var itemsPerPage = 15;
+var role;
 window.onload =  async function () {
+    role = getUserRole();
     let location = getParameterByName('location');
     let data;
     console.log(location);
@@ -9,7 +11,9 @@ window.onload =  async function () {
 
     fetchBasket();
     console.log(cartItems);
+    displayHeader();
     if (location === "product_details") {
+
         let product_id = getParameterByName("product_id");
         console.log(product_id);
         data = {products: [product_id]};
@@ -168,3 +172,39 @@ async function displayMainPage() {
 
 
 
+async function getUserRole() {
+    let role;
+    let data = {
+        user_id: getUserIdFromToken(userId)
+    }
+    await fetch('/GetUserRole', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(async response => await response.json()) // Parse the JSON response
+        .then(data => {
+            console.log(data);
+            const obj = JSON.parse(data);
+            console.log(obj);
+            role = obj[0].name;
+            console.log(role);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+    return role;
+}
+
+async function  displayHeader(){
+    role = await getUserRole();
+    console.log(role);
+    if(role==="Admin"){
+        document.getElementById("get-all-orders").style.display = 'block';
+        document.getElementById('additem').style.display = 'block';
+    }
+
+}

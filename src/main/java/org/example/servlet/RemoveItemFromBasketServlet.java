@@ -45,6 +45,7 @@ public class RemoveItemFromBasketServlet extends HttpServlet {
 
         Long product_id = jsonObject.getLong("product_id");
         String client_id = jsonObject.getString("client_id");
+        logger.info(client_id);
         logger.info(Long.toString(product_id), (client_id));
         BasketDAOImpl.getInstance().deleteProductInBasket(client_id,product_id);
         logger.info("success");

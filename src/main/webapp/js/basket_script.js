@@ -113,9 +113,10 @@ function hideBasketItems() {
 }
 
 function removeItemFromCart(index) {
+    console.log(getUserIdFromToken(userId));
     const data = {
         'product_id': cartItems[index].product_id,
-        'client_id': 16
+        'client_id': getUserIdFromToken(userId)
     };
      //console.log('removeItemFromCart');
     // Remove item from cartItems array

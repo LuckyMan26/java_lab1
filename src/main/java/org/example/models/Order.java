@@ -13,7 +13,9 @@ public class Order {
 
     private final Status status;
     private final double total_price;
-    public Order(Long orderId, String clientId, Date order_date,  Status status,ArrayList<Long> products ){
+    private final String full_name;
+    private final String address;
+    public Order(Long orderId, String clientId, Date order_date,  Status status,ArrayList<Long> products, String full_name, String address){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -25,8 +27,11 @@ public class Order {
             res += ProductDAOImpl.getInstance().getGoodById(product).getPrice();
         }
         this.total_price = res;
+        this.full_name = full_name;
+        this.address = address;
+
     }
-    public Order(Long orderId, String clientId, Date order_date, ArrayList<Long> products){
+    public Order(Long orderId, String clientId, Date order_date, ArrayList<Long> products, String full_name, String address){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -39,8 +44,10 @@ public class Order {
             res += ProductDAOImpl.getInstance().getGoodById(product).getPrice();
         }
         this.total_price = res;
+        this.full_name = full_name;
+        this.address = address;
     }
-    public Order(Long orderId, String clientId, Date order_date, Status status, ArrayList<Long> products, double total_price){
+    public Order(Long orderId, String clientId, Date order_date, Status status, ArrayList<Long> products, double total_price, String full_name, String address){
         this.orderId = orderId;
         this.clientId = clientId;
         this.order_date = order_date;
@@ -49,6 +56,9 @@ public class Order {
         this.products = products;
 
         this.total_price = total_price;
+        this.full_name = full_name;
+        this.address = address;
+
     }
     public Long getOrderId(){
         return orderId;
@@ -68,6 +78,12 @@ public class Order {
     }
     public double getTotalPrice(){
         return total_price;
+    }
+    public String getAddress(){
+        return address;
+    }
+    public String getFullName(){
+        return  full_name;
     }
     @Override
     public String toString() {

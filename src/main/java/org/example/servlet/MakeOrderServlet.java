@@ -64,6 +64,10 @@ public class MakeOrderServlet extends HttpServlet {
         }
         String client_id = jsonObject.getString("client_id");
         String dateString = jsonObject.getString("date");
+        String address = jsonObject.getString("address");
+        String full_name = jsonObject.getString("full_name");
+        logger.info(address);
+        logger.info(full_name);
         Date date;
         try {
             date = dateFormat.parse(dateString);
@@ -73,7 +77,7 @@ public class MakeOrderServlet extends HttpServlet {
 
         }
         logger.info(date.toString());
-        OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order));
+        OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order,full_name,address));
         BasketDAOImpl.getInstance().clearBasket(client_id);
         logger.info("success");
     }
