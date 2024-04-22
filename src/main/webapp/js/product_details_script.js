@@ -115,7 +115,7 @@ function renderExistingReviews(reviews) {
             body: JSON.stringify(data) // Convert your data to JSON format
         })
             .then(response => response.json()) // Parse the JSON response
-            .then(data => {
+            .then(async data => {
                 const obj = JSON.parse(data);
                 console.log(obj);
                 const full_name = obj.user_metadata.full_name;
@@ -127,7 +127,13 @@ function renderExistingReviews(reviews) {
                 // Display the author's full name
                 const authorName = document.createElement("div");
                 authorName.classList.add("author-name");
-                authorName.textContent = full_name;
+                role = await getUserRole();
+                if(role==="Admin"){
+                    authorName.innerHTML = full_name + "(" + review.clientid + ")";
+                }
+                else {
+                    authorName.innerHTML = full_name;
+                }
                 authorName.style.fontSize = "12px"; // Smaller font size
                 authorName.style.color = "#888"; // Shade of gray
 
