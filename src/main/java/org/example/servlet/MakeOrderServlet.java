@@ -1,9 +1,12 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.BasketController;
 import org.example.controllers.OrderController;
+import org.example.dto.ServletJsonMapper;
+import org.example.models.Product;
 import org.example.repository.BasketDAOImpl;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
@@ -21,12 +24,26 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
 @WebServlet(urlPatterns = {"/MakeOrder"})
 public class MakeOrderServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(MakeOrderServlet.class);
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static class Request {
+        @JsonProperty("client_id")
+        String client_id;
+        @JsonProperty("date")
+        String dateString;
+        @JsonProperty("address")
+        String address;
+        @JsonProperty("full_name")
+        String full_name;
+        @JsonProperty("products")
+        List<Long> products;
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,47 +51,31 @@ public class MakeOrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("doPost");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+
+        List<Long> products = request.products;
 
 
-        JSONObject jsonObject = new JSONObject(json);
-
-        JSONArray products = jsonObject.getJSONArray("products");
-        ArrayList<Long> products_in_order = new ArrayList<>();
-
-        for (int i = 0; i < products.length(); i++) {
-
-            JSONObject product = products.getJSONObject(i);
-
-            Long id = product.getLong("product_id");
-            products_in_order.add(id);
 
 
-            logger.info(id );
-        }
-        String client_id = jsonObject.getString("client_id");
-        String dateString = jsonObject.getString("date");
-        String address = jsonObject.getString("address");
-        String full_name = jsonObject.getString("full_name");
-        logger.info(address);
-        logger.info(full_name);
+        logger.info(request.address);
+        logger.info(request.full_name);
+        logger.info(request.dateString);
         Date date;
         try {
-            date = dateFormat.parse(dateString);
+            date = dateFormat.parse(request.dateString);
         } catch (ParseException e) {
             logger.info(e.getMessage());
             throw new RuntimeException(e);
 
         }
         logger.info(date.toString());
-        OrderController.INSTANCE.addOrder(new Order(1L,client_id,date,products_in_order,full_name,address));
-        BasketController.INSTANCE.clearBasket(client_id);
+        OrderController.INSTANCE.addOrder(new Order(1L,request.client_id,date, (ArrayList<Long>) products,request.full_name,request.address));
+        BasketController.INSTANCE.clearBasket(request.client_id);
         logger.info("success");
     }
 }

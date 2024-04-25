@@ -6,11 +6,13 @@ function getAllOrders(){
     fetch('/GetAllOrders')
         .then(response =>  response.json())
         .then(data => {
-            console.log(typeof data[0].order_date)
+            console.log(data);
+            data = data.listOfOrders;
+
             let filteredOrders = data.filter(order => order.status !== "Delivered");
             filteredOrders = filteredOrders.sort(function(a,b){
-                let dateA = parseDate(a.order_date);
-                let dateB = parseDate(b.order_date);
+                let dateA = (a.order_date);
+                let dateB = (b.order_date);
 
                 // Compare the dates
                 return dateA - dateB;
@@ -34,7 +36,7 @@ function displayOrderHistory(orders){
         const orderInfo = document.createElement('div');
         orderInfo.textContent = `Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}`;
         const h1 = document.createElement('p');
-        h1.textContent = `Total price: ${order.total_price}`;
+        h1.textContent = `Total price: ${order.totalPrice}`;
         orderDiv.appendChild(orderInfo);
         orderDiv.appendChild(h1);
 
@@ -65,7 +67,7 @@ function displayOrderHistory(orders){
         const ad = document.createElement('div');
         ad.textContent = 'Address: ' + order.address;
         const name = document.createElement('div');
-        name.textContent = 'Full name: ' + order.full_name;
+        name.textContent = 'Full name: ' + order.fullName;
         const user_id = document.createElement('div');
         user_id.textContent ='Client id: ' + order.clientId;
 
@@ -76,10 +78,11 @@ function displayOrderHistory(orders){
         const productsContainer = document.createElement('div');
         productsContainer.classList.add('products-container');
         let data = {
+
             products: order.products
         }
 
-        fetch('/GetGoodById', {
+        fetch('/GetGoodsListById', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', // Set the content type based on your data format
@@ -88,6 +91,7 @@ function displayOrderHistory(orders){
         })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
+                data = data.productArrayList;
                 let res = countDuplicates(data);
                 console.log(res);
                 res.forEach(element => {

@@ -100,7 +100,7 @@ async function accessCode() {
 
 async function getUserData() {
     let res;
-    /*try {
+    try {
         const accessToken = await accessCode();
         console.log(accessToken);
         const data = {
@@ -116,11 +116,11 @@ async function getUserData() {
         });
         const userData = await response.json();
         console.log(userData);
-        res = userData;
+        res = userData.response;
     } catch (error) {
         console.error('Error:', error);
     }
-    return res;*/
+    return res;
 }
 
 function getUserIdFromToken(userId) {

@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.OrderController;
+import org.example.dto.ServletJsonMapper;
+import org.example.models.Product;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
 import org.json.JSONObject;
@@ -25,7 +27,18 @@ import java.util.stream.Collectors;
 public class FetchHistoryOfOrders  extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchHistoryOfOrders.class);
 
+    private static class Request {
+        public String user_id;
 
+    }
+
+    private static class Response {
+        public  ArrayList<Order> listOfOrders = new ArrayList<>();
+        Response(ArrayList<Order> listOfOrders) {
+            this.listOfOrders = listOfOrders;
+        }
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,27 +47,19 @@ public class FetchHistoryOfOrders  extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("doPost");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
 
 
-        JSONObject jsonObject = new JSONObject(json);
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
 
-        String client_id = jsonObject.getString("user_id");
-        response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter writer = response.getWriter()) {
-            Gson gson = new Gson();
-            logger.info("getAllOrdersByClient");
-            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(client_id);
-            logger.info(listOfOrders.toString());
-            JsonElement element = gson.toJsonTree(listOfOrders);
-            writer.write(element.toString());
-        }
+        logger.info("getAllOrdersByClient");
+        ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(request.user_id);
+        logger.info(listOfOrders.toString());
+        ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), res);
+
         logger.info("success");
 
     }

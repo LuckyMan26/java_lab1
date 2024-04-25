@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.BasketController;
 import org.example.controllers.ProductController;
+import org.example.dto.ServletJsonMapper;
 import org.example.repository.BasketDAOImpl;
 import org.example.repository.ProductDAOImpl;
 import org.example.models.BasketItem;
@@ -27,7 +28,20 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = {"/FetchBasket"})
 public class FetchBasket extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchBasket.class);
+    private static class Request {
+        public String user_id;
 
+
+
+    }
+
+    private static class Response {
+        public  ArrayList<Product> products_in_basket = new ArrayList<>();
+        Response(ArrayList<Product> products_in_basket) {
+            this.products_in_basket = products_in_basket;
+        }
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,43 +49,30 @@ public class FetchBasket extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         logger.info("do post");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            logger.info(request.user_id);
+            BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(request.user_id);
 
-
-        JSONObject jsonObject = new JSONObject(json);
-
-
-        String client_id = jsonObject.getString("user_id");
-        response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter writer = response.getWriter()) {
-
-            Gson gson = new Gson();
-            BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(client_id);
-
-            logger.info(basketItem);
-            //logger.info(basketItem.toString());
             if (basketItem == null) {
                 logger.info("success");
             } else {
                 ArrayList<Long> products = basketItem.getItems();
                 logger.info(products.size());
-                ArrayList<Product> prouducts_in_basket = new ArrayList<>();
+                ArrayList<Product> products_in_basket = new ArrayList<>();
                 for (Long index : products) {
                     logger.info("index: " + index);
-                    prouducts_in_basket.add(ProductController.INSTANCE.getGoodById(index));
+                    products_in_basket.add(ProductController.INSTANCE.getGoodById(index));
                 }
-                logger.info("product size: " + prouducts_in_basket.size());
+                logger.info("product size: " + products_in_basket.size());
+
+                ServletJsonMapper.objectToJsonResponse(new Response(products_in_basket), resp);
 
 
-                JsonElement element = gson.toJsonTree(prouducts_in_basket);
-                writer.write(element.toString());
             }
-        }
+
         logger.info("success");
     }
 }

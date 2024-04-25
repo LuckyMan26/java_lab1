@@ -3,6 +3,7 @@ package org.example.servlet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.OrderController;
+import org.example.dto.ServletJsonMapper;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Status;
 import org.json.JSONObject;
@@ -19,7 +20,12 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = {"/ChangeOrderStatus"})
 public class ChangeOrderStatusServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ChangeOrderStatusServlet.class);
+    private static class Request {
+        public String order_id;
+        public String status;
 
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -27,22 +33,13 @@ public class ChangeOrderStatusServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("doPost");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
 
-
-        JSONObject jsonObject = new JSONObject(json);
-
-        Long order_id = jsonObject.getLong("order_id");
-        logger.info(jsonObject.getString("status"));
-        Status new_status = Status.valueOf(jsonObject.getString("status"));
-
-       OrderController.INSTANCE.changeOrderStatus(order_id,new_status);
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+        OrderController.INSTANCE.changeOrderStatus(Long.parseLong(request.order_id), Status.valueOf(request.status));
 
         logger.info("success");
     }

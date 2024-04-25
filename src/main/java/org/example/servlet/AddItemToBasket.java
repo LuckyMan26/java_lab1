@@ -1,8 +1,10 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.BasketController;
+import org.example.dto.ServletJsonMapper;
 import org.example.repository.BasketDAOImpl;
 import org.json.JSONObject;
 
@@ -12,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,7 +29,16 @@ import java.util.stream.Collectors;
 public class AddItemToBasket extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(AddItemToBasket.class);
+    private static class Request {
+        @JsonProperty("product_id")
+        public Long product_id;
+        @JsonProperty("client_id")
+        public String client_id;
 
+
+
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,21 +46,13 @@ public class AddItemToBasket extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("doPost");
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
-
-        // Parse JSON data
-        JSONObject jsonObject = new JSONObject(json);
-
-        Long product_id = jsonObject.getLong("product_id");
-        String client_id = jsonObject.getString("client_id");
-        logger.info(Long.toString(product_id), (client_id));
-        BasketController.INSTANCE.addOneProductToBasket((product_id), (client_id));
+        logger.info(String.valueOf(request.product_id), (request.client_id));
+        BasketController.INSTANCE.addOneProductToBasket((request.product_id), (request.client_id));
         logger.info("success");
     }
 }

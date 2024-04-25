@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.ProductController;
@@ -41,12 +42,16 @@ public class AddGoodServlet extends HttpServlet {
     }
     private static final Logger logger = LogManager.getLogger(AddGoodServlet.class);
     private static class Request {
-        public long token;
+        @JsonProperty("name")
         public String name;
+        @JsonProperty("price")
         public String price;
+        @JsonProperty("quantity")
         public String quantity;
+        @JsonProperty("description")
         public String description;
-        public Part filePart;
+        @JsonProperty("file")
+        public Part file;
 
     }
 
@@ -61,18 +66,12 @@ public class AddGoodServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("do Post");
-       /* ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(request.getReader());*/
+
         Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-     /*   String itemName = request.getParameter("name");
-        String itemPrice = request.getParameter("price");
-        String itemQuantity = request.getParameter("quantity");
-        String itemDescription = request.getParameter("description");
 
-        Part filePart = request.getPart("file");*/
+        String fileName = request.file.getSubmittedFileName();
+        String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(request.file));
 
-        String fileName = request.filePart.getSubmittedFileName();
-        String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(request.filePart));
         ProductController.INSTANCE.addGood(new Product(1L,request.name,request.description,Integer.parseInt(request.price) ,Integer.parseInt(request.quantity), base64String));
         logger.info("Success");
 

@@ -58,40 +58,31 @@ async function displayProductDetails(product) {
     window.product_id = product.product_id;
     //console.log(window.product_id);
     const good_id = window.product_id;
-    await sendGoodId(good_id);
 
+    await fetchReviews();
 }
 
 
 
 async function fetchReviews(){
-    fetch('/GetReviews')
+    const data = {
+        good_id: window.product_id
+    };
+    fetch('/GetReviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Set the content type based on your data format
+        },
+        body: JSON.stringify(data) // Convert your data to JSON format
+    })
         .then(response =>  response.json())
         .then(data => {
-            renderExistingReviews(data);
+            console.log(data);
+            renderExistingReviews(data.listOfReviews);
         })
         .catch(error => console.error('Error:', error));
 }
-async function sendGoodId(id){
-    //console.log("id ", id)
-    const data = {
-        command: 'good_id',
-        good_id: id
-    };
 
-    fetch('/GetReviews', {
-        method: 'POST',
-
-        body: JSON.stringify(data)
-    })
-        .then(function(response) {
-            //console.log(response);
-            fetchReviews();
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-        });
-}
 
 
 function renderExistingReviews(reviews) {
@@ -116,6 +107,7 @@ function renderExistingReviews(reviews) {
         })
             .then(response => response.json()) // Parse the JSON response
             .then(async data => {
+                data = data.response;
                 const obj = JSON.parse(data);
                 console.log(obj);
                 const full_name = obj.user_metadata.full_name;

@@ -15,6 +15,8 @@ function fetchBasket(){
     })
         .then(response => response.json()) // Parse the JSON response
         .then(data => {
+            data = data.products_in_basket;
+            console.log(data);
             cartItems = data;
             cartItemCount = data.length;
             console.log(data.length);

@@ -3,6 +3,7 @@ package org.example.servlet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.ReviewController;
+import org.example.dto.ServletJsonMapper;
 import org.example.repository.ReviewDAOImpl;
 import org.example.models.Review;
 
@@ -23,7 +24,13 @@ import java.io.IOException;
 public class AddReview extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(AddReview.class);
+    private static class Request {
+        public String client_token;
+        public String good_id;
+        public String text;
+        public String rating;
 
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,18 +38,11 @@ public class AddReview extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("here");
+       Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-
-        String client_token = request.getParameter("client_token");
-        String good_id = request.getParameter("good_id");
-        String text = request.getParameter("text");
-        String rating = request.getParameter("rating");
-        logger.info(text);
-        logger.info(good_id);
-        logger.info(client_token);
-        ReviewController.INSTANCE.addReview(new Review(1L, client_token, Long.parseLong(good_id), text, Integer.parseInt(rating)));
+        ReviewController.INSTANCE.addReview(new Review(1L, request.client_token, Long.parseLong(request.good_id), request.text, Integer.parseInt(request.rating)));
     }
 }

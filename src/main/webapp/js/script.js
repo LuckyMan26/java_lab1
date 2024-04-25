@@ -11,7 +11,7 @@ window.onload =  async function () {
 
     fetchBasket();
     console.log(cartItems);
-    displayHeader();
+    await displayHeader();
     if (location === "product_details") {
 
         let product_id = getParameterByName("product_id");
@@ -146,7 +146,8 @@ function fetchData() {
     fetch('/GoodServlet')
         .then(response =>  response.json())
         .then(data => {
-            displayGoods(data);
+            console.log(data.listOfProducts);
+            displayGoods(data.listOfProducts);
         })
         .catch(error => console.error('Error:', error));
 }
@@ -187,6 +188,7 @@ async function getUserRole() {
         .then(async response => await response.json()) // Parse the JSON response
         .then(data => {
             console.log(data);
+            data  = data.response;
             const obj = JSON.parse(data);
             console.log(obj);
             role = obj[0].name;

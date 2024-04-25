@@ -8,6 +8,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.AuthenticationControllerProvider;
+import org.example.dto.ServletJsonMapper;
+import org.example.models.Order;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/GetAccessToken"})
 
@@ -27,6 +30,18 @@ public class GetAccessToken extends HttpServlet {
     private String domain;
     private String clientId;
     private String clientSecret;
+    private static class Request {
+        public String user_id;
+
+    }
+
+    private static class Response {
+        public String r;
+        Response(String r) {
+            this.r = r;
+        }
+
+    }
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -41,7 +56,7 @@ public class GetAccessToken extends HttpServlet {
         }
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         try {
@@ -53,19 +68,14 @@ public class GetAccessToken extends HttpServlet {
                     .header("content-type", "application/x-www-form-urlencoded")
                     .body(body)
                     .asString());
-            response.setContentType("application/json;charset=UTF-8");
-            logger.info(r.getBody());
-            try (PrintWriter writer = response.getWriter()) {
-                Gson gson = new Gson();
 
-                writer.write(r.getBody());
-            }
+            logger.info(r.getBody());
+            ServletJsonMapper.objectToJsonResponse(new Response(r.getBody()), resp);
 
         } catch (UnirestException e) {
             throw new RuntimeException(e);
         }
         logger.info("success");
     }
-
 
 }

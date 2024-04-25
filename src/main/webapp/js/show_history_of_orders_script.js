@@ -18,13 +18,14 @@ function showOrdersHistory() {
     })
         .then(response => response.json()) // Parse the JSON response
         .then(data => {
+            data = data.listOfOrders;
             console.log(data);
             displayOrderHistoryOfUser(data);
             console.log(data);
-            data = data.sort(function(a,b){
+            data.sort(function (a, b) {
 
-                let dateA = parseDate(a.order_date);
-                let dateB = parseDate(b.order_date);
+                let dateA = (a.order_date);
+                let dateB = (b.order_date);
 
                 // Compare the dates
                 return dateA - dateB;
@@ -62,6 +63,7 @@ function filterOrdersByStatus(status) {
     })
         .then(response => response.json())
         .then(data => {
+            data = data.listOfOrders
             const filteredOrders = data.filter(order => order.status === status);
             displayOrderHistoryOfUser(filteredOrders);
         })
@@ -80,13 +82,13 @@ function displayOrderHistoryOfUser(orders){
         const orderInfo = document.createElement('div');
         orderInfo.innerHTML = `<p class="order-info">Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}</p>`;
         const h1 = document.createElement('p');
-        h1.textContent = `Total price: ${order.total_price}`;
+        h1.textContent = `Total price: ${order.totalPrice}`;
         orderDiv.appendChild(orderInfo);
         orderDiv.appendChild(h1);
         const ad = document.createElement('div');
         ad.textContent = 'Address: ' + order.address;
         const name = document.createElement('div');
-        name.textContent = 'Full name: ' + order.full_name;
+        name.textContent = 'Full name: ' + order.fullName;
 
 
         orderDiv.appendChild(ad);
@@ -98,7 +100,7 @@ function displayOrderHistoryOfUser(orders){
         }
 
         console.log(data);
-        fetch('/GetGoodById', {
+        fetch('/GetGoodsListById', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', // Set the content type based on your data format
@@ -107,8 +109,11 @@ function displayOrderHistoryOfUser(orders){
         })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
-                let res = countDuplicates(data);
                 console.log(data);
+                data = data.productArrayList;
+                console.log(data);
+                let res = countDuplicates(data);
+
                 console.log(res);
                 res.forEach(element => {
                     console.log(element);

@@ -1,9 +1,12 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.BasketController;
+import org.example.dto.ServletJsonMapper;
 import org.example.repository.BasketDAOImpl;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -18,7 +21,16 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = {"/RemoveItemFromBasket"})
 public class RemoveItemFromBasketServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(RemoveItemFromBasketServlet.class);
+    private static class Request {
+        @JsonProperty("product_id")
 
+        Long product_id;
+        @JsonProperty("client_id")
+
+        String client_id;
+
+
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,22 +38,16 @@ public class RemoveItemFromBasketServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("doPost");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = reader.lines().collect(Collectors.joining());
-        reader.close();
 
-        // Parse JSON data
-        JSONObject jsonObject = new JSONObject(json);
+        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-        Long product_id = jsonObject.getLong("product_id");
-        String client_id = jsonObject.getString("client_id");
-        logger.info(client_id);
-        logger.info(Long.toString(product_id), (client_id));
-        BasketController.INSTANCE.deleteProductInBasket(client_id,product_id);
+        logger.info(request.client_id);
+        logger.info(Long.toString(request.product_id), (request.client_id));
+        BasketController.INSTANCE.deleteProductInBasket(request.client_id,request.product_id);
         logger.info("success");
     }
 }

@@ -82,8 +82,12 @@ function buy() {
             const full_name = json_obj.user_metadata.full_name;
             console.log('Address '+ address);
             console.log(obj);
+            products_ids = [];
+            for (let i=0; i < cartItems.length;i++){
+                products_ids.push(cartItems[i].product_id);
+            }
             const d = {
-                products: cartItems,
+                products: products_ids,
                 date: currentDate,
                 client_id: getUserIdFromToken(userId),
                 address: address,

@@ -30,6 +30,7 @@ public class BasketController {
         }
     }
     public void addOneProductToBasket(Long product_id, String client_id){
+        logger.info("addOneProductToBasket" + product_id);
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
              BasketDAOImpl.getInstance().addOneProductToBasket(product_id,client_id, connection);
 
