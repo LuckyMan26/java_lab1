@@ -69,7 +69,7 @@ public class GetAccessToken extends HttpServlet {
         } catch (UnirestException e) {
             throw new RuntimeException(e);
         }
-        logger.info("succeess");
+        logger.info("success");
     }
 
 

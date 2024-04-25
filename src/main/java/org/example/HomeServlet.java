@@ -29,6 +29,6 @@ public class HomeServlet extends HttpServlet {
             req.setAttribute("userId", idToken);
         }
 
-        req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, res);
+        req.getRequestDispatcher("/WEB-INF/jsp/home.html").forward(req, res);
     }
 }

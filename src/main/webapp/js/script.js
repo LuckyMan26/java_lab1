@@ -200,7 +200,7 @@ async function getUserRole() {
 }
 
 async function  displayHeader(){
-    role = await getUserRole();
+    //role = await getUserRole();
     console.log(role);
     if(role==="Admin"){
         document.getElementById("get-all-orders").style.display = 'block';
