@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.OrderController;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ public class FetchHistoryOfOrders  extends HttpServlet {
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
             logger.info("getAllOrdersByClient");
-            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderDAOImpl.getInstance().getAllOrdersByClient(client_id);
+            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(client_id);
             logger.info(listOfOrders.toString());
             JsonElement element = gson.toJsonTree(listOfOrders);
             writer.write(element.toString());

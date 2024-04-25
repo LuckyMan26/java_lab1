@@ -2,6 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.OrderController;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Status;
 import org.json.JSONObject;
@@ -41,7 +42,7 @@ public class ChangeOrderStatusServlet extends HttpServlet {
         logger.info(jsonObject.getString("status"));
         Status new_status = Status.valueOf(jsonObject.getString("status"));
 
-        OrderDAOImpl.getInstance().changeOrderStatus(order_id,new_status);
+       OrderController.INSTANCE.changeOrderStatus(order_id,new_status);
 
         logger.info("success");
     }

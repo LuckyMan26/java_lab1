@@ -1,6 +1,7 @@
 package org.example.connections;
 
 import java.io.Closeable;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -72,5 +73,8 @@ public class ConnectionWrapper implements Closeable {
 
     public interface Transaction<T> {
         T doTransaction() throws SQLException;
+    }
+    public Array createArrayOf(Long[] array) throws SQLException {
+        return connection.createArrayOf("INTEGER", array);
     }
 }

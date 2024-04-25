@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.ReviewController;
 import org.example.repository.ReviewDAOImpl;
 import org.example.models.Review;
 import org.json.JSONObject;
@@ -37,7 +38,7 @@ public class GetReviewsServlet extends HttpServlet {
 
             logger.info(good_id);
             Gson gson = new Gson();
-            ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewDAOImpl.getInstance().getAllReviewsById(good_id);
+            ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewController.INSTANCE.getAllReviewsById(good_id);
             logger.info(listOfReviews);
             JsonElement element = gson.toJsonTree(listOfReviews);
             writer.write(element.toString());

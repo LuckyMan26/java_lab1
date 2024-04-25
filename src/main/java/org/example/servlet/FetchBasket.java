@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.BasketController;
+import org.example.controllers.ProductController;
 import org.example.repository.BasketDAOImpl;
 import org.example.repository.ProductDAOImpl;
 import org.example.models.BasketItem;
@@ -49,7 +51,7 @@ public class FetchBasket extends HttpServlet {
         try (PrintWriter writer = response.getWriter()) {
 
             Gson gson = new Gson();
-            BasketItem basketItem = BasketDAOImpl.getInstance().getBasketItemByClientId(client_id);
+            BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(client_id);
 
             logger.info(basketItem);
             //logger.info(basketItem.toString());
@@ -61,7 +63,7 @@ public class FetchBasket extends HttpServlet {
                 ArrayList<Product> prouducts_in_basket = new ArrayList<>();
                 for (Long index : products) {
                     logger.info("index: " + index);
-                    prouducts_in_basket.add(ProductDAOImpl.getInstance().getGoodById(index));
+                    prouducts_in_basket.add(ProductController.INSTANCE.getGoodById(index));
                 }
                 logger.info("product size: " + prouducts_in_basket.size());
 

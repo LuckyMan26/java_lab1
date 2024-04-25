@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.controllers.ProductController;
 import org.example.repository.ProductDAOImpl;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class Order {
         this.products = products;
         double res = 0;
         for(Long product : products){
-            res += ProductDAOImpl.getInstance().getGoodById(product).getPrice();
+            res += ProductController.INSTANCE.getGoodById(product).getPrice();
         }
         this.total_price = res;
         this.full_name = full_name;
@@ -41,7 +42,7 @@ public class Order {
         double res = 0;
         for(Long product : products){
 
-            res += ProductDAOImpl.getInstance().getGoodById(product).getPrice();
+            res += ProductController.INSTANCE.getGoodById(product).getPrice();
         }
         this.total_price = res;
         this.full_name = full_name;

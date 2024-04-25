@@ -2,6 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.ProductController;
 import org.example.repository.ProductDAOImpl;
 import org.example.models.Product;
 
@@ -60,7 +61,7 @@ public class AddGoodServlet extends HttpServlet {
         Part filePart = request.getPart("file");
         String fileName = filePart.getSubmittedFileName();
         String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(filePart));
-        ProductDAOImpl.getInstance().addGood(new Product(1L,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), base64String));
+        ProductController.INSTANCE.addGood(new Product(1L,itemName,itemDescription,Integer.parseInt(itemPrice) ,Integer.parseInt(itemQuantity), base64String));
         logger.info("Success");
 
     }

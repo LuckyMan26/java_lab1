@@ -2,6 +2,8 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.BasketController;
+import org.example.controllers.OrderController;
 import org.example.repository.BasketDAOImpl;
 import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
@@ -71,8 +73,8 @@ public class MakeOrderServlet extends HttpServlet {
 
         }
         logger.info(date.toString());
-        OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order,full_name,address));
-        BasketDAOImpl.getInstance().clearBasket(client_id,connection);
+        OrderController.INSTANCE.addOrder(new Order(1L,client_id,date,products_in_order,full_name,address));
+        BasketController.INSTANCE.clearBasket(client_id);
         logger.info("success");
     }
 }

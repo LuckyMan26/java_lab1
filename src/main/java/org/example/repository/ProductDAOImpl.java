@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.connections.ConenctionPool;
+import org.example.connections.ConnectionPool;
 import org.example.DAOInterface.ProductDAO;
 import org.example.connections.ConnectionWrapper;
 import org.example.models.Product;

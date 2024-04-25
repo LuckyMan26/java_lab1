@@ -3,7 +3,7 @@ package org.example.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.DAOInterface.ReviewDAO;
-import org.example.connections.ConenctionPool;
+import org.example.connections.ConnectionPool;
 import org.example.connections.ConnectionWrapper;
 import org.example.models.Review;
 

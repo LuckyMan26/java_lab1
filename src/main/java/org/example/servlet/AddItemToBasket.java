@@ -2,6 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.BasketController;
 import org.example.repository.BasketDAOImpl;
 import org.json.JSONObject;
 
@@ -47,7 +48,7 @@ public class AddItemToBasket extends HttpServlet {
         Long product_id = jsonObject.getLong("product_id");
         String client_id = jsonObject.getString("client_id");
         logger.info(Long.toString(product_id), (client_id));
-        BasketDAOImpl.getInstance().addOneProductToBasket((product_id), (client_id));
+        BasketController.INSTANCE.addOneProductToBasket((product_id), (client_id));
         logger.info("success");
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.ProductController;
 import org.example.repository.ProductDAOImpl;
 import org.example.models.Product;
 
@@ -28,7 +29,7 @@ public class GoodServlet extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
-            ArrayList<Product> listOfProducts = (ArrayList<Product>) ProductDAOImpl.getInstance().getAllGoods();
+            ArrayList<Product> listOfProducts = (ArrayList<Product>) ProductController.INSTANCE.getAllGoods();
             JsonElement element = gson.toJsonTree(listOfProducts);
             writer.write(element.toString());
         }

@@ -2,7 +2,7 @@ package org.example.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.connections.ConenctionPool;
+import org.example.connections.ConnectionPool;
 import org.example.DAOInterface.BasketDAO;
 import org.example.connections.ConnectionWrapper;
 import org.example.models.BasketItem;
@@ -45,7 +45,7 @@ public class BasketDAOImpl implements BasketDAO {
                 array[counter] = item;
                 counter += 1;
             }
-            statement.setArray(1, connection.createArrayOf("INTEGER", array));
+            statement.setArray(1, connection.createArrayOf(array));
             statement.setString(2, basketItem.getClient_id());
             statement.executeUpdate();
 
@@ -141,7 +141,7 @@ public class BasketDAOImpl implements BasketDAO {
                 }
                 array[items.size()] = product_id;
 
-                statement.setArray(1, connection.createArrayOf("INTEGER", array));
+                statement.setArray(1, connection.createArrayOf(array));
                 statement.setString(2, client_id);
                 statement.executeUpdate();
             }
@@ -169,7 +169,7 @@ public class BasketDAOImpl implements BasketDAO {
     }
 
     @Override
-    public void deleteProductInBasket(String client_id, Long product_id, ConnectionWrapper connection) throws SQLException {
+    public void deleteProductInBasket(String client_id, Long product_id, ConnectionWrapper connection)   {
         try {
             String sql = "UPDATE Basket SET product_items_id = ? WHERE client_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -198,7 +198,7 @@ public class BasketDAOImpl implements BasketDAO {
                     counter += 1;
                 }
 
-                statement.setArray(1, connection.createArrayOf("INTEGER", array));
+                statement.setArray(1, connection.createArrayOf(array));
                 statement.setString(2, client_id);
                 statement.executeUpdate();
             }

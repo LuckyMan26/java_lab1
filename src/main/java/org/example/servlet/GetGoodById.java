@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.ProductController;
 import org.example.repository.ProductDAOImpl;
 import org.example.models.Product;
 import org.json.JSONArray;
@@ -31,7 +32,7 @@ public class GetGoodById extends HttpServlet {
         logger.info("do get");
 
         logger.info(id);
-        Product product = ProductDAOImpl.getInstance().getGoodById(id);
+        Product product =ProductController.INSTANCE.getGoodById(id);
         try (PrintWriter writer = response.getWriter()) {
             Gson gson = new Gson();
 
@@ -64,7 +65,7 @@ public class GetGoodById extends HttpServlet {
 
 
             logger.info(id);
-            Product p = ProductDAOImpl.getInstance().getGoodById(id);
+            Product p = ProductController.INSTANCE.getGoodById(id);
             productArrayList.add(p);
         }
 

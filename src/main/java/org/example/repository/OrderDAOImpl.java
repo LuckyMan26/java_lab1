@@ -47,7 +47,7 @@ public class OrderDAOImpl implements OrderDAO {
                 counter += 1;
             }
             logger.info("addOrder");
-            statement.setArray(4, connection.createArrayOf("INTEGER", array));
+            statement.setArray(4, connection.createArrayOf(array));
             statement.setDouble(5, order.getTotalPrice());
             statement.setString(6, order.getFullName());
             statement.setString(7, order.getAddress());

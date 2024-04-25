@@ -2,6 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.BasketController;
 import org.example.repository.BasketDAOImpl;
 import org.json.JSONObject;
 
@@ -40,7 +41,7 @@ public class RemoveItemFromBasketServlet extends HttpServlet {
         String client_id = jsonObject.getString("client_id");
         logger.info(client_id);
         logger.info(Long.toString(product_id), (client_id));
-        BasketDAOImpl.getInstance().deleteProductInBasket(client_id,product_id);
+        BasketController.INSTANCE.deleteProductInBasket(client_id,product_id);
         logger.info("success");
     }
 }

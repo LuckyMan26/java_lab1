@@ -2,6 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.controllers.ReviewController;
 import org.example.repository.ReviewDAOImpl;
 import org.example.models.Review;
 
@@ -42,6 +43,6 @@ public class AddReview extends HttpServlet {
         logger.info(text);
         logger.info(good_id);
         logger.info(client_token);
-        ReviewDAOImpl.getInstance().addReview(new Review(1L, client_token, Long.parseLong(good_id), text, Integer.parseInt(rating)));
+        ReviewController.INSTANCE.addReview(new Review(1L, client_token, Long.parseLong(good_id), text, Integer.parseInt(rating)));
     }
 }
