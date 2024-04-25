@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link href="/css/items-in-cart.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/items-in-cart.css" rel="stylesheet">
     <style>
         /* Style for the buy button */
         button.buy-button {
@@ -114,7 +114,7 @@
 
     </div>
 </div>
-<script src="/js/items_in_cart_script.js"></script>
+<script src="${pageContext.request.contextPath}/js/items_in_cart_script.js"></script>
 
 </body>
 </html>

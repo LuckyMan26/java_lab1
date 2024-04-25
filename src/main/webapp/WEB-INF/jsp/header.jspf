@@ -45,4 +45,4 @@
 
     </div>
 </header>
-<script src="/js/show_history_of_orders_script.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/show_history_of_orders_script.js" type="text/javascript"></script>

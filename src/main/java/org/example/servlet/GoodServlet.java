@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.ProductDAOImpl;
+import org.example.repository.ProductDAOImpl;
 import org.example.models.Product;
 
 import java.io.IOException;

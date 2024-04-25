@@ -4,11 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.OrderDAOImpl;
-import org.example.controllers.ProductDAOImpl;
+import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
-import org.example.models.Product;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -20,10 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/FetchOrders"})

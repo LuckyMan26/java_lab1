@@ -26,7 +26,7 @@ window.onload =  async function () {
         })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
-               displayProductDetails(data[0]);
+                displayProductDetails(data[0]);
             })
             .catch(error => {
                 // Handle any errors
@@ -79,70 +79,70 @@ async function displayMainPage() {
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
 }
 
-    function displayGoods(products) {
-        var goodsGridElement = document.getElementById('goodsGrid');
+function displayGoods(products) {
+    var goodsGridElement = document.getElementById('goodsGrid');
 
-        // Clear existing content
-        goodsGridElement.innerHTML = '';
+    // Clear existing content
+    goodsGridElement.innerHTML = '';
 
-        // Calculate start and end index for current page
-        var startIndex = (currentPage - 1) * itemsPerPage;
-        var endIndex = currentPage * itemsPerPage;
+    // Calculate start and end index for current page
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = currentPage * itemsPerPage;
 
-        // Loop through the list of goods and create div containers
-        for (var i = startIndex; i < Math.min(endIndex, products.length); i++) {
-            var product = products[i];
-            const div = document.createElement('div');
-            div.classList.add('good');
+    // Loop through the list of goods and create div containers
+    for (var i = startIndex; i < Math.min(endIndex, products.length); i++) {
+        var product = products[i];
+        const div = document.createElement('div');
+        div.classList.add('good');
 
 
-            div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + product.imageData + '" alt="' + product.name + '"></div>' +
-                '<div class="good-details">' +
-                '<div class="good-name">' + product.name + '</div>' +
-                '<div class="good-price">$' + product.price + '</div>' +
-                '</div>';
-            (function (product) {
-                // Add event listener to call "foo" method when div is clicked and pass the good object
-                div.addEventListener('click', function () {
-                    console.log('here');
-                    displayProductDetails(product);
-                });
-            })(product);
-            goodsGridElement.appendChild(div);
-        }
-
-        // Show or hide the load more button based on pagination
-        var loadMoreButton = document.getElementById('loadMoreButton');
-        if (endIndex < products.length) {
-            loadMoreButton.style.display = 'block';
-        } else {
-            loadMoreButton.style.display = 'none';
-        }
-
-        // Enable or disable the previous page button based on current page
-        var previousPageButton = document.getElementById('previousPageButton');
-        if (currentPage > 1) {
-            previousPageButton.disabled = false;
-        } else {
-            previousPageButton.disabled = true;
-        }
+        div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + product.imageData + '" alt="' + product.name + '"></div>' +
+            '<div class="good-details">' +
+            '<div class="good-name">' + product.name + '</div>' +
+            '<div class="good-price">$' + product.price + '</div>' +
+            '</div>';
+        (function (product) {
+            // Add event listener to call "foo" method when div is clicked and pass the good object
+            div.addEventListener('click', function () {
+                console.log('here');
+                displayProductDetails(product);
+            });
+        })(product);
+        goodsGridElement.appendChild(div);
     }
 
-    function loadMoreGoods() {
+    // Show or hide the load more button based on pagination
+    var loadMoreButton = document.getElementById('loadMoreButton');
+    if (endIndex < products.length) {
+        loadMoreButton.style.display = 'block';
+    } else {
+        loadMoreButton.style.display = 'none';
+    }
+
+    // Enable or disable the previous page button based on current page
+    var previousPageButton = document.getElementById('previousPageButton');
+    if (currentPage > 1) {
+        previousPageButton.disabled = false;
+    } else {
+        previousPageButton.disabled = true;
+    }
+}
+
+function loadMoreGoods() {
     currentPage++;
     setCurrentPageParam(currentPage);
     fetchData();
 }
 
-    function previousPage() {
+function previousPage() {
     if (currentPage > 1) {
-    currentPage--;
-    setCurrentPageParam(currentPage);
-    fetchData();
-}
+        currentPage--;
+        setCurrentPageParam(currentPage);
+        fetchData();
+    }
 }
 
-     function fetchData() {
+function fetchData() {
     fetch('/GoodServlet')
         .then(response =>  response.json())
         .then(data => {
@@ -153,18 +153,18 @@ async function displayMainPage() {
 
 
 
-    function getParameterByName(name, url) {
+function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
+        results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-    // Function to set the current page URL parameter
-    function setCurrentPageParam(pageNumber) {
+// Function to set the current page URL parameter
+function setCurrentPageParam(pageNumber) {
     var url = new URL(window.location.href);
     url.searchParams.set('page', pageNumber);
     window.history.replaceState({}, '', url);
@@ -200,7 +200,7 @@ async function getUserRole() {
 }
 
 async function  displayHeader(){
-    //role = await getUserRole();
+    role = await getUserRole();
     console.log(role);
     if(role==="Admin"){
         document.getElementById("get-all-orders").style.display = 'block';

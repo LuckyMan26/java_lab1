@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link href="/css/history-of-orders.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/history-of-orders.css" rel="stylesheet">
     <style>
         /* Custom style for select element */
         select {
@@ -53,6 +53,6 @@
 <body>
 <div id="orders" class="orders-container"></div>
 </body>
-<script src="/js/order_status.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/order_status.js" type="text/javascript"></script>
 
 </html>

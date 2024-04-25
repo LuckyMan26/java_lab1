@@ -1,20 +1,9 @@
 package org.example.servlet;
 
 import com.auth0.AuthenticationController;
-import com.auth0.IdentityVerificationException;
-import com.auth0.SessionUtils;
-import com.auth0.Tokens;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.AuthenticationControllerProvider;
-import org.example.controllers.ClientDAOImpl;
-import org.example.controllers.ProductDAOImpl;
-import org.example.models.Client;
-import org.example.models.Product;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -23,10 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 @WebServlet(urlPatterns = {"/custom_login"})
 public class CustomLogin extends HttpServlet {

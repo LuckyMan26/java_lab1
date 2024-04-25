@@ -2,9 +2,7 @@ package org.example.servlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.BasketDAOImpl;
-import org.example.controllers.ReviewDAOImpl;
-import org.example.models.Review;
+import org.example.repository.BasketDAOImpl;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;

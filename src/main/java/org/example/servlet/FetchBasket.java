@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.BasketDAOImpl;
-import org.example.controllers.ProductDAOImpl;
+import org.example.repository.BasketDAOImpl;
+import org.example.repository.ProductDAOImpl;
 import org.example.models.BasketItem;
 import org.example.models.Product;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;

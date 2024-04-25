@@ -17,7 +17,7 @@
         <param-value>y5ncqYmrCqm5htjYip1iuHHpgjBaI_zjxH5b9srQHagGIKpSZjV6XzVtC1s74gN8</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
-
+        <welcome-file>home.html</welcome-file>
     </welcome-file-list>
+
 </web-app>

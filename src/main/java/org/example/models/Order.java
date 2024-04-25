@@ -1,6 +1,6 @@
 package org.example.models;
 
-import org.example.controllers.ProductDAOImpl;
+import org.example.repository.ProductDAOImpl;
 
 import java.util.ArrayList;
 import java.util.Date;

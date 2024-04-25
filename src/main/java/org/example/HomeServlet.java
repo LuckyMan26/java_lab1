@@ -3,14 +3,13 @@ package org.example;
 import com.auth0.SessionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.servlet.MakeOrderServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 
 @WebServlet(urlPatterns = {"/portal/home"})
 public class HomeServlet extends HttpServlet {
@@ -29,6 +28,8 @@ public class HomeServlet extends HttpServlet {
             req.setAttribute("userId", idToken);
         }
 
-        req.getRequestDispatcher("/WEB-INF/jsp/home.html").forward(req, res);
+        req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, res);
     }
+
 }
+

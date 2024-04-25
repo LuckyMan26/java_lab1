@@ -1,14 +1,10 @@
 package org.example.servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.BasketDAOImpl;
-import org.example.controllers.OrderDAOImpl;
-import org.example.controllers.ProductDAOImpl;
+import org.example.repository.BasketDAOImpl;
+import org.example.repository.OrderDAOImpl;
 import org.example.models.Order;
-import org.example.models.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,11 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
 @WebServlet(urlPatterns = {"/MakeOrder"})
@@ -78,7 +72,7 @@ public class MakeOrderServlet extends HttpServlet {
         }
         logger.info(date.toString());
         OrderDAOImpl.getInstance().addOrder(new Order(1L,client_id,date,products_in_order,full_name,address));
-        BasketDAOImpl.getInstance().clearBasket(client_id);
+        BasketDAOImpl.getInstance().clearBasket(client_id,connection);
         logger.info("success");
     }
 }

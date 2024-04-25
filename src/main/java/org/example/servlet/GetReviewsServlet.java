@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controllers.ProductDAOImpl;
-import org.example.controllers.ReviewDAOImpl;
-import org.example.models.Product;
+import org.example.repository.ReviewDAOImpl;
 import org.example.models.Review;
 import org.json.JSONObject;
 
@@ -15,13 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.stream.Collectors;
 

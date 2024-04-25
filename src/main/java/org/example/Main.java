@@ -3,17 +3,9 @@ package org.example;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.connections.ConenctionPool;
-import org.example.connections.TransactionWrapper;
-import org.example.models.Client;
-import org.example.models.Product;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) throws SQLException, InterruptedException, IOException {

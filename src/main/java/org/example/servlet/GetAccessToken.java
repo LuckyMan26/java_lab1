@@ -1,17 +1,13 @@
 package org.example.servlet;
 
 import com.auth0.AuthenticationController;
-import com.auth0.SessionUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.AuthenticationControllerProvider;
-import org.example.controllers.ProductDAOImpl;
-import org.example.models.Product;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/GetAccessToken"})
 
