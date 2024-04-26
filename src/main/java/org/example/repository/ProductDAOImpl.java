@@ -1,17 +1,18 @@
 package org.example.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.connections.ConnectionPool;
 import org.example.DAOInterface.ProductDAO;
 import org.example.connections.ConnectionWrapper;
+import org.example.models.Order;
 import org.example.models.Product;
+import org.example.models.Status;
+
 import java.util.Base64;
 
 public class ProductDAOImpl implements ProductDAO {
@@ -28,7 +29,20 @@ public class ProductDAOImpl implements ProductDAO {
         }
         return instance;
     }
+    private static Product resultToProduct(ResultSet resultSet) throws SQLException {
+        Long good_id = resultSet.getLong("goods_id");
+        String name = resultSet.getString("name");
 
+        String description = resultSet.getString("description");
+
+        double price = resultSet.getDouble("price");
+
+        int quantity = resultSet.getInt("quantity_available");
+        byte[] imageData = resultSet.getBytes("image");
+        String base64String = Base64.getEncoder().encodeToString(imageData);
+
+        return new  Product(good_id, name, description, price, quantity, base64String);
+    }
     @Override
     public void addGood(Product product, ConnectionWrapper connection) {
         System.out.println(product.toString());
@@ -70,18 +84,7 @@ public class ProductDAOImpl implements ProductDAO {
             Product product = null;
             logger.info("product");
             while (resultSet.next()) {
-
-                Long good_id = resultSet.getLong("goods_id");
-                String name = resultSet.getString("name");
-
-                String description = resultSet.getString("description");
-
-                double price = resultSet.getDouble("price");
-
-                int quantity = resultSet.getInt("quantity_available");
-                byte[] imageData = resultSet.getBytes("image");
-                String base64String = Base64.getEncoder().encodeToString(imageData);
-                product = new Product(good_id, name, description, price, quantity, base64String);
+                product = resultToProduct(resultSet);
                 logger.info(product.toString());
             }
             return product;
@@ -102,14 +105,7 @@ public class ProductDAOImpl implements ProductDAO {
             Product product = null;
             List < Product > list = new ArrayList < Product > ();
             while (resultSet.next()) {
-                Long good_id = resultSet.getLong("goods_id");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity_available");
-                byte[] imageData = resultSet.getBytes("image");
-                String base64String = Base64.getEncoder().encodeToString(imageData);
-                product = new Product(good_id, name, description, price, quantity, base64String);
+                product = resultToProduct(resultSet);
                 logger.info(product.toString());
                 list.add(product);
                 logger.info("list size:" + String.valueOf(list.size()));
