@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.ReviewController;
@@ -25,9 +26,13 @@ public class AddReview extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(AddReview.class);
     private static class Request {
+        @JsonProperty("client_token")
         public String client_token;
+        @JsonProperty("good_id")
         public String good_id;
+        @JsonProperty("text")
         public String text;
+        @JsonProperty("rating")
         public String rating;
 
     }

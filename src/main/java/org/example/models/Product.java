@@ -20,8 +20,6 @@ public class Product {
         this.quantity_available = quantity_available;
         this.imageData = imageData;
 
-
-
     }
     public Long getProduct_id(){
         return product_id;

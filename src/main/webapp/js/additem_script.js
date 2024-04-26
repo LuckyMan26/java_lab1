@@ -1,4 +1,4 @@
-function addItem() {
+async function addItem() {
     // Retrieve values from form
     var itemName = document.getElementById('itemName').value;
     var itemPrice = document.getElementById('itemPrice').value;
@@ -6,33 +6,35 @@ function addItem() {
     var itemDescription = document.getElementById('itemDescription').value;
     var fileInput = document.getElementById('fileUploader');
     var file = fileInput.files[0];
-    console.log(itemName, itemPrice,itemQuantity, itemDescription);
-    var formData = new FormData();
-    formData.append('name', itemName);
-    formData.append('price', parseFloat(itemPrice));
-    formData.append('quantity', parseInt(itemQuantity));
-    formData.append('description', itemDescription);
-    formData.append('file', file);
-
-
+    const base64String = await imageToBase64(file);
+    console.log(base64String);
+    console.log(itemName, itemPrice, itemQuantity, itemDescription);
+    let data = {
+        name: itemName,
+        price: itemPrice,
+        quantity: itemQuantity,
+        description: itemDescription,
+        file: base64String
+    }
+    console.log(data);
     fetch('/AddGood', {
         method: 'POST',
 
-        body: formData
+        body: JSON.stringify(data)
     })
-        .then(function(response) {
+        .then(function (response) {
             console.log(response);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
         });
     $('#successMessage').addClass('show');
-    setTimeout(function() {
+    setTimeout(function () {
         $('#successMessage').removeClass('show');
     }, 3000); // Hide after 3 seconds
 
     // Fade out the success message after a delay
-    setTimeout(function() {
+    setTimeout(function () {
         $('#successMessage').css('opacity', 0);
     }, 2000); // Fade out over 2 seconds, adjust as needed
     $('#addItemModal').modal('hide');

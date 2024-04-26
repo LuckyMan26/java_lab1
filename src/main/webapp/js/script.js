@@ -95,7 +95,7 @@ function displayGoods(products) {
         const div = document.createElement('div');
         div.classList.add('good');
 
-
+        console.log(product);
         div.innerHTML = '<div class="good-image"><img src="data:image/jpeg;base64,' + product.imageData + '" alt="' + product.name + '"></div>' +
             '<div class="good-details">' +
             '<div class="good-name">' + product.name + '</div>' +

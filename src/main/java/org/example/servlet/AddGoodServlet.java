@@ -27,18 +27,15 @@ import java.util.Base64;
         maxRequestSize = 1024 * 1024 * 100   // 100 MB
 )
 public class AddGoodServlet extends HttpServlet {
-    private byte[] convertPartToByteArray(Part part) throws IOException {
-        // Create a byte array output stream
-        byte[] byteArray = null;
-        try (InputStream inputStream = part.getInputStream()) {
-            // Read the contents of the part into a byte array
-            byteArray = inputStream.readAllBytes();
-        } catch (IOException e) {
-            // Handle exception
-            e.printStackTrace();
-            throw e;
+    private static String trimImagePrefix(String imageData) {
+        // Check if the imageData starts with the prefix
+        if (imageData.startsWith("data:image/jpeg;base64,")) {
+            // Trim the prefix from the imageData
+            return imageData.substring("data:image/jpeg;base64,".length());
+        } else {
+            // Return the original string if the prefix is not present
+            return imageData;
         }
-        return byteArray;
     }
     private static final Logger logger = LogManager.getLogger(AddGoodServlet.class);
     private static class Request {
@@ -51,7 +48,7 @@ public class AddGoodServlet extends HttpServlet {
         @JsonProperty("description")
         public String description;
         @JsonProperty("file")
-        public Part file;
+        public String base64String;
 
     }
 
@@ -66,12 +63,14 @@ public class AddGoodServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("do Post");
-
+        logger.info(req.getAttributeNames().toString());
         Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-        String fileName = request.file.getSubmittedFileName();
-        String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(request.file));
+       /* String fileName = request.file.getSubmittedFileName();
+        String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(request.file));*/
 
+        logger.info(request.base64String);
+        String base64String = trimImagePrefix(request.base64String);
         ProductController.INSTANCE.addGood(new Product(1L,request.name,request.description,Integer.parseInt(request.price) ,Integer.parseInt(request.quantity), base64String));
         logger.info("Success");
 

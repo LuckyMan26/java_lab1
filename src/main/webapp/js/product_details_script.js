@@ -199,17 +199,18 @@ async function addReview() {
     });
 
     const accessToken = await accessCode();
-    var formData = new FormData();
-    formData.append('text', text);
-    formData.append('rating', parseFloat(selectedRating));
-    formData.append('client_token', getUserIdFromToken(userId));
-    formData.append('good_id', window.product_id);
 
+    let data = {
+        client_token : getUserIdFromToken(userId),
+        good_id: window.product_id,
+        text: text,
+        rating: selectedRating
+    }
 
     fetch('/AddReview', {
         method: 'POST',
 
-        body: formData
+        body: JSON.stringify(data)
     })
         .then(function (response) {
             //console.log(response);
