@@ -55,9 +55,9 @@ async function displayProductDetails(product) {
     goodDetailsElement.appendChild(productDiv);
 
 
-    window.product_id = product.product_id;
-    console.log("window " + window.product_id);
-    const good_id = window.product_id;
+    window.productId = product.productId;
+    console.log("window " + window.productId);
+    const good_id = window.productId;
 
     await fetchReviews(product.productId);
 }
@@ -97,7 +97,7 @@ function renderExistingReviews(reviews) {
         console.log(review);
         let fullName = null;
         let data = {
-            user_id :    (review.clientid)
+            userId :    (review.clientid)
         }
         fetch('/GetUserInfo', {
             method: 'POST',
@@ -202,12 +202,12 @@ async function addReview() {
     const accessToken = await accessCode();
 
     let data = {
-        userIdToken : getUserIdFromToken(userId),
-        goodId: window.product_id,
+        userToken : getUserIdFromToken(userId),
+        goodId: window.productId,
         text: text,
         rating: selectedRating
     }
-
+    console.log(data);
     fetch('/AddReview', {
         method: 'POST',
 

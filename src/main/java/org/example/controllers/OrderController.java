@@ -45,6 +45,7 @@ public class OrderController {
 
     public List<Order> getAllOrdersByClient(String clientId ) {
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
+
             return OrderDAOImpl.getInstance().getAllOrdersByClient(clientId, connection);
 
         }
