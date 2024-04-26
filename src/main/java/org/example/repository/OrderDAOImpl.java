@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.connections.ConnectionPool;
 import org.example.DAOInterface.OrderDAO;
 import org.example.connections.ConnectionWrapper;
+import org.example.models.BasketItem;
 import org.example.models.Order;
 import org.example.models.Status;
 
@@ -29,7 +30,19 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return instance;
     }
+    private static Order resultToOrder(ResultSet resultSet) throws SQLException {
+        Long order_id = resultSet.getLong("order_id");
+        String client_id = resultSet.getString("client_id");
+        Date order_date = resultSet.getDate("order_date");
+        Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
 
+        ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
+        Status status = Status.valueOf(resultSet.getString("status"));
+        double price = resultSet.getDouble("total_price");
+        String full_name = resultSet.getString("full_name");
+        String address = resultSet.getString("address");
+        return new Order(order_id, client_id, order_date, status, product_id, price, full_name, address);
+    }
     @Override
     public void addOrder(Order order, ConnectionWrapper connection) {
         try {
@@ -70,17 +83,7 @@ public class OrderDAOImpl implements OrderDAO {
             ResultSet resultSet = statement.executeQuery();
             Order order = null;
             while (resultSet.next()) {
-                Long order_id = resultSet.getLong("order_id");
-                String client_id = resultSet.getString("client_id");
-                Date order_date = resultSet.getDate("order_date");
-                Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
-
-                ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
-                Status status = Status.valueOf(resultSet.getString("status"));
-                double price = resultSet.getDouble("total_price");
-                String full_name = resultSet.getString("full_name");
-                String address = resultSet.getString("address");
-                order = new Order(order_id, client_id, order_date, status, product_id, price, full_name, address);
+                order = resultToOrder(resultSet);
                 logger.info(order.toString());
             }
             return order;
@@ -102,16 +105,7 @@ public class OrderDAOImpl implements OrderDAO {
             Order order = null;
             List<Order> list = new ArrayList<>();
             while (resultSet.next()) {
-                Long order_id = resultSet.getLong("order_id");
-                String client_id = resultSet.getString("client_id");
-                Date order_date = resultSet.getDate("order_date");
-                Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
-
-                ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
-                String status = resultSet.getString("status");
-                String full_name = resultSet.getString("full_name");
-                String address = resultSet.getString("address");
-                order = new Order(order_id, client_id, order_date, Status.valueOf(status), product_id, full_name, address);
+                order = resultToOrder(resultSet);
                 logger.info(order.toString());
                 list.add(order);
             }
@@ -138,19 +132,7 @@ public class OrderDAOImpl implements OrderDAO {
 
             while (resultSet.next()) {
                 logger.info("iter");
-                Long order_id = resultSet.getLong("order_id");
-                logger.info("pizda 1");
-                Date order_date = resultSet.getDate("order_date");
-                Long[] integerArray = (Long[]) resultSet.getArray("products_ids").getArray();
-
-                ArrayList<Long> product_id = new ArrayList<Long>(Arrays.asList(integerArray));
-                logger.info("pizda 2");
-                String status = resultSet.getString("status");
-
-                logger.info("pizda 3");
-                String full_name = resultSet.getString("full_name");
-                String address = resultSet.getString("address");
-                order = new Order(order_id, client_id, order_date, Status.valueOf(status), product_id, full_name, address);
+                order = resultToOrder(resultSet);
                 logger.info(order.toString());
                 list.add(order);
             }
