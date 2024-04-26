@@ -51,8 +51,11 @@ public class FetchBasket extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        logger.info("do post");
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+        try {
+
+
+            logger.info("do post");
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
             logger.info(request.user_id);
             BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(request.user_id);
 
@@ -67,12 +70,15 @@ public class FetchBasket extends HttpServlet {
                     products_in_basket.add(ProductController.INSTANCE.getGoodById(index));
                 }
                 logger.info("product size: " + products_in_basket.size());
-
                 ServletJsonMapper.objectToJsonResponse(new Response(products_in_basket), resp);
-
 
             }
 
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 }

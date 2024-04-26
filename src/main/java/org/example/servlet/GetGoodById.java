@@ -33,10 +33,17 @@ public class GetGoodById extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        logger.info("do get");
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-        Product product = ProductController.INSTANCE.getGoodById(request.product_id);
-        ServletJsonMapper.objectToJsonResponse(new Response(product), resp);
+        try {
+
+            logger.info("do get");
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            Product product = ProductController.INSTANCE.getGoodById(request.product_id);
+            ServletJsonMapper.objectToJsonResponse(new Response(product), resp);
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 
     }
 }

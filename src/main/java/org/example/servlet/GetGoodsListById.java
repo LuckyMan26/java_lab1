@@ -37,26 +37,28 @@ public class GetGoodsListById extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        try {
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            List<Long> products = request.products;
+            logger.info(products.size());
+            List<Product> productArrayList = new ArrayList<>();
+            logger.info(products);
+            for (int i = 0; i < products.size(); i++) {
+                Long id = products.get(i);
 
-
-
-        List<Long> products = request.products;
-        logger.info(products.size());
-        List<Product> productArrayList = new ArrayList<>();
-        logger.info(products);
-        for (int i = 0; i < products.size(); i++) {
-            Long id = products.get(i);
-
-            logger.info(id);
-            Product p = ProductController.INSTANCE.getGoodById(id);
-            productArrayList.add(p);
-        }
+                logger.info(id);
+                Product p = ProductController.INSTANCE.getGoodById(id);
+                productArrayList.add(p);
+            }
             logger.info("write here");
             ServletJsonMapper.objectToJsonResponse(new Response(productArrayList), res);
 
             logger.info(productArrayList.toString());
-
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

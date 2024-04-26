@@ -33,10 +33,18 @@ public class GoodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("do get");
-        response.setContentType("application/json;charset=UTF-8");
+        try {
+
+
+            logger.info("do get");
+            response.setContentType("application/json;charset=UTF-8");
             ArrayList<Product> listOfProducts = (ArrayList<Product>) ProductController.INSTANCE.getAllGoods();
-        ServletJsonMapper.objectToJsonResponse(new Response(listOfProducts), response);
+            ServletJsonMapper.objectToJsonResponse(new Response(listOfProducts), response);
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 

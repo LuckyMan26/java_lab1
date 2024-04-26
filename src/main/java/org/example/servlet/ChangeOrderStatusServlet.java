@@ -35,12 +35,16 @@ public class ChangeOrderStatusServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("doPost");
+        try {
+            logger.info("doPost");
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            OrderController.INSTANCE.changeOrderStatus(Long.parseLong(request.order_id), Status.valueOf(request.status));
 
-
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-        OrderController.INSTANCE.changeOrderStatus(Long.parseLong(request.order_id), Status.valueOf(request.status));
-
-        logger.info("success");
+            logger.info("success");
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

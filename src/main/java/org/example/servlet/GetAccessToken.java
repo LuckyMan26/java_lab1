@@ -75,6 +75,10 @@ public class GetAccessToken extends HttpServlet {
         } catch (UnirestException e) {
             throw new RuntimeException(e);
         }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 

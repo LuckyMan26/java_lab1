@@ -49,17 +49,23 @@ public class FetchHistoryOfOrders  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("doPost");
+        try {
+
+            logger.info("doPost");
 
 
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
 
-        logger.info("getAllOrdersByClient");
-        ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(request.user_id);
-        logger.info(listOfOrders.toString());
-        ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), res);
-
+            logger.info("getAllOrdersByClient");
+            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(request.user_id);
+            logger.info(listOfOrders.toString());
+            ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), res);
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
 
     }

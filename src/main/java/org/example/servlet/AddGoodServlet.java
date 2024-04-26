@@ -68,17 +68,25 @@ public class AddGoodServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         logger.info("do Post");
-        logger.info(req.getAttributeNames().toString());
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+        try {
+            logger.info(req.getAttributeNames().toString());
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
        /* String fileName = request.file.getSubmittedFileName();
         String base64String = Base64.getEncoder().encodeToString(convertPartToByteArray(request.file));*/
 
-        logger.info(request.base64String);
-        String base64String = trimImagePrefix(request.base64String);
-        ProductController.INSTANCE.addGood(new Product(1L,request.name,request.description,Integer.parseInt(request.price) ,Integer.parseInt(request.quantity), base64String));
-        logger.info("Success");
+            logger.info(request.base64String);
+            String base64String = trimImagePrefix(request.base64String);
+            ProductController.INSTANCE.addGood(new Product(1L, request.name, request.description, Integer.parseInt(request.price), Integer.parseInt(request.quantity), base64String));
 
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+
+
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        logger.info("Success");
     }
 }
 

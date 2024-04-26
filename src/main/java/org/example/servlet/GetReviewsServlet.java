@@ -45,16 +45,23 @@ public class GetReviewsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-            logger.info("do get");
+            try {
+
+                logger.info("do get");
 
 
-            logger.info(req);
-            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-            logger.info(request.good_id);
+                logger.info(req);
+                Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+                logger.info(request.good_id);
 
-            ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewController.INSTANCE.getAllReviewsById(request.good_id);
-            logger.info(listOfReviews);
-            ServletJsonMapper.objectToJsonResponse(new Response(listOfReviews), resp);
+                ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewController.INSTANCE.getAllReviewsById(request.good_id);
+                logger.info(listOfReviews);
+                ServletJsonMapper.objectToJsonResponse(new Response(listOfReviews), resp);
+            }
+            catch (RuntimeException e){
+                logger.error(e.getMessage());
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
 
     }
 

@@ -45,9 +45,19 @@ public class AddReview extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("here");
-       Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+        try {
 
-        ReviewController.INSTANCE.addReview(new Review(1L, request.client_token, Long.parseLong(request.good_id), request.text, Integer.parseInt(request.rating)));
+
+            logger.info("here");
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+
+            ReviewController.INSTANCE.addReview(new Review(1L, request.client_token, Long.parseLong(request.good_id), request.text, Integer.parseInt(request.rating)));
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+
+
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

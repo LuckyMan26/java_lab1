@@ -40,14 +40,22 @@ public class RemoveItemFromBasketServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("doPost");
+        try {
 
 
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+            logger.info("doPost");
 
-        logger.info(request.client_id);
-        logger.info(Long.toString(request.product_id), (request.client_id));
-        BasketController.INSTANCE.deleteProductInBasket(request.client_id,request.product_id);
+
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+
+            logger.info(request.client_id);
+            logger.info(Long.toString(request.product_id), (request.client_id));
+            BasketController.INSTANCE.deleteProductInBasket(request.client_id, request.product_id);
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 }

@@ -53,29 +53,34 @@ public class MakeOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("doPost");
-
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-
-        List<Long> products = request.products;
-
-
-
-
-        logger.info(request.address);
-        logger.info(request.full_name);
-        logger.info(request.dateString);
-        Date date;
         try {
-            date = dateFormat.parse(request.dateString);
-        } catch (ParseException e) {
-            logger.info(e.getMessage());
-            throw new RuntimeException(e);
 
+
+            logger.info("doPost");
+
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+
+            List<Long> products = request.products;
+
+            logger.info(request.address);
+            logger.info(request.full_name);
+            logger.info(request.dateString);
+            Date date;
+            try {
+                date = dateFormat.parse(request.dateString);
+            } catch (ParseException e) {
+                logger.info(e.getMessage());
+                throw new RuntimeException(e);
+
+            }
+            logger.info(date.toString());
+            OrderController.INSTANCE.addOrder(new Order(1L, request.client_id, date, (ArrayList<Long>) products, request.full_name, request.address));
+            BasketController.INSTANCE.clearBasket(request.client_id);
         }
-        logger.info(date.toString());
-        OrderController.INSTANCE.addOrder(new Order(1L,request.client_id,date, (ArrayList<Long>) products,request.full_name,request.address));
-        BasketController.INSTANCE.clearBasket(request.client_id);
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 }

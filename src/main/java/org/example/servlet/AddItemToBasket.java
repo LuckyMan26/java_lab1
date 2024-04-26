@@ -48,11 +48,21 @@ public class AddItemToBasket extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("doPost");
-        Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+        try {
 
-        logger.info(String.valueOf(request.product_id), (request.client_id));
-        BasketController.INSTANCE.addOneProductToBasket((request.product_id), (request.client_id));
-        logger.info("success");
+
+            logger.info("doPost");
+            Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
+
+            logger.info(String.valueOf(request.product_id), (request.client_id));
+            BasketController.INSTANCE.addOneProductToBasket((request.product_id), (request.client_id));
+            logger.info("success");
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+
+
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

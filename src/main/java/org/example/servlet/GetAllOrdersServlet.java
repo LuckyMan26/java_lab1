@@ -36,11 +36,17 @@ public class GetAllOrdersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        logger.info("do get");
+        try {
 
-        ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrders();
-        ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), resp);
+            logger.info("do get");
 
+            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrders();
+            ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), resp);
+        }
+        catch (RuntimeException e){
+            logger.error(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         logger.info("success");
     }
 
