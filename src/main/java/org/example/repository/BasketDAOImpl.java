@@ -86,7 +86,9 @@ public class BasketDAOImpl implements BasketDAO {
             }
 
         } catch (SQLException e) {
+
             logger.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return basketItem;
     }
@@ -110,6 +112,7 @@ public class BasketDAOImpl implements BasketDAO {
             }
             return basketItem1;
         } catch (SQLException ex) {
+            logger.error(ex.getMessage());
             throw new RuntimeException(ex);
         }
 
