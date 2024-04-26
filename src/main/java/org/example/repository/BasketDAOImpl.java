@@ -31,7 +31,14 @@ public class BasketDAOImpl implements BasketDAO {
         logger.info("get instance");
         return instance;
     }
+    private static BasketItem resultToBasket(ResultSet resultSet) throws SQLException {
+        Long basket_id = resultSet.getLong("basket_id");
 
+        Long[] integerArray = (Long[]) resultSet.getArray("product_items_id").getArray();
+        String client_id = resultSet.getString("client_id");
+        ArrayList < Long > items = new ArrayList < Long > (Arrays.asList(integerArray));
+        return new BasketItem(basket_id, items, client_id);
+    }
     @Override
     public void addProductToBasket(BasketItem basketItem, ConnectionWrapper connection) {
         try {
@@ -98,13 +105,8 @@ public class BasketDAOImpl implements BasketDAO {
             BasketItem basketItem1 = null;
             logger.info("basketItem1");
             while (resultSet.next()) {
-                Long basket_id = resultSet.getLong("basket_id");
-                logger.info(basket_id);
-                Long[] integerArray = (Long[]) resultSet.getArray("product_items_id").getArray();
-                logger.info(basket_id);
-                ArrayList < Long > items = new ArrayList < Long > (Arrays.asList(integerArray));
 
-                basketItem1 = new BasketItem(basket_id, items, client_id);
+                basketItem1 = resultToBasket(resultSet);
             }
             return basketItem1;
         } catch (SQLException ex) {
