@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
@@ -29,16 +30,16 @@ import java.util.stream.Collectors;
 public class FetchBasket extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchBasket.class);
     private static class Request {
-        public String user_id;
-
+        @JsonProperty("userId")
+        public String userId;
 
 
     }
 
     private static class Response {
-        public  ArrayList<Product> products_in_basket = new ArrayList<>();
-        Response(ArrayList<Product> products_in_basket) {
-            this.products_in_basket = products_in_basket;
+        public  ArrayList<Product> productsInBasket = new ArrayList<>();
+        Response(ArrayList<Product> productsInBasket) {
+            this.productsInBasket = productsInBasket;
         }
 
     }
@@ -56,21 +57,21 @@ public class FetchBasket extends HttpServlet {
 
             logger.info("do post");
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-            logger.info(request.user_id);
-            BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(request.user_id);
+            logger.info(request.userId);
+            BasketItem basketItem = BasketController.INSTANCE.getBasketItemByClientId(request.userId);
 
             if (basketItem == null) {
                 logger.info("success");
             } else {
                 ArrayList<Long> products = basketItem.getItems();
                 logger.info(products.size());
-                ArrayList<Product> products_in_basket = new ArrayList<>();
+                ArrayList<Product> productsInBasket = new ArrayList<>();
                 for (Long index : products) {
                     logger.info("index: " + index);
-                    products_in_basket.add(ProductController.INSTANCE.getGoodById(index));
+                    productsInBasket.add(ProductController.INSTANCE.getGoodById(index));
                 }
-                logger.info("product size: " + products_in_basket.size());
-                ServletJsonMapper.objectToJsonResponse(new Response(products_in_basket), resp);
+                logger.info("product size: " + productsInBasket.size());
+                ServletJsonMapper.objectToJsonResponse(new Response(productsInBasket), resp);
 
             }
 

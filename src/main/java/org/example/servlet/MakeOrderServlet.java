@@ -32,14 +32,14 @@ public class MakeOrderServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(MakeOrderServlet.class);
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static class Request {
-        @JsonProperty("client_id")
-        String client_id;
+        @JsonProperty("userId")
+        String clientId;
         @JsonProperty("date")
         String dateString;
         @JsonProperty("address")
         String address;
-        @JsonProperty("full_name")
-        String full_name;
+        @JsonProperty("fullName")
+        String fullName;
         @JsonProperty("products")
         List<Long> products;
 
@@ -61,9 +61,9 @@ public class MakeOrderServlet extends HttpServlet {
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
             List<Long> products = request.products;
-
+            logger.info(products);
             logger.info(request.address);
-            logger.info(request.full_name);
+            logger.info(request.fullName);
             logger.info(request.dateString);
             Date date;
             try {
@@ -74,8 +74,8 @@ public class MakeOrderServlet extends HttpServlet {
 
             }
             logger.info(date.toString());
-            OrderController.INSTANCE.addOrder(new Order(1L, request.client_id, date, (ArrayList<Long>) products, request.full_name, request.address));
-            BasketController.INSTANCE.clearBasket(request.client_id);
+            OrderController.INSTANCE.addOrder(new Order(1L, request.clientId, date, (ArrayList<Long>) products, request.fullName, request.address));
+            BasketController.INSTANCE.clearBasket(request.clientId);
         }
         catch (RuntimeException e){
             logger.error(e.getMessage());

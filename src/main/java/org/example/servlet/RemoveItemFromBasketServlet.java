@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 public class RemoveItemFromBasketServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(RemoveItemFromBasketServlet.class);
     private static class Request {
-        @JsonProperty("product_id")
+        @JsonProperty("productId")
 
-        Long product_id;
-        @JsonProperty("client_id")
+        Long productId;
+        @JsonProperty("userId")
 
-        String client_id;
+        String clientId;
 
 
     }
@@ -48,9 +48,9 @@ public class RemoveItemFromBasketServlet extends HttpServlet {
 
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-            logger.info(request.client_id);
-            logger.info(Long.toString(request.product_id), (request.client_id));
-            BasketController.INSTANCE.deleteProductInBasket(request.client_id, request.product_id);
+            logger.info(request.clientId);
+            logger.info(Long.toString(request.productId), (request.clientId));
+            BasketController.INSTANCE.deleteProductInBasket(request.clientId, request.productId);
         }
         catch (RuntimeException e){
             logger.error(e.getMessage());

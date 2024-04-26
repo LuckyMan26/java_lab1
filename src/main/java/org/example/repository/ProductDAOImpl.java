@@ -55,7 +55,7 @@ public class ProductDAOImpl implements ProductDAO {
             statement.setString(1, product.getName());
             statement.setString(2, product.getDescription());
             statement.setDouble(3, product.getPrice());
-            statement.setInt(4, product.getQuantity_available());
+            statement.setInt(4, product.getQuantityAvailable());
             String base64String = product.getImageData();
             logger.info(base64String);
             //byte[] bytea = Base64.getDecoder().decode(base64String.getBytes());

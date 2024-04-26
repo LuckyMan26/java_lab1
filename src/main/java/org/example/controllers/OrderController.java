@@ -35,7 +35,7 @@ public class OrderController {
         }
     }
 
-    public List<Order> getAllOrders( ) {
+    public List<Order> getAllOrders() {
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
             return OrderDAOImpl.getInstance().getAllOrders(connection);
 
@@ -43,9 +43,9 @@ public class OrderController {
     }
 
 
-    public List<Order> getAllOrdersByClient(String client_id ) {
+    public List<Order> getAllOrdersByClient(String clientId ) {
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
-            return OrderDAOImpl.getInstance().getAllOrdersByClient(client_id, connection);
+            return OrderDAOImpl.getInstance().getAllOrdersByClient(clientId, connection);
 
         }
 
@@ -59,9 +59,9 @@ public class OrderController {
     }
 
 
-    public void changeOrderStatus(Long order_id, Status status ) {
+    public void changeOrderStatus(Long orderId, Status status ) {
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
-            OrderDAOImpl.getInstance().changeOrderStatus(order_id,status, connection);
+            OrderDAOImpl.getInstance().changeOrderStatus(orderId,status, connection);
 
         }
     }

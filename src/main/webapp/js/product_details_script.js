@@ -56,17 +56,18 @@ async function displayProductDetails(product) {
 
 
     window.product_id = product.product_id;
-    //console.log(window.product_id);
+    console.log("window " + window.product_id);
     const good_id = window.product_id;
 
-    await fetchReviews();
+    await fetchReviews(product.productId);
 }
 
 
 
-async function fetchReviews(){
+async function fetchReviews( good_id){
+    console.log(good_id);
     const data = {
-        good_id: window.product_id
+        goodId: good_id
     };
     fetch('/GetReviews', {
         method: 'POST',
@@ -94,7 +95,7 @@ function renderExistingReviews(reviews) {
 
     reviews.forEach(review => {
         console.log(review);
-        let full_name = null;
+        let fullName = null;
         let data = {
             user_id :    (review.clientid)
         }
@@ -201,8 +202,8 @@ async function addReview() {
     const accessToken = await accessCode();
 
     let data = {
-        client_token : getUserIdFromToken(userId),
-        good_id: window.product_id,
+        userIdToken : getUserIdFromToken(userId),
+        goodId: window.product_id,
         text: text,
         rating: selectedRating
     }

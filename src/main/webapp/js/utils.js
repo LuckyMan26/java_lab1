@@ -15,8 +15,8 @@ function getElementFromCart(product_id, collection){
     let res;
     console.log(collection);
     collection.forEach(element => {
-
-        if(element.product_id.toString()===product_id.toString()){
+        console.log(element);
+        if(element.productId.toString()===product_id.toString()){
 
             res = element;
         }
@@ -42,11 +42,11 @@ const countDuplicates = (arr) => {
     arr.forEach((value) => {
 
         // If the value is encountered for the first time, set the count to 1
-        if (!counts[value.product_id]) {
-            counts[value.product_id] = 1;
+        if (!counts[value.productId]) {
+            counts[value.productId] = 1;
         } else {
             // If the value has been seen before, increment the count
-            counts[value.product_id]++;
+            counts[value.productId]++;
         }
     });
     const res = [];
@@ -104,7 +104,7 @@ async function getUserData() {
         const accessToken = await accessCode();
         console.log(accessToken);
         const data = {
-            user_id: getUserIdFromToken(userId)
+            userId: getUserIdFromToken(userId)
         };
         console.log(data);
         const response = await fetch('/GetUserInfo', {

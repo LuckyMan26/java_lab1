@@ -49,7 +49,7 @@ public class OrderDAOImpl implements OrderDAO {
             String sql = "INSERT INTO orders (client_id, order_date, status, products_ids, total_price, full_name ,address) VALUES (?, ?, ?, ?, ?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, order.getClientId());
-            statement.setDate(2, new java.sql.Date(order.getOrder_date().getTime()));
+            statement.setDate(2, new java.sql.Date(order.getOrderDate().getTime()));
 
             statement.setString(3, order.getStatus().toString());
             ArrayList<Long> items = order.getProducts();

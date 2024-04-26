@@ -5,12 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.example.DAOInterface.ClientDAO;
 import org.example.connections.ConnectionPool;
 import org.example.connections.ConnectionWrapper;
+import org.example.models.BasketItem;
 import org.example.models.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientDAOImpl implements ClientDAO {
@@ -30,7 +33,13 @@ public class ClientDAOImpl implements ClientDAO {
         }
         return instance;
     }
-
+    private static Client resultToClient(ResultSet resultSet) throws SQLException {
+        Long clientId = resultSet.getLong("client_id");
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        String address = resultSet.getString("address");
+        return new Client(clientId, name, email, address);
+    }
     @Override
     public void addClient(Client client, ConnectionWrapper connection) {
         try {
@@ -57,11 +66,8 @@ public class ClientDAOImpl implements ClientDAO {
             ResultSet resultSet = statement.executeQuery();
             Client client = null;
             while (resultSet.next()) {
-                Long client_id = resultSet.getLong("client_id");
-                String name = resultSet.getString("name");
-                String email = resultSet.getString("email");
-                String address = resultSet.getString("address");
-                client = new Client(client_id, name, email, address);
+
+                client = resultToClient(resultSet);
                 logger.info(client.toString());
             }
             return client;
@@ -81,11 +87,7 @@ public class ClientDAOImpl implements ClientDAO {
             Client client = null;
             List < Client > list = null;
             while (resultSet.next()) {
-                Long client_id = resultSet.getLong("client_id");
-                String name = resultSet.getString("name");
-                String email = resultSet.getString("email");
-                String address = resultSet.getString("address");
-                client = new Client(client_id, name, email, address);
+                client = resultToClient(resultSet);
                 logger.info(client.toString());
                 list.add(client);
             }

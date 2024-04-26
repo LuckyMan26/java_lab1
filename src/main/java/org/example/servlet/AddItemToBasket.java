@@ -30,10 +30,10 @@ public class AddItemToBasket extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(AddItemToBasket.class);
     private static class Request {
-        @JsonProperty("product_id")
-        public Long product_id;
-        @JsonProperty("client_id")
-        public String client_id;
+        @JsonProperty("productId")
+        public Long productId;
+        @JsonProperty("userId")
+        public String clientId;
 
 
 
@@ -50,12 +50,11 @@ public class AddItemToBasket extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-
             logger.info("doPost");
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-            logger.info(String.valueOf(request.product_id), (request.client_id));
-            BasketController.INSTANCE.addOneProductToBasket((request.product_id), (request.client_id));
+            logger.info(String.valueOf(request.productId), (request.clientId));
+            BasketController.INSTANCE.addOneProductToBasket((request.productId), (request.clientId));
             logger.info("success");
         }
         catch (RuntimeException e){

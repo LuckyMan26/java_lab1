@@ -4,7 +4,7 @@ let cartItems = [];
 function fetchBasket(){
     console.log("fetchBasket");
     let data = {
-        user_id: getUserIdFromToken(userId)
+        userId: getUserIdFromToken(userId)
     }
     fetch('/FetchBasket', {
         method: 'POST',
@@ -15,7 +15,7 @@ function fetchBasket(){
     })
         .then(response => response.json()) // Parse the JSON response
         .then(data => {
-            data = data.products_in_basket;
+            data = data.productsInBasket;
             console.log(data);
             cartItems = data;
             cartItemCount = data.length;
@@ -34,13 +34,13 @@ function fetchBasket(){
 function addToCart(product) {
     cartItemCount++;
     console.log(cartItemCount);
-    cartItems.push({ name: product.name, price: product.price,product_id: product.product_id,imageData: product.imageData });
+    cartItems.push({ name: product.name, price: product.price,productId: product.productId,imageData: product.imageData });
     document.getElementById('cartItemCount').textContent = cartItemCount;
-    console.log('Added ' + product.name + ' to cart. Price: $' + product.price + " " + product.product_id);
+    console.log('Added ' + product.name + ' to cart. Price: $' + product.price + " " + product.productId);
     console.log(cartItems[cartItems.length -1]);
     const data = {
-        'product_id': product.product_id,
-        'client_id': getUserIdFromToken(userId)
+        productId: product.productId,
+        userId: getUserIdFromToken(userId)
     };
     fetch('/AddItemToBasket', {
         method: 'POST',
@@ -117,8 +117,8 @@ function hideBasketItems() {
 function removeItemFromCart(index) {
     console.log(getUserIdFromToken(userId));
     const data = {
-        'product_id': cartItems[index].product_id,
-        'client_id': getUserIdFromToken(userId)
+        productId: cartItems[index].productId,
+        userId: getUserIdFromToken(userId)
     };
      //console.log('removeItemFromCart');
     // Remove item from cartItems array

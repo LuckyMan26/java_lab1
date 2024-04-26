@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,8 @@ public class FetchHistoryOfOrders  extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FetchHistoryOfOrders.class);
 
     private static class Request {
-        public String user_id;
+        @JsonProperty("userId")
+        public String userId;
 
     }
 
@@ -58,7 +60,7 @@ public class FetchHistoryOfOrders  extends HttpServlet {
 
 
             logger.info("getAllOrdersByClient");
-            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(request.user_id);
+            ArrayList<Order> listOfOrders = (ArrayList<Order>) OrderController.INSTANCE.getAllOrdersByClient(request.userId);
             logger.info(listOfOrders.toString());
             ServletJsonMapper.objectToJsonResponse(new Response(listOfOrders), res);
         }

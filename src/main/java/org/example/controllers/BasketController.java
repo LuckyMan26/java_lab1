@@ -31,20 +31,20 @@ public class BasketController {
 
         }
     }
-    public void addOneProductToBasket(Long product_id, String client_id){
-        logger.info("addOneProductToBasket" + product_id);
+    public void addOneProductToBasket(Long productId, String clientId){
+        logger.info("addOneProductToBasket" + productId);
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
              connection.doTransaction(() -> {
-                BasketItem basketItem1 = BasketDAOImpl.getInstance().getBasketItemByClientId(client_id, connection);
+                BasketItem basketItem1 = BasketDAOImpl.getInstance().getBasketItemByClientId(clientId, connection);
                 if (basketItem1 == null) {
-                    logger.info("Here");
+                    logger.info("basketItem1 == null");
                     ArrayList< Long > arrayList = new ArrayList < > ();
-                    arrayList.add(product_id);
-                    BasketItem item = new BasketItem(arrayList, client_id);
+                    arrayList.add(productId);
+                    BasketItem item = new BasketItem(arrayList, clientId);
                     BasketDAOImpl.getInstance().addProductToBasket(item, connection);
                 }
                 else {
-                    BasketDAOImpl.getInstance().addOneProductToBasket(product_id, client_id, basketItem1, connection);
+                    BasketDAOImpl.getInstance().addOneProductToBasket(productId, clientId, basketItem1, connection);
                 }
 
                  return null;
@@ -57,11 +57,11 @@ public class BasketController {
 
         }
     }
-    public void deleteProductInBasket(String client_id, Long product_id ){
+    public void deleteProductInBasket(String clientId, Long productId ){
         try (ConnectionWrapper connection = ConnectionPool.INSTANCE.getConnection()) {
             connection.doTransaction(() -> {
-                BasketItem basketItem1 = BasketDAOImpl.getInstance().getBasketItemByClientId(client_id, connection);
-                BasketDAOImpl.getInstance().deleteProductInBasket(client_id, product_id, basketItem1, connection);
+                BasketItem basketItem1 = BasketDAOImpl.getInstance().getBasketItemByClientId(clientId, connection);
+                BasketDAOImpl.getInstance().deleteProductInBasket(clientId, productId, basketItem1, connection);
                 if (basketItem1.getItems().size() == 1) {
                     logger.info("Here");
                     BasketDAOImpl.getInstance().deleteBasketItem(basketItem1.getBasketItemId(), connection);

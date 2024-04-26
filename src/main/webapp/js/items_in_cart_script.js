@@ -84,14 +84,14 @@ function buy() {
             console.log(obj);
             products_ids = [];
             for (let i=0; i < cartItems.length;i++){
-                products_ids.push(cartItems[i].product_id);
+                products_ids.push(cartItems[i].productId);
             }
             const d = {
                 products: products_ids,
                 date: currentDate,
-                client_id: getUserIdFromToken(userId),
+                userId: getUserIdFromToken(userId),
                 address: address,
-                full_name: full_name
+                fullName: full_name
             };
             console.log(full_name);
             console.log(d);

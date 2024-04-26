@@ -7,7 +7,7 @@ function showOrdersHistory() {
 
 
     let data = {
-        user_id : getUserIdFromToken(userId)
+        userId : getUserIdFromToken(userId)
     }
     fetch('/FetchOrders', {
         method: 'POST',
@@ -51,7 +51,7 @@ function toggleDeliveredOrders() {
 
 function filterOrdersByStatus(status) {
     let data = {
-        user_id : getUserIdFromToken(userId)
+        userId : getUserIdFromToken(userId)
     }
     hideAllFragments("history-of-orders");
     fetch('/FetchOrders', {

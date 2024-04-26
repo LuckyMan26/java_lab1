@@ -26,10 +26,10 @@ public class AddReview extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(AddReview.class);
     private static class Request {
-        @JsonProperty("client_token")
-        public String client_token;
-        @JsonProperty("good_id")
-        public String good_id;
+        @JsonProperty("userToken")
+        public String clientToken;
+        @JsonProperty("goodId")
+        public String goodId;
         @JsonProperty("text")
         public String text;
         @JsonProperty("rating")
@@ -51,7 +51,7 @@ public class AddReview extends HttpServlet {
             logger.info("here");
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
 
-            ReviewController.INSTANCE.addReview(new Review(1L, request.client_token, Long.parseLong(request.good_id), request.text, Integer.parseInt(request.rating)));
+            ReviewController.INSTANCE.addReview(new Review(1L, request.clientToken, Long.parseLong(request.goodId), request.text, Integer.parseInt(request.rating)));
         }
         catch (RuntimeException e){
             logger.error(e.getMessage());

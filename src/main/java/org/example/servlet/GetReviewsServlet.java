@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +32,8 @@ public class GetReviewsServlet extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(GetReviewsServlet.class);
     private static class Request {
-        public int good_id;
+        @JsonProperty("goodId")
+        public int goodId;
 
     }
 
@@ -52,9 +54,9 @@ public class GetReviewsServlet extends HttpServlet {
 
                 logger.info(req);
                 Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-                logger.info(request.good_id);
+                logger.info(request.goodId);
 
-                ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewController.INSTANCE.getAllReviewsById(request.good_id);
+                ArrayList<Review> listOfReviews = (ArrayList<Review>) ReviewController.INSTANCE.getAllReviewsById(request.goodId);
                 logger.info(listOfReviews);
                 ServletJsonMapper.objectToJsonResponse(new Response(listOfReviews), resp);
             }

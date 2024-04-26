@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GetGoodById extends HttpServlet {
     private static class Request {
-        public Long product_id;
+        public Long productId;
 
     }
 
@@ -37,7 +37,7 @@ public class GetGoodById extends HttpServlet {
 
             logger.info("do get");
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-            Product product = ProductController.INSTANCE.getGoodById(request.product_id);
+            Product product = ProductController.INSTANCE.getGoodById(request.productId);
             ServletJsonMapper.objectToJsonResponse(new Response(product), resp);
         }
         catch (RuntimeException e){

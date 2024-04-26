@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.controllers.OrderController;
@@ -21,7 +22,9 @@ import java.util.stream.Collectors;
 public class ChangeOrderStatusServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ChangeOrderStatusServlet.class);
     private static class Request {
-        public String order_id;
+        @JsonProperty("orderId")
+        public String orderId;
+        @JsonProperty("status")
         public String status;
 
 
@@ -38,7 +41,7 @@ public class ChangeOrderStatusServlet extends HttpServlet {
         try {
             logger.info("doPost");
             Request request = ServletJsonMapper.objectFromJsonRequest(req, Request.class);
-            OrderController.INSTANCE.changeOrderStatus(Long.parseLong(request.order_id), Status.valueOf(request.status));
+            OrderController.INSTANCE.changeOrderStatus(Long.parseLong(request.orderId), Status.valueOf(request.status));
 
             logger.info("success");
         }

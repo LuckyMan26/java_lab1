@@ -3,6 +3,7 @@ var itemsPerPage = 15;
 var role;
 window.onload =  async function () {
     role = getUserRole();
+    console.log(role);
     let location = getParameterByName('location');
     let data;
     console.log(location);
@@ -176,7 +177,7 @@ function setCurrentPageParam(pageNumber) {
 async function getUserRole() {
     let role;
     let data = {
-        user_id: getUserIdFromToken(userId)
+        userId: getUserIdFromToken(userId)
     }
     await fetch('/GetUserRole', {
         method: 'POST',
