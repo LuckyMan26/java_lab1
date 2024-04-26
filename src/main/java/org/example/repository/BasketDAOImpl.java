@@ -66,7 +66,7 @@ public class BasketDAOImpl implements BasketDAO {
             statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
-            BasketItem basketItem1 = null;
+
             while (resultSet.next()) {
                 Long basket_id = resultSet.getLong("basket_id");
 
@@ -75,7 +75,7 @@ public class BasketDAOImpl implements BasketDAO {
                 ArrayList < Long > items = new ArrayList < Long > (Arrays.asList(integerArray));
 
                 String client_id = resultSet.getString("client_id");
-                basketItem1 = new BasketItem(basket_id, items, client_id);
+                basketItem = new BasketItem(basket_id, items, client_id);
             }
 
         } catch (SQLException e) {
@@ -114,21 +114,14 @@ public class BasketDAOImpl implements BasketDAO {
     }
 
     @Override
-    public void addOneProductToBasket(Long product_id, String client_id, ConnectionWrapper connection) {
+    public void addOneProductToBasket(Long product_id, String client_id, BasketItem basketItem1, ConnectionWrapper connection) {
         try {
             String sql = "UPDATE Basket SET product_items_id = ? WHERE client_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             logger.info("HERE");
-            BasketItem basketItem1 = getBasketItemByClientId(client_id, connection);
+
             logger.info(basketItem1);
-            if (basketItem1 == null) {
-                logger.info("Here");
-                ArrayList < Long > arrayList = new ArrayList < > ();
-                arrayList.add(product_id);
-                BasketItem item = new BasketItem(arrayList, client_id);
-                addProductToBasket(item, connection);
-            } else {
 
                 logger.info(basketItem1.toString());
                 ArrayList < Long > items = basketItem1.getItems();
@@ -144,7 +137,7 @@ public class BasketDAOImpl implements BasketDAO {
                 statement.setArray(1, connection.createArrayOf(array));
                 statement.setString(2, client_id);
                 statement.executeUpdate();
-            }
+
 
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -169,18 +162,15 @@ public class BasketDAOImpl implements BasketDAO {
     }
 
     @Override
-    public void deleteProductInBasket(String client_id, Long product_id, ConnectionWrapper connection)   {
+    public void deleteProductInBasket(String client_id, Long product_id, BasketItem basketItem1, ConnectionWrapper connection)   {
         try {
             String sql = "UPDATE Basket SET product_items_id = ? WHERE client_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             logger.info("HERE");
-            BasketItem basketItem1 = getBasketItemByClientId(client_id, connection);
+
             logger.info(basketItem1);
-            if (basketItem1.getItems().size() == 1) {
-                logger.info("Here");
-                deleteBasketItem(basketItem1.getBasketItemId(), connection);
-            } else {
+
                 logger.info(client_id);
                 logger.info(basketItem1.toString());
                 ArrayList < Long > items = basketItem1.getItems();
@@ -201,7 +191,7 @@ public class BasketDAOImpl implements BasketDAO {
                 statement.setArray(1, connection.createArrayOf(array));
                 statement.setString(2, client_id);
                 statement.executeUpdate();
-            }
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
