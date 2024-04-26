@@ -59,7 +59,7 @@ public class ProductDAOImpl implements ProductDAO {
             String base64String = product.getImageData();
             logger.info(base64String);
             //byte[] bytea = Base64.getDecoder().decode(base64String.getBytes());
-            byte[] bytea =   Base64.getMimeDecoder().decode(base64String);
+            byte[] bytea =   Base64.getMimeDecoder().decode(base64String.getBytes());
             statement.setBytes(5, bytea);
             statement.executeUpdate();
 

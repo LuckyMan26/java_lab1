@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "AddGood", urlPatterns = {"/AddGood"})
 @MultipartConfig(
@@ -27,13 +29,16 @@ import java.util.Base64;
         maxRequestSize = 1024 * 1024 * 100   // 100 MB
 )
 public class AddGoodServlet extends HttpServlet {
-    private static String trimImagePrefix(String imageData) {
-        // Check if the imageData starts with the prefix
-        if (imageData.startsWith("data:image/jpeg;base64,")) {
-            // Trim the prefix from the imageData
-            return imageData.substring("data:image/jpeg;base64,".length());
+    public static String trimImagePrefix(String imageData) {
+        // Define a regular expression pattern to match "data:image/[image_type];base64,"
+        Pattern pattern = Pattern.compile("^data:image/[a-zA-Z]+;base64,");
+        Matcher matcher = pattern.matcher(imageData);
+
+        // If the pattern is found, remove it from the string
+        if (matcher.find()) {
+            return imageData.substring(matcher.end());
         } else {
-            // Return the original string if the prefix is not present
+            // Return the original string if the pattern is not found
             return imageData;
         }
     }
