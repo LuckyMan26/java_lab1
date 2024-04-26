@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.DAOInterface.ReviewDAO;
 import org.example.connections.ConnectionPool;
 import org.example.connections.ConnectionWrapper;
+import org.example.models.Product;
 import org.example.models.Review;
 
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class ReviewDAOImpl implements ReviewDAO {
@@ -29,7 +31,15 @@ public class ReviewDAOImpl implements ReviewDAO {
         }
         return instance;
     }
+    private static Review resultToReview(ResultSet resultSet) throws SQLException {
+        Long reviewid = resultSet.getLong("review_id");
+        String client_token = resultSet.getString("client_id");
+        Long goodId = resultSet.getLong("product_id");
+        String text = resultSet.getString("text");
+        int stars = resultSet.getInt("rating");
 
+        return new Review(reviewid, client_token, goodId, text, stars);
+    }
     @Override
     public void addReview(Review element, ConnectionWrapper connection) {
         try {
@@ -59,13 +69,9 @@ public class ReviewDAOImpl implements ReviewDAO {
             ResultSet resultSet = statement.executeQuery();
             Review e = null;
             while (resultSet.next()) {
-                Long reviewid = resultSet.getLong("blacklist_id");
-                String client_token = resultSet.getString("client_id");
-                Long goodId = resultSet.getLong("product_id");
-                String text = resultSet.getString("text");
-                int stars = resultSet.getInt("rating");
 
-                e = new Review(reviewid, client_token, goodId, text, stars);
+
+                e = resultToReview(resultSet);
                 logger.info(e.toString());
             }
             return e;
@@ -89,13 +95,9 @@ public class ReviewDAOImpl implements ReviewDAO {
             Review e = null;
             List < Review > list = new ArrayList < Review > ();
             while (resultSet.next()) {
-                Long review_id = resultSet.getLong("review_id");
-                String client_token = resultSet.getString("client_id");
-                Long good_id = resultSet.getLong("product_id");
-                String text = resultSet.getString("text");
-                int stars = resultSet.getInt("rating");
 
-                e = new Review(review_id, client_token, good_id, text, stars);
+
+                e = resultToReview(resultSet);
                 logger.info(e.toString());
                 list.add(e);
             }
