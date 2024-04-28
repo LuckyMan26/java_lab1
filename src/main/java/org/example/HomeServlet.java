@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @WebServlet(urlPatterns = {"/portal/home"})
 public class HomeServlet extends HttpServlet {
@@ -27,8 +30,43 @@ public class HomeServlet extends HttpServlet {
         if (idToken != null) {
             req.setAttribute("userId", idToken);
         }
+        res.setContentType("text/html");
+        String folderPath = "./";
 
-        req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, res);
+        // Create a Path object for the folder
+        Path dir = Paths.get(folderPath);
+
+        try {
+            // Get a stream of all files within the directory
+            Files.list(dir)
+                    .forEach(path -> System.out.println(path.getFileName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringBuilder htmlContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader("./src/main/webapp/WEB-INF/jsp/home.html"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                htmlContent.append(line);
+            }
+        }
+        String script = "<script>var userId = '" + idToken + "';</script>";
+
+        // Append the script to the HTML content
+        int index = htmlContent.indexOf("</body>");
+        if (index != -1) {
+            htmlContent.insert(index, script);
+        } else {
+            // If </body> tag not found, append the script at the end of the HTML content
+            htmlContent.append(script);
+        }
+
+
+        //req.getRequestDispatcher("/WEB-INF/jsp/home.html").forward(req, res);
+        try (PrintWriter writer = res.getWriter()) {
+            writer.write(htmlContent.toString());
+        }
+
     }
 
 }
