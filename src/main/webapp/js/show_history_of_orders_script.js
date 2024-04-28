@@ -80,7 +80,7 @@ function displayOrderHistoryOfUser(orders){
         orderDiv.classList.add('order');
 
         const orderInfo = document.createElement('div');
-        orderInfo.innerHTML = `<p class="order-info">Order ID: ${order.orderId}, Date: ${order.order_date}, Status: ${order.status}</p>`;
+        orderInfo.innerHTML = `<p class="order-info">Order ID: ${order.orderId}, Date: ${order.orderDate}, Status: ${order.status}</p>`;
         const h1 = document.createElement('p');
         h1.textContent = `Total price: ${order.totalPrice}`;
         orderDiv.appendChild(orderInfo);
